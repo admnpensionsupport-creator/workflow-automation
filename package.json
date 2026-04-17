@@ -1,0 +1,24 @@
+{
+  "name": "daily-workflow-automation",
+  "version": "1.0.0",
+  "description": "Daily data pull → Google Drive folder → Resend email",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "run-now": "node src/run-now.js",
+    "test-email": "node src/test-email.js",
+    "test-sheets": "node src/sources/sheets.js",
+    "test-supabase": "node src/sources/supabase.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "googleapis": "^140.0.0",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.0",
+    "resend": "^3.2.0",
+    "csv-stringify": "^6.4.6",
+    "dotenv": "^16.4.1",
+    "date-fns": "^3.3.1"
+  }
+}
