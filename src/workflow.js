@@ -1,111 +1,94 @@
 /**
  * CORE: Workflow Runner
- * Orchestrates: fetch data → write CSV → send email with CSV attached
+ * Orchestrates: fetch contacts → send personalized sequence emails → advance sequence
  *
- * Real-life analogy: This is the editor-in-chief. He calls the reporters,
- * gets the copy, prints it, and mails the paper.
- * All in one morning shift.
+ * Each day, the workflow:
+ * 1. Pulls all active contacts from Supabase (sequence_step 1-5, not opted out)
+ * 2. Sends each contact their current email in the 5-email sequence
+ * 3. Advances their sequence_step so they get the next email tomorrow
  */
 
-import { fetchFromSupabase } from './sources/supabase.js';
-import { writeCsv } from './utils/csv-writer.js';
-import { sendReportEmail } from './utils/email-sender.js';
-import fs from 'fs';
+import { fetchContacts, advanceSequence } from './sources/supabase.js';
+import { sendSequenceEmails } from './utils/email-sender.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
 export async function runWorkflow() {
-  const source = process.env.DATA_SOURCE || 'supabase';
-  const reports = [];
   const errors = [];
 
   console.log('');
   console.log('════════════════════════════════════════');
-  console.log('  DAILY WORKFLOW AUTOMATION — STARTING  ');
+  console.log('  EMAIL SEQUENCE AUTOMATION — STARTING  ');
   console.log(`  ${new Date().toISOString()}`);
   console.log('════════════════════════════════════════');
   console.log('');
 
-  // ─── STEP 1: Fetch data from each source ────────────
-  const tasks = [];
-
-  if (source === 'supabase' || source === 'both') {
-    tasks.push({ label: 'Supabase', fetch: fetchFromSupabase });
-  }
-
-  // Google Sheets support requires a service account key.
-  // If you have one, uncomment the import at the top and the block below.
-  // import { fetchFromSheets } from './sources/sheets.js';
-  // if (source === 'sheets' || source === 'both') {
-  //   tasks.push({ label: 'Google Sheets', fetch: fetchFromSheets });
-  // }
-
-  if (tasks.length === 0) {
-    throw new Error(`Invalid DATA_SOURCE: "${source}". Use "supabase" (or "both" if Sheets is configured)`);
-  }
-
-  for (const task of tasks) {
-    console.log(`\n── ${task.label} ──────────────────────────`);
-
-    try {
-      // 1. Fetch
-      const data = await task.fetch();
-
-      if (!data || data.length === 0) {
-        console.warn(`⚠️  ${task.label}: No data returned, skipping.`);
-        continue;
-      }
-
-      // 2. Write CSV locally
-      const csvPath = writeCsv(data, task.label.toLowerCase().replaceAll(' ', '-'));
-
-      reports.push({
-        label: task.label,
-        csvPath,
-        fileName: csvPath.split('/').pop(),
-        rowCount: data.length,
-      });
-    } catch (err) {
-      console.error(`❌ ${task.label} failed: ${err.message}`);
-      errors.push({ label: task.label, error: err.message });
-    }
-  }
-
-  // ─── STEP 2: Send email with CSV attachments ─────────
-  if (reports.length === 0) {
-    console.warn('\n⚠️  No reports generated. Skipping email.');
-    return { success: false, reports: [], errors };
-  }
-
-  console.log('\n── Email ──────────────────────────────────');
+  // ─── STEP 1: Fetch active contacts ────────────────
+  console.log('── Step 1: Fetch Contacts ──────────────────');
+  let contacts;
   try {
-    await sendReportEmail({ reports });
+    contacts = await fetchContacts();
   } catch (err) {
-    console.error(`❌ Email failed: ${err.message}`);
-    errors.push({ label: 'Email', error: err.message });
+    console.error(`❌ Failed to fetch contacts: ${err.message}`);
+    errors.push({ label: 'Supabase Fetch', error: err.message });
+    return { success: false, sent: 0, errors };
   }
 
-  // ─── STEP 3: Cleanup local temp files ────────────────
-  for (const report of reports) {
+  if (!contacts || contacts.length === 0) {
+    console.warn('\n⚠️  No active contacts to email. Sequence may be complete.');
+    return { success: true, sent: 0, errors };
+  }
+
+  // Log sequence distribution
+  const stepCounts = {};
+  for (const c of contacts) {
+    const step = c.sequence_step || 1;
+    stepCounts[step] = (stepCounts[step] || 0) + 1;
+  }
+  console.log('\n📊 Sequence distribution:');
+  for (const [step, count] of Object.entries(stepCounts).sort()) {
+    console.log(`   Email ${step}: ${count} contacts`);
+  }
+
+  // ─── STEP 2: Send personalized emails ─────────────
+  console.log('\n── Step 2: Send Emails ────────────────────');
+  let emailResults;
+  try {
+    emailResults = await sendSequenceEmails({ contacts });
+  } catch (err) {
+    console.error(`❌ Email sending failed: ${err.message}`);
+    errors.push({ label: 'Email Send', error: err.message });
+    return { success: false, sent: 0, errors };
+  }
+
+  // ─── STEP 3: Advance sequence for successful sends ─
+  if (emailResults.sentIds.length > 0) {
+    console.log('\n── Step 3: Advance Sequence ───────────────');
     try {
-      if (fs.existsSync(report.csvPath)) {
-        fs.unlinkSync(report.csvPath);
-        console.log(`🗑️  Local temp file removed: ${report.csvPath}`);
-      }
+      await advanceSequence(emailResults.sentIds);
     } catch (err) {
-      console.warn(`⚠️  Could not remove ${report.csvPath}: ${err.message}`);
+      console.error(`❌ Failed to advance sequence: ${err.message}`);
+      errors.push({ label: 'Sequence Update', error: err.message });
     }
   }
 
-  // ─── STEP 4: Summary ────────────────────────────────
+  // ─── Summary ──────────────────────────────────────
   console.log('');
   console.log('════════════════════════════════════════');
   console.log('  WORKFLOW COMPLETE');
-  console.log(`  Reports sent: ${reports.length}`);
-  console.log(`  Total rows:   ${reports.reduce((s, r) => s + r.rowCount, 0)}`);
-  console.log(`  Errors:       ${errors.length}`);
+  console.log(`  Contacts processed: ${contacts.length}`);
+  console.log(`  Emails sent:        ${emailResults.sent}`);
+  console.log(`  Failed:             ${emailResults.failed}`);
+  console.log(`  Skipped:            ${emailResults.skipped}`);
+  console.log(`  Errors:             ${errors.length}`);
   console.log('════════════════════════════════════════');
   console.log('');
 
-  return { success: errors.length === 0, reports, errors };
+  return {
+    success: errors.length === 0,
+    sent: emailResults.sent,
+    failed: emailResults.failed,
+    skipped: emailResults.skipped,
+    errors,
+  };
 }

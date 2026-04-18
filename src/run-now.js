@@ -12,9 +12,9 @@ dotenv.config();
 console.log('🚀 Manual trigger — running workflow now...\n');
 
 runWorkflow()
-  .then(({ success, reports, errors }) => {
+  .then(({ success, sent, failed, skipped, errors }) => {
     if (success) {
-      console.log('\n🎉 All done. No errors.');
+      console.log(`\n🎉 All done. ${sent} emails sent, ${skipped} skipped.`);
     } else {
       console.log('\n⚠️  Completed with errors:');
       errors.forEach((e) => console.log(`   ❌ ${e.label}: ${e.error}`));
