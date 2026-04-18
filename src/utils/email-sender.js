@@ -1,6 +1,7 @@
 /**
  * UTILITY: Email Sender via Resend
  * Supports both Resend SDK (API) and SMTP fallback.
+ * Handles large recipient lists by batching (max 50 per API call).
  *
  * Real-life analogy: Think of Resend like a premium postal service.
  * The API mode is like dropping a package at their facility directly.
@@ -12,17 +13,39 @@ import { format } from 'date-fns';
 import dotenv from 'dotenv';
 dotenv.config();
 
+const BATCH_SIZE = 49; // Resend allows max 50 recipients per send
+const BATCH_DELAY_MS = 1000; // 1 second between batches to avoid rate limits
+
+/**
+ * Split an array into chunks of a given size.
+ */
+function chunk(arr, size) {
+  const chunks = [];
+  for (let i = 0; i < arr.length; i += size) {
+    chunks.push(arr.slice(i, i + size));
+  }
+  return chunks;
+}
+
+/**
+ * Sleep for a given number of milliseconds.
+ */
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 /**
  * Send daily report email with attached CSV files + Drive links.
+ * Automatically batches large recipient lists.
  *
  * @param {Object} params
- * @param {Array<{label: string, filePath: string, driveLink: string, rowCount: number}>} params.reports
+ * @param {Array<{label: string, driveLink: string, rowCount: number}>} params.reports
  * @param {string} [params.mode] - "api" (default) | "smtp"
  */
 export async function sendReportEmail({ reports, mode = 'api' }) {
   const apiKey = process.env.RESEND_API_KEY;
   const fromEmail = process.env.EMAIL_FROM;
-  const toEmails = process.env.EMAIL_TO?.split(',').map((e) => e.trim());
+  const toEmails = process.env.EMAIL_TO?.split(',').map((e) => e.trim()).filter(Boolean);
   const subjectPrefix = process.env.EMAIL_SUBJECT_PREFIX || 'Daily Report';
 
   if (!apiKey) throw new Error('Missing RESEND_API_KEY in .env');
@@ -128,36 +151,71 @@ export async function sendReportEmail({ reports, mode = 'api' }) {
   }
 }
 
-// ─── MODE A: Resend SDK / API ────────────────────────────
+// ─── MODE A: Resend SDK / API (with batching) ───────────────
 async function sendViaResendApi({ apiKey, fromEmail, toEmails, subject, html, text }) {
   const resend = new Resend(apiKey);
+  const batches = chunk(toEmails, BATCH_SIZE);
 
-  console.log(`📧 Sending via Resend API to: ${toEmails.join(', ')}`);
+  console.log(`📧 Sending via Resend API to ${toEmails.length} recipients in ${batches.length} batch(es)...`);
 
-  const { data, error } = await resend.emails.send({
-    from: fromEmail,
-    to: toEmails,
-    subject,
-    html,
-    text,
-  });
+  const results = { sent: 0, failed: 0, errors: [] };
 
-  if (error) {
-    throw new Error(`Resend API error: ${JSON.stringify(error)}`);
+  for (let i = 0; i < batches.length; i++) {
+    const batch = batches[i];
+    const batchNum = i + 1;
+
+    try {
+      console.log(`   Batch ${batchNum}/${batches.length}: ${batch.length} recipients...`);
+
+      const { data, error } = await resend.emails.send({
+        from: fromEmail,
+        to: batch,
+        subject,
+        html,
+        text,
+      });
+
+      if (error) {
+        console.error(`   ❌ Batch ${batchNum} failed: ${JSON.stringify(error)}`);
+        results.failed += batch.length;
+        results.errors.push({ batch: batchNum, error: JSON.stringify(error) });
+      } else {
+        console.log(`   ✅ Batch ${batchNum} sent. Message ID: ${data.id}`);
+        results.sent += batch.length;
+      }
+    } catch (err) {
+      console.error(`   ❌ Batch ${batchNum} threw: ${err.message}`);
+      results.failed += batch.length;
+      results.errors.push({ batch: batchNum, error: err.message });
+    }
+
+    // Rate-limit pause between batches (skip after last batch)
+    if (i < batches.length - 1) {
+      await sleep(BATCH_DELAY_MS);
+    }
   }
 
-  console.log(`✅ Email sent. Message ID: ${data.id}`);
-  return data;
+  console.log(`\n📊 Email summary: ${results.sent} sent, ${results.failed} failed out of ${toEmails.length} total`);
+
+  if (results.errors.length > 0) {
+    console.warn(`⚠️  ${results.errors.length} batch(es) had errors:`);
+    results.errors.forEach((e) => console.warn(`   Batch ${e.batch}: ${e.error}`));
+  }
+
+  if (results.sent === 0) {
+    throw new Error(`All ${batches.length} email batches failed`);
+  }
+
+  return results;
 }
 
-// ─── MODE B: SMTP via Resend SMTP relay ─────────────────
+// ─── MODE B: SMTP via Resend SMTP relay (with batching) ─────
 // Resend SMTP settings:
 //   Host: smtp.resend.com
 //   Port: 465 (SSL) or 587 (TLS)
 //   User: resend
 //   Pass: YOUR_RESEND_API_KEY
 async function sendViaSmtp({ fromEmail, toEmails, subject, html, text }) {
-  // Dynamic import — only needed for SMTP mode
   const nodemailer = await import('nodemailer');
 
   const transporter = nodemailer.default.createTransport({
@@ -170,16 +228,45 @@ async function sendViaSmtp({ fromEmail, toEmails, subject, html, text }) {
     },
   });
 
-  console.log(`📧 Sending via Resend SMTP to: ${toEmails.join(', ')}`);
+  const batches = chunk(toEmails, BATCH_SIZE);
 
-  const info = await transporter.sendMail({
-    from: fromEmail,
-    to: toEmails.join(', '),
-    subject,
-    html,
-    text,
-  });
+  console.log(`📧 Sending via Resend SMTP to ${toEmails.length} recipients in ${batches.length} batch(es)...`);
 
-  console.log(`✅ Email sent via SMTP. Message ID: ${info.messageId}`);
-  return info;
+  const results = { sent: 0, failed: 0, errors: [] };
+
+  for (let i = 0; i < batches.length; i++) {
+    const batch = batches[i];
+    const batchNum = i + 1;
+
+    try {
+      console.log(`   Batch ${batchNum}/${batches.length}: ${batch.length} recipients...`);
+
+      const info = await transporter.sendMail({
+        from: fromEmail,
+        to: batch.join(', '),
+        subject,
+        html,
+        text,
+      });
+
+      console.log(`   ✅ Batch ${batchNum} sent. Message ID: ${info.messageId}`);
+      results.sent += batch.length;
+    } catch (err) {
+      console.error(`   ❌ Batch ${batchNum} failed: ${err.message}`);
+      results.failed += batch.length;
+      results.errors.push({ batch: batchNum, error: err.message });
+    }
+
+    if (i < batches.length - 1) {
+      await sleep(BATCH_DELAY_MS);
+    }
+  }
+
+  console.log(`\n📊 Email summary: ${results.sent} sent, ${results.failed} failed out of ${toEmails.length} total`);
+
+  if (results.sent === 0) {
+    throw new Error(`All ${batches.length} SMTP batches failed`);
+  }
+
+  return results;
 }
