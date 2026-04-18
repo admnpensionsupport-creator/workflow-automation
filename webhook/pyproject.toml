@@ -1,0 +1,14 @@
+[project]
+name = "resend-webhook"
+version = "1.0.0"
+description = "Resend webhook receiver - tracks email opens, clicks, bounces in Supabase"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]>=0.115.0",
+    "supabase>=2.0.0",
+    "uvicorn>=0.30.0",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
