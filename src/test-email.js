@@ -9,20 +9,14 @@ import { sendReportEmail } from './utils/email-sender.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-console.log('📧 Testing email delivery only...\n');
+console.log('📧 Testing email delivery only (no attachments)...\n');
 
 sendReportEmail({
   reports: [
     {
-      label: 'Google Sheets (TEST)',
-      rowCount: 42,
-      driveLink: 'https://drive.google.com/test-link',
-      fileName: 'test-sheets-2025-01-01.csv',
-    },
-    {
       label: 'Supabase (TEST)',
       rowCount: 87,
-      driveLink: 'https://drive.google.com/test-link-2',
+      csvPath: null,
       fileName: 'test-supabase-2025-01-01.csv',
     },
   ],

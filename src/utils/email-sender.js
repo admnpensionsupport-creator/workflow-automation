@@ -2,14 +2,12 @@
  * UTILITY: Email Sender via Resend
  * Supports both Resend SDK (API) and SMTP fallback.
  * Handles large recipient lists by batching (max 50 per API call).
- *
- * Real-life analogy: Think of Resend like a premium postal service.
- * The API mode is like dropping a package at their facility directly.
- * The SMTP mode is like using their mailbox — slower, but compatible with anything.
+ * Attaches CSV files directly to the email.
  */
 
 import { Resend } from 'resend';
 import { format } from 'date-fns';
+import fs from 'fs';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -35,11 +33,23 @@ function sleep(ms) {
 }
 
 /**
- * Send daily report email with attached CSV files + Drive links.
+ * Build Resend-compatible attachments from report CSV paths.
+ */
+function buildAttachments(reports) {
+  return reports
+    .filter((r) => r.csvPath && fs.existsSync(r.csvPath))
+    .map((r) => ({
+      filename: r.fileName,
+      content: fs.readFileSync(r.csvPath),
+    }));
+}
+
+/**
+ * Send daily report email with CSV attachments.
  * Automatically batches large recipient lists.
  *
  * @param {Object} params
- * @param {Array<{label: string, driveLink: string, rowCount: number}>} params.reports
+ * @param {Array<{label: string, csvPath: string, fileName: string, rowCount: number}>} params.reports
  * @param {string} [params.mode] - "api" (default) | "smtp"
  */
 export async function sendReportEmail({ reports, mode = 'api' }) {
@@ -55,15 +65,15 @@ export async function sendReportEmail({ reports, mode = 'api' }) {
   const today = format(new Date(), 'MMMM d, yyyy');
   const subject = `${subjectPrefix} — ${today}`;
 
+  const attachments = buildAttachments(reports);
+
   const reportRows = reports
     .map(
       (r) => `
       <tr>
         <td style="padding:10px 14px;border-bottom:1px solid #1e293b;color:#94a3b8;font-family:monospace">${r.label}</td>
         <td style="padding:10px 14px;border-bottom:1px solid #1e293b;color:#f1f5f9;font-weight:600">${r.rowCount} rows</td>
-        <td style="padding:10px 14px;border-bottom:1px solid #1e293b;">
-          <a href="${r.driveLink}" style="color:#38bdf8;text-decoration:none">View in Drive →</a>
-        </td>
+        <td style="padding:10px 14px;border-bottom:1px solid #1e293b;color:#94a3b8">${r.fileName}</td>
       </tr>`
     )
     .join('');
@@ -98,7 +108,7 @@ export async function sendReportEmail({ reports, mode = 'api' }) {
                 <tr style="background:#1e293b;">
                   <th style="padding:10px 14px;text-align:left;color:#475569;font-size:11px;letter-spacing:1px;text-transform:uppercase">Source</th>
                   <th style="padding:10px 14px;text-align:left;color:#475569;font-size:11px;letter-spacing:1px;text-transform:uppercase">Rows</th>
-                  <th style="padding:10px 14px;text-align:left;color:#475569;font-size:11px;letter-spacing:1px;text-transform:uppercase">File</th>
+                  <th style="padding:10px 14px;text-align:left;color:#475569;font-size:11px;letter-spacing:1px;text-transform:uppercase">Attached File</th>
                 </tr>
                 ${reportRows}
               </table>
@@ -119,7 +129,7 @@ export async function sendReportEmail({ reports, mode = 'api' }) {
           <tr>
             <td style="padding:16px 32px;">
               <div style="background:#052e16;border:1px solid #166534;border-radius:8px;padding:12px 16px;">
-                <span style="color:#4ade80;font-size:13px;">✓ All files uploaded to Google Drive successfully</span>
+                <span style="color:#4ade80;font-size:13px;">✓ CSV files attached to this email</span>
               </div>
             </td>
           </tr>
@@ -141,22 +151,25 @@ export async function sendReportEmail({ reports, mode = 'api' }) {
 </html>`;
 
   const text = `${subjectPrefix} — ${today}\n\n${reports
-    .map((r) => `${r.label}: ${r.rowCount} rows — ${r.driveLink}`)
+    .map((r) => `${r.label}: ${r.rowCount} rows — ${r.fileName} (attached)`)
     .join('\n')}\n\nTotal: ${reports.reduce((s, r) => s + r.rowCount, 0)} records`;
 
   if (mode === 'api') {
-    return sendViaResendApi({ apiKey, fromEmail, toEmails, subject, html, text });
+    return sendViaResendApi({ apiKey, fromEmail, toEmails, subject, html, text, attachments });
   } else {
-    return sendViaSmtp({ fromEmail, toEmails, subject, html, text });
+    return sendViaSmtp({ fromEmail, toEmails, subject, html, text, attachments });
   }
 }
 
 // ─── MODE A: Resend SDK / API (with batching) ───────────────
-async function sendViaResendApi({ apiKey, fromEmail, toEmails, subject, html, text }) {
+async function sendViaResendApi({ apiKey, fromEmail, toEmails, subject, html, text, attachments }) {
   const resend = new Resend(apiKey);
   const batches = chunk(toEmails, BATCH_SIZE);
 
   console.log(`📧 Sending via Resend API to ${toEmails.length} recipients in ${batches.length} batch(es)...`);
+  if (attachments.length > 0) {
+    console.log(`   Attachments: ${attachments.map((a) => a.filename).join(', ')}`);
+  }
 
   const results = { sent: 0, failed: 0, errors: [] };
 
@@ -173,6 +186,7 @@ async function sendViaResendApi({ apiKey, fromEmail, toEmails, subject, html, te
         subject,
         html,
         text,
+        attachments,
       });
 
       if (error) {
@@ -210,12 +224,7 @@ async function sendViaResendApi({ apiKey, fromEmail, toEmails, subject, html, te
 }
 
 // ─── MODE B: SMTP via Resend SMTP relay (with batching) ─────
-// Resend SMTP settings:
-//   Host: smtp.resend.com
-//   Port: 465 (SSL) or 587 (TLS)
-//   User: resend
-//   Pass: YOUR_RESEND_API_KEY
-async function sendViaSmtp({ fromEmail, toEmails, subject, html, text }) {
+async function sendViaSmtp({ fromEmail, toEmails, subject, html, text, attachments }) {
   const nodemailer = await import('nodemailer');
 
   const transporter = nodemailer.default.createTransport({
@@ -229,6 +238,12 @@ async function sendViaSmtp({ fromEmail, toEmails, subject, html, text }) {
   });
 
   const batches = chunk(toEmails, BATCH_SIZE);
+
+  // Convert attachments to nodemailer format
+  const smtpAttachments = attachments.map((a) => ({
+    filename: a.filename,
+    content: a.content,
+  }));
 
   console.log(`📧 Sending via Resend SMTP to ${toEmails.length} recipients in ${batches.length} batch(es)...`);
 
@@ -247,6 +262,7 @@ async function sendViaSmtp({ fromEmail, toEmails, subject, html, text }) {
         subject,
         html,
         text,
+        attachments: smtpAttachments,
       });
 
       console.log(`   ✅ Batch ${batchNum} sent. Message ID: ${info.messageId}`);
