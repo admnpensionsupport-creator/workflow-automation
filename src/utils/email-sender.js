@@ -54,7 +54,7 @@ export async function sendSequenceEmails({ contacts }) {
 
   for (const contact of contacts) {
     const step = contact.sequence_step || 1;
-    const template = getEmailForStep(step, contact.name);
+    const template = getEmailForStep(step, contact.name, contact.id);
 
     if (!template) {
       // Sequence complete (step > 5), skip
