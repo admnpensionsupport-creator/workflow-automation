@@ -5,6 +5,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
+import { getEmailForStep } from '../utils/email-templates.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -65,8 +66,9 @@ export async function fetchContacts() {
 }
 
 /**
- * After successful sends, increment sequence_step and set last_emailed_at
- * for the given contact IDs.
+ * After successful sends, increment sequence_step, set last_emailed_at,
+ * and refresh the `subject` / `body` columns so they reflect the NEXT email
+ * the contact will receive (or null if the sequence is complete).
  */
 export async function advanceSequence(contactIds) {
   if (!contactIds || contactIds.length === 0) return;
@@ -82,10 +84,10 @@ export async function advanceSequence(contactIds) {
   for (let i = 0; i < contactIds.length; i += BATCH) {
     const batch = contactIds.slice(i, i + BATCH);
 
-    // Fetch current step for each contact, then increment
+    // Fetch current step + name for each contact, then increment and preview next
     const { data: contacts, error: fetchErr } = await supabase
       .from(table)
-      .select('id, sequence_step')
+      .select('id, name, sequence_step')
       .in('id', batch);
 
     if (fetchErr) {
@@ -94,11 +96,16 @@ export async function advanceSequence(contactIds) {
     }
 
     for (const contact of contacts) {
+      const nextStep = (contact.sequence_step || 1) + 1;
+      const nextTemplate = getEmailForStep(nextStep, contact.name, contact.id);
+
       const { error: updateErr } = await supabase
         .from(table)
         .update({
-          sequence_step: (contact.sequence_step || 1) + 1,
+          sequence_step: nextStep,
           last_emailed_at: now,
+          subject: nextTemplate ? nextTemplate.subject : null,
+          body: nextTemplate ? nextTemplate.text : null,
         })
         .eq('id', contact.id);
 
