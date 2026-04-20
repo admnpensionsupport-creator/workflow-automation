@@ -31,10 +31,11 @@ dotenv.config();
 
 const csvPath = process.argv[2];
 const DRY_RUN = process.argv.includes('--dry-run');
+const INSERT_MISSING = process.argv.includes('--insert-missing');
 const BATCH_SIZE = 500;
 
 if (!csvPath) {
-  console.error('Usage: node scripts/import-contacts-csv.js <csv-path> [--dry-run]');
+  console.error('Usage: node scripts/import-contacts-csv.js <csv-path> [--dry-run] [--insert-missing]');
   process.exit(1);
 }
 
@@ -156,9 +157,36 @@ async function main() {
     console.log(`     (first 10: ${unmatchedCsvEmails.slice(0, 10).join(', ')} ...)`);
   }
 
+  // Build insert plan for --insert-missing
+  const inserts = [];
+  const skippedNoAt = [];
+  if (INSERT_MISSING) {
+    for (const email of unmatchedCsvEmails) {
+      if (!email.includes('@')) {
+        skippedNoAt.push(email);
+        continue;
+      }
+      const src = csvByEmail.get(email);
+      const name = src.firstName || src.lastName || null;
+      const row = { email, sequence_step: 1, opted_out: false };
+      if (name) row.name = name;
+      if (src.title) row.title = src.title;
+      if (src.district) row.district = src.district;
+      inserts.push(row);
+    }
+    console.log(`\n➕ Inserts planned: ${inserts.length}`);
+    console.log(`   Skipped (invalid email, no '@'): ${skippedNoAt.length}`);
+    if (skippedNoAt.length > 0) console.log(`     ${skippedNoAt.join(', ')}`);
+  }
+
   if (DRY_RUN) {
-    console.log('\n✋ Dry run — no writes performed. Sample updates:');
+    console.log('\n✋ Dry run — no writes performed.');
+    console.log('Sample updates:');
     console.log(JSON.stringify(updates.slice(0, 3), null, 2));
+    if (INSERT_MISSING) {
+      console.log('Sample inserts:');
+      console.log(JSON.stringify(inserts.slice(0, 3), null, 2));
+    }
     return;
   }
 
@@ -182,7 +210,25 @@ async function main() {
     console.log(`   Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${done} written, ${failed} failed (running total)`);
   }
 
-  console.log(`\n✅ Import complete: ${done} updated, ${failed} failed.`);
+  console.log(`\n✅ Update phase: ${done} updated, ${failed} failed.`);
+
+  if (INSERT_MISSING && inserts.length > 0) {
+    console.log(`\n➕ Inserting ${inserts.length} new rows...`);
+    let inserted = 0;
+    let insertFailed = 0;
+    for (let i = 0; i < inserts.length; i += BATCH_SIZE) {
+      const batch = inserts.slice(i, i + BATCH_SIZE);
+      const { error, data } = await supabase.from(table).insert(batch).select('id');
+      if (error) {
+        insertFailed += batch.length;
+        console.error(`   ❌ Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${error.message}`);
+      } else {
+        inserted += data?.length ?? batch.length;
+        console.log(`   Batch ${Math.floor(i / BATCH_SIZE) + 1}: inserted ${inserted} / ${inserts.length}`);
+      }
+    }
+    console.log(`\n✅ Insert phase: ${inserted} inserted, ${insertFailed} failed.`);
+  }
 }
 
 main().catch((err) => {
