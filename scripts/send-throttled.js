@@ -26,6 +26,7 @@ function argInt(flag, def) {
 const CHUNK = argInt('--chunk', 100);
 const PAUSE_SEC = argInt('--pause', 15);
 const LIMIT = argInt('--limit', 0);
+const STEP = argInt('--step', 0); // 0 = no filter, otherwise only contacts at this sequence_step
 const DRY_RUN = process.argv.includes('--dry-run');
 
 function sleep(ms) {
@@ -35,11 +36,16 @@ function sleep(ms) {
 async function main() {
   console.log('════════════════════════════════════════');
   console.log('  THROTTLED SEND');
-  console.log(`  chunk=${CHUNK}  pause=${PAUSE_SEC}s  limit=${LIMIT || 'none'}  dryRun=${DRY_RUN}`);
+  console.log(`  chunk=${CHUNK}  pause=${PAUSE_SEC}s  limit=${LIMIT || 'none'}  step=${STEP || 'any'}  dryRun=${DRY_RUN}`);
   console.log(`  ${new Date().toISOString()}`);
   console.log('════════════════════════════════════════\n');
 
   let contacts = await fetchContacts();
+  if (STEP > 0) {
+    const before = contacts.length;
+    contacts = contacts.filter((c) => (c.sequence_step || 1) === STEP);
+    console.log(`   Filtered to sequence_step=${STEP}: ${contacts.length} of ${before} contacts`);
+  }
   if (LIMIT > 0) contacts = contacts.slice(0, LIMIT);
 
   // Distribution
