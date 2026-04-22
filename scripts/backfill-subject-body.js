@@ -67,7 +67,7 @@ async function main() {
       continue;
     }
     const step = row.sequence_step || 1;
-    if (step > 5) {
+    if (step > 7) {
       completed++;
       continue;
     }

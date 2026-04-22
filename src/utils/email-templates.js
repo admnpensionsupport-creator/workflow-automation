@@ -1,6 +1,15 @@
 /**
- * EMAIL TEMPLATES: 5-email sequence for CalSTRS/CalPERS outreach.
+ * EMAIL TEMPLATES: 7-email sequence for CalSTRS/CalPERS outreach.
  * Each function returns { subject, html, text } personalized with the contact's name.
+ *
+ * Sequence cadence (days since first email):
+ *   Email 0 — INTRO      (Day 0)  — sent to contacts at sequence_step 1
+ *   Email 1 — WHY        (Day 1)  — sent to contacts at sequence_step 2
+ *   Email 2 — LOGISTICS  (Day 3)  — sent to contacts at sequence_step 3
+ *   Email 3 — TRANSITION (Day 5)  — sent to contacts at sequence_step 4
+ *   Email 4 — PROMISE    (Day 8)  — sent to contacts at sequence_step 5
+ *   Email 5 — FOLLOW-UP  (Day 12) — sent to contacts at sequence_step 6
+ *   Email 6 — RESOURCE   (Day 19) — sent to contacts at sequence_step 7
  *
  * Tracking is built in:
  * - Invisible tracking pixel (1x1 GIF) logs email opens
@@ -16,14 +25,14 @@ const CALENDLY_LINK = 'https://calendly.com/pension-support-info/30-mins';
  * The href goes through our click tracker, which logs the click
  * and instantly redirects to Calendly.
  */
-function trackedButton(contactId) {
+function trackedButton(contactId, label = 'SCHEDULE YOUR 30-MIN SESSION') {
   const trackUrl = `${TRACKING_SERVER}/track/click?cid=${contactId}&url=${encodeURIComponent(CALENDLY_LINK)}`;
   return `
 <table cellpadding="0" cellspacing="0" style="margin:24px 0;">
   <tr>
     <td align="center" style="background:#0ea5e9;border-radius:8px;">
       <a href="${trackUrl}" target="_blank" style="display:inline-block;padding:14px 32px;color:#ffffff;font-family:Arial,sans-serif;font-size:16px;font-weight:700;text-decoration:none;letter-spacing:0.5px;">
-        CLICK HERE TO BOOK A SESSION
+        ${label}
       </a>
     </td>
   </tr>
@@ -71,136 +80,260 @@ function wrapHtml(bodyContent, contactId) {
 </html>`;
 }
 
-// ─── Email 1 ────────────────────────────────────────────
+function sig() {
+  return `<p style="margin:16px 0 0;">Best,<br><strong>Pension Service Group</strong></p>`;
+}
+
+// ─── Email 0 — THE INTRO (Day 0) ──────────────────────────
+export function email0(name, contactId) {
+  const greeting = name ? `Hi ${name},` : 'Hi,';
+  const subject = 'Thinking about your pension?';
+
+  const html = wrapHtml(`
+    <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
+    <p>We are Pension Service Group. We've been following the recent developments across various school districts—from new contract updates to shifting budget discussions. We know that these changes can sometimes make retirement feel a bit more uncertain.</p>
+    <p>We help California educators make sense of their CalSTRS/CalPERS benefits during times of transition. Most people we work with feel a bit overwhelmed by the paperwork and the headlines. We're here to change that.</p>
+    <p>In a quiet, 30-minute session, we'll help you build a clear blueprint for your finances. We focus on finding your "pension gap"—the difference between your state check and what you actually need—so you can stay focused on your students while feeling secure about your own future.</p>
+    <p>It is 100% focused on you, with zero pressure or obligation.</p>
+    ${trackedButton(contactId, 'SCHEDULE YOUR 30-MIN SESSION')}
+    ${sig()}
+  `, contactId);
+
+  const text = `${greeting}
+
+We are Pension Service Group. We've been following the recent developments across various school districts—from new contract updates to shifting budget discussions. We know that these changes can sometimes make retirement feel a bit more uncertain.
+
+We help California educators make sense of their CalSTRS/CalPERS benefits during times of transition. Most people we work with feel a bit overwhelmed by the paperwork and the headlines. We're here to change that.
+
+In a quiet, 30-minute session, we'll help you build a clear blueprint for your finances. We focus on finding your "pension gap"—the difference between your state check and what you actually need—so you can stay focused on your students while feeling secure about your own future.
+
+It is 100% focused on you, with zero pressure or obligation.
+
+Schedule Your 30-Min Session: ${CALENDLY_LINK}
+
+Best,
+Pension Service Group`;
+
+  return { subject, html, text };
+}
+
+// ─── Email 1 — THE "WHY" (Day 1) ──────────────────────────
 export function email1(name, contactId) {
   const greeting = name ? `Hi ${name},` : 'Hi,';
-  const subject = 'Quick Check-In for Your CalSTRS/CalPERS Benefits!';
+  const subject = 'Will your pension be enough?';
 
   const html = wrapHtml(`
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
-    <p>Many California educators I talk to feel unsure about one thing: what their CalSTRS or CalPERS pension will actually pay them compared to their real retirement expenses. You deserve absolute clarity on your future income.</p>
-    <p>Over the next few days, I'll be sharing a short email series specifically for California educators. The goal is simple: to help clarify common retirement questions, especially around recent Social Security rule updates (WEP/GPO) and how they affect teachers who have earned credits outside the classroom.</p>
-    <p>I'll also touch on areas that often get overlooked, including:</p>
-    <ul style="color:#334155;padding-left:20px;">
-      <li style="margin-bottom:8px;">How your pension is designed to work alongside a 403(b) or 457 plan.</li>
-      <li style="margin-bottom:8px;">How to identify and close the "income gap" between your pension and your lifestyle.</li>
-      <li style="margin-bottom:8px;">The full picture of taxes and potential healthcare costs in retirement.</li>
-    </ul>
-    <p>There's no sales angle here—just straightforward insights. If it's helpful, I'm also offering a quick, no-pressure <strong>Pension Clarity Session</strong> where we can define your expected benefit and ensure your personal savings are optimized to meet your goals.</p>
-    <p><strong>Ready to jump on a quick time to talk about it?</strong></p>
-    ${trackedButton(contactId)}
-    <p style="margin:16px 0 0;">Sincerely,<br><strong>Pension Service Group</strong></p>
+    <p>Pensions are an incredible foundation, but they rarely cover 100% of an educator's final salary. We help teachers figure out exactly how much of a "gap" they'll have so they aren't surprised by the math later.</p>
+    <p>With recent salary adjustments hitting paychecks, it's a great time to see how your current earnings will impact your final pension calculation. If you've had your 403(b) for over a year, you likely have new options to help bridge the gap.</p>
+    ${trackedButton(contactId, "LET'S LOOK AT YOUR NUMBERS")}
+    ${sig()}
   `, contactId);
 
-  const text = `${greeting}\n\nMany California educators I talk to feel unsure about one thing: what their CalSTRS or CalPERS pension will actually pay them compared to their real retirement expenses. You deserve absolute clarity on your future income.\n\nOver the next few days, I'll be sharing a short email series specifically for California educators. The goal is simple: to help clarify common retirement questions, especially around recent Social Security rule updates (WEP/GPO) and how they affect teachers who have earned credits outside the classroom.\n\nI'll also touch on areas that often get overlooked, including:\n- How your pension is designed to work alongside a 403(b) or 457 plan.\n- How to identify and close the "income gap" between your pension and your lifestyle.\n- The full picture of taxes and potential healthcare costs in retirement.\n\nThere's no sales angle here—just straightforward insights. If it's helpful, I'm also offering a quick, no-pressure Pension Clarity Session where we can define your expected benefit and ensure your personal savings are optimized to meet your goals.\n\nReady to jump on a quick time to talk about it?\nBook a session: ${CALENDLY_LINK}\n\nSincerely,\nPension Service Group`;
+  const text = `${greeting}
+
+Pensions are an incredible foundation, but they rarely cover 100% of an educator's final salary. We help teachers figure out exactly how much of a "gap" they'll have so they aren't surprised by the math later.
+
+With recent salary adjustments hitting paychecks, it's a great time to see how your current earnings will impact your final pension calculation. If you've had your 403(b) for over a year, you likely have new options to help bridge the gap.
+
+Let's look at your numbers: ${CALENDLY_LINK}
+
+Best,
+Pension Service Group`;
 
   return { subject, html, text };
 }
 
-// ─── Email 2 ────────────────────────────────────────────
+// ─── Email 2 — THE LOGISTICS (Day 3) ──────────────────────
 export function email2(name, contactId) {
   const greeting = name ? `Hi ${name},` : 'Hi,';
-  const subject = 'A Small Step Today Can Make a Big Difference Later!';
+  const subject = 'Healthcare and the 12-month rule';
 
   const html = wrapHtml(`
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
-    <p>Whether you just started teaching or you've been in the classroom for years, your future financial security starts now, and we know planning can feel overwhelming.</p>
-    <p>We can help you gain a clear understanding of your core pension, whether it be CalSTRS or CalPERS, and work with you to forecast where potential income gaps might appear. More importantly, we'll explore specific, tax-advantaged options that can help you close those gaps and ensure your retirement income matches your lifestyle aspirations.</p>
-    <p><strong>I'd love to walk through everything with you and make it simple:</strong></p>
-    ${trackedButton(contactId)}
-    <p>Let's make time work for you, not against you.</p>
-    <p style="color:#64748b;font-size:13px;">If you prefer not to receive follow-ups, reply "No thanks."</p>
+    <p>Two things usually catch educators off guard: the cost of healthcare before Medicare kicks in, and the rules that change once your 403(b) hits its one-year anniversary.</p>
+    <p>Given the recent shifts in district health contributions, it's worth checking how these changes affect your long-term bridge to retirement. If you have 30 minutes, we can walk through both.</p>
+    ${trackedButton(contactId, 'BOOK A 30-MIN AUDIT')}
+    ${sig()}
   `, contactId);
 
-  const text = `${greeting}\n\nWhether you just started teaching or you've been in the classroom for years, your future financial security starts now, and we know planning can feel overwhelming.\n\nWe can help you gain a clear understanding of your core pension, whether it be CalSTRS or CalPERS, and work with you to forecast where potential income gaps might appear. More importantly, we'll explore specific, tax-advantaged options that can help you close those gaps and ensure your retirement income matches your lifestyle aspirations.\n\nI'd love to walk through everything with you and make it simple:\nSchedule your session: ${CALENDLY_LINK}\n\nLet's make time work for you, not against you.\n\nIf you prefer not to receive follow-ups, reply "No thanks."`;
+  const text = `${greeting}
+
+Two things usually catch educators off guard: the cost of healthcare before Medicare kicks in, and the rules that change once your 403(b) hits its one-year anniversary.
+
+Given the recent shifts in district health contributions, it's worth checking how these changes affect your long-term bridge to retirement. If you have 30 minutes, we can walk through both.
+
+Book a 30-min audit: ${CALENDLY_LINK}
+
+Best,
+Pension Service Group`;
 
   return { subject, html, text };
 }
 
-// ─── Email 3 ────────────────────────────────────────────
+// ─── Email 3 — THE TRANSITION (Day 5) ─────────────────────
 export function email3(name, contactId) {
   const greeting = name ? `Hi ${name},` : 'Hi,';
-  const subject = 'Maximize Your Time: The Best Time to Plan is Today!';
+  const subject = 'Moving beyond the classroom';
 
   const html = wrapHtml(`
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
-    <p>Even if retirement feels far away, now is a great time to take a closer look at your benefits and start building a strong financial foundation.</p>
-    <p>Even if you haven't opened a 403(b), IRA, or other retirement accounts yet, a quick, personalized session can help you:</p>
-    <ul style="color:#334155;padding-left:20px;">
-      <li style="margin-bottom:8px;">Understand your CalSTRS or CalPERS pension</li>
-      <li style="margin-bottom:8px;">See how your retirement accounts can work for you over time</li>
-      <li style="margin-bottom:8px;">Learn strategies to make the most of your benefits</li>
-    </ul>
-    <p>You don't have to be ready to retire to gain valuable insights, and the sooner you learn, the more confident you'll feel about your financial future.</p>
-    <p><strong>Schedule your session:</strong></p>
-    ${trackedButton(contactId)}
-    <p>If now isn't the right time, no worries—save the link for whenever you're ready to explore your options.</p>
-    <p style="color:#64748b;font-size:13px;">If you prefer not to receive follow-ups, reply "No thanks."</p>
-    <p>Let's make sure nothing slips through the cracks.</p>
+    <p>Leaving the school is a big shift, both financially and personally—especially after a career dedicated to your students and community.</p>
+    <p>We don't just look at the money; we help you map out what those first few months of retirement will actually look like. Having a plan in place makes the transition away from the classroom a lot calmer.</p>
+    ${trackedButton(contactId, 'PLAN YOUR TRANSITION')}
+    ${sig()}
   `, contactId);
 
-  const text = `${greeting}\n\nEven if retirement feels far away, now is a great time to take a closer look at your benefits and start building a strong financial foundation.\n\nEven if you haven't opened a 403(b), IRA, or other retirement accounts yet, a quick, personalized session can help you:\n- Understand your CalSTRS or CalPERS pension\n- See how your retirement accounts can work for you over time\n- Learn strategies to make the most of your benefits\n\nYou don't have to be ready to retire to gain valuable insights, and the sooner you learn, the more confident you'll feel about your financial future.\n\nSchedule your session: ${CALENDLY_LINK}\n\nIf now isn't the right time, no worries—save the link for whenever you're ready to explore your options.\nIf you prefer not to receive follow-ups, reply "No thanks."\n\nLet's make sure nothing slips through the cracks.`;
+  const text = `${greeting}
+
+Leaving the school is a big shift, both financially and personally—especially after a career dedicated to your students and community.
+
+We don't just look at the money; we help you map out what those first few months of retirement will actually look like. Having a plan in place makes the transition away from the classroom a lot calmer.
+
+Plan your transition: ${CALENDLY_LINK}
+
+Best,
+Pension Service Group`;
 
   return { subject, html, text };
 }
 
-// ─── Email 4 ────────────────────────────────────────────
+// ─── Email 4 — THE PROMISE (Day 8) ────────────────────────
 export function email4(name, contactId) {
   const greeting = name ? `Hi ${name},` : 'Hi,';
-  const subject = 'Maximize Your CalSTRS and CalPERS Benefits';
+  const subject = 'No pressure, just a tutorial';
 
   const html = wrapHtml(`
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
-    <p>I've been working closely with many of your fellow teachers and staff in the district to help them fully understand and maximize their CalSTRS and CalPERS benefits. It's crucial to ensure your pension plan is perfectly aligned with the retirement you envision and truly deserve.</p>
-    <p>As a dedicated educator, you've spent your career investing in the future of others. Now, it's time to make sure your own future is secure. If your 403(b) has been active for over a year, you might not be fully aware of the enhanced options available to you, including improved matching contributions and diverse allocation strategies that can significantly boost your retirement savings.</p>
-    <p><strong>Here's how we can help:</strong></p>
-    <ul style="color:#334155;padding-left:20px;">
-      <li style="margin-bottom:8px;"><strong>Understand Your Pension:</strong> We'll explain your CalSTRS and CalPERS benefits in clear terms so you can see how they fit into your overall retirement plan.</li>
-      <li style="margin-bottom:8px;"><strong>Optimize Your Investments:</strong> Based on your anticipated retirement needs, we'll adjust your strategy to make the most of your pension and other retirement accounts.</li>
-      <li style="margin-bottom:8px;"><strong>Plan for the Future You Want:</strong> By aligning your financial planning with your retirement goals, we can ensure you're on the path to a comfortable and rewarding retirement.</li>
-    </ul>
-    <p>Many of your colleagues have found these personalized sessions enlightening and empowering. I'm excited to offer you the same opportunity to review your plan and make any necessary adjustments.</p>
-    ${trackedButton(contactId)}
-    <p>Looking forward to helping you!</p>
+    <p>We know there is a lot of noise out there right now regarding school district policies and retirement news. We keep things simple: no products, no pressure, and no obligation.</p>
+    <p>Think of it as a 30-minute tutorial on your own benefits. You've worked hard for your school; you deserve to have clear answers.</p>
+    ${trackedButton(contactId, 'SCHEDULE YOUR SESSION')}
+    ${sig()}
   `, contactId);
 
-  const text = `${greeting}\n\nI've been working closely with many of your fellow teachers and staff in the district to help them fully understand and maximize their CalSTRS and CalPERS benefits. It's crucial to ensure your pension plan is perfectly aligned with the retirement you envision and truly deserve.\n\nAs a dedicated educator, you've spent your career investing in the future of others. Now, it's time to make sure your own future is secure. If your 403(b) has been active for over a year, you might not be fully aware of the enhanced options available to you, including improved matching contributions and diverse allocation strategies that can significantly boost your retirement savings.\n\nHere's how we can help:\n- Understand Your Pension: We'll explain your CalSTRS and CalPERS benefits in clear terms.\n- Optimize Your Investments: We'll adjust your strategy based on your anticipated retirement needs.\n- Plan for the Future You Want: Align your financial planning with your retirement goals.\n\nMany of your colleagues have found these personalized sessions enlightening and empowering.\n\nSchedule your session: ${CALENDLY_LINK}\n\nLooking forward to helping you!`;
+  const text = `${greeting}
+
+We know there is a lot of noise out there right now regarding school district policies and retirement news. We keep things simple: no products, no pressure, and no obligation.
+
+Think of it as a 30-minute tutorial on your own benefits. You've worked hard for your school; you deserve to have clear answers.
+
+Schedule your session: ${CALENDLY_LINK}
+
+Best,
+Pension Service Group`;
 
   return { subject, html, text };
 }
 
-// ─── Email 5 ────────────────────────────────────────────
+// ─── Email 5 — THE FOLLOW-UP (Day 12) ─────────────────────
 export function email5(name, contactId) {
   const greeting = name ? `Hi ${name},` : 'Hi,';
-  const subject = 'Last Chance to Review Your CalSTRS and CalPERS Benefits!';
+  const subject = 'One less thing to worry about';
 
   const html = wrapHtml(`
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
-    <p>I noticed we haven't yet had the chance to discuss how you can maximize your CalSTRS and CalPERS benefits. It's an important step to ensure your retirement is as rewarding as your career.</p>
-    <p><strong>Why is this review crucial?</strong></p>
-    <ul style="color:#334155;padding-left:20px;">
-      <li style="margin-bottom:8px;"><strong>Maximize Your Benefits:</strong> Ensure you're not missing out on enhanced options like improved matching contributions that can boost your savings.</li>
-      <li style="margin-bottom:8px;"><strong>Tailored Advice:</strong> Align your retirement plan with your goals for a secure, comfortable future.</li>
-    </ul>
-    <p>Your colleagues are already feeling more confident about their retirement; I'd love for you to experience the same relief and assurance.</p>
-    ${trackedButton(contactId)}
-    <p>Looking forward to helping you!</p>
+    <p>I'll keep this brief. If retirement is on your mind—whether it's 2 years or 10 years away—getting the math right today means a lot less stress later.</p>
+    <p>If you'd like to spend 30 minutes getting organized before the school year wraps up, we're here to help.</p>
+    ${trackedButton(contactId, 'FINAL 30-MIN INVITE')}
+    ${sig()}
   `, contactId);
 
-  const text = `${greeting}\n\nI noticed we haven't yet had the chance to discuss how you can maximize your CalSTRS and CalPERS benefits. It's an important step to ensure your retirement is as rewarding as your career.\n\nWhy is this review crucial?\n- Maximize Your Benefits: Ensure you're not missing out on enhanced options like improved matching contributions that can boost your savings.\n- Tailored Advice: Align your retirement plan with your goals for a secure, comfortable future.\n\nYour colleagues are already feeling more confident about their retirement; I'd love for you to experience the same relief and assurance.\n\nSchedule your session: ${CALENDLY_LINK}\n\nLooking forward to helping you!`;
+  const text = `${greeting}
+
+I'll keep this brief. If retirement is on your mind—whether it's 2 years or 10 years away—getting the math right today means a lot less stress later.
+
+If you'd like to spend 30 minutes getting organized before the school year wraps up, we're here to help.
+
+Final 30-min invite: ${CALENDLY_LINK}
+
+Best,
+Pension Service Group`;
+
+  return { subject, html, text };
+}
+
+// ─── Email 6 — THE RESOURCE (Day 19) ──────────────────────
+export function email6(name, contactId) {
+  const greeting = name ? `Hi ${name},` : 'Hi,';
+  const subject = 'Final try + a helpful resource';
+
+  const html = wrapHtml(`
+    <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
+    <p>This will be my last email on this topic. I don't want you to face the "identity shift" many California educators describe without a solid plan.</p>
+    <p>Before we go, here are a few links for your own research:</p>
+    <ul style="color:#334155;padding-left:20px;">
+      <li style="margin-bottom:8px;"><strong>Pension Math:</strong> Log in to your CalSTRS or CalPERS portal.</li>
+      <li style="margin-bottom:8px;"><strong>The Checklist:</strong> Download our 5-Question Guide for California Teachers.</li>
+    </ul>
+    <p>If you ever want a second pair of eyes on your specific situation, our door is always open.</p>
+    ${trackedButton(contactId, 'BOOK YOUR SESSION HERE')}
+    <p style="margin:16px 0 0;">Wishing you all the best,<br><strong>Pension Service Group</strong></p>
+  `, contactId);
+
+  const text = `${greeting}
+
+This will be my last email on this topic. I don't want you to face the "identity shift" many California educators describe without a solid plan.
+
+Before we go, here are a few links for your own research:
+- Pension Math: Log in to your CalSTRS or CalPERS portal.
+- The Checklist: Download our 5-Question Guide for California Teachers.
+
+If you ever want a second pair of eyes on your specific situation, our door is always open.
+
+Book your session here: ${CALENDLY_LINK}
+
+Wishing you all the best,
+Pension Service Group`;
 
   return { subject, html, text };
 }
 
 /**
- * Get the email template for a given sequence step (1-5).
- * @param {number} step - Sequence step (1-5)
+ * Get the email template for a given sequence step (1-7).
+ * Mapping: sequence_step N → Email (N-1) in the cadence above.
+ *   step 1 → Email 0 (INTRO),  step 2 → Email 1 (WHY),  step 3 → Email 2 (LOGISTICS),
+ *   step 4 → Email 3 (TRANSITION),  step 5 → Email 4 (PROMISE),
+ *   step 6 → Email 5 (FOLLOW-UP),  step 7 → Email 6 (RESOURCE).
+ *
+ * @param {number} step - Sequence step (1-7)
  * @param {string} name - Contact's name for personalization
  * @param {number} contactId - Contact's Supabase row ID for tracking
+ * @returns {{subject:string, html:string, text:string}|null} template or null if sequence complete
  */
 export function getEmailForStep(step, name, contactId) {
-  const templates = { 1: email1, 2: email2, 3: email3, 4: email4, 5: email5 };
+  const templates = {
+    1: email0,
+    2: email1,
+    3: email2,
+    4: email3,
+    5: email4,
+    6: email5,
+    7: email6,
+  };
   const fn = templates[step];
-  if (!fn) return null; // sequence complete
+  if (!fn) return null; // sequence complete (step > 7 or invalid)
   return fn(name, contactId);
 }
+
+/**
+ * Minimum days that must have elapsed since `last_emailed_at` before a contact
+ * at a given sequence_step is eligible for their next send.
+ *
+ * Indexed by *current* sequence_step (the email about to be sent):
+ *   step 1 → 0  (first email, no prior send required)
+ *   step 2 → 1  (Email 1 goes 1 day after Email 0)
+ *   step 3 → 2  (Email 2 goes 2 days after Email 1)
+ *   step 4 → 2  (Email 3 goes 2 days after Email 2)
+ *   step 5 → 3  (Email 4 goes 3 days after Email 3)
+ *   step 6 → 4  (Email 5 goes 4 days after Email 4)
+ *   step 7 → 7  (Email 6 goes 7 days after Email 5)
+ */
+export const MIN_DAYS_SINCE_LAST_BY_STEP = {
+  1: 0,
+  2: 1,
+  3: 2,
+  4: 2,
+  5: 3,
+  6: 4,
+  7: 7,
+};

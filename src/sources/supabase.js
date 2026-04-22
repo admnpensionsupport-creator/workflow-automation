@@ -5,7 +5,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
-import { getEmailForStep } from '../utils/email-templates.js';
+import { getEmailForStep, MIN_DAYS_SINCE_LAST_BY_STEP } from '../utils/email-templates.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -19,7 +19,16 @@ function getClient() {
 }
 
 /**
- * Fetch all contacts that still need emails (sequence_step 1-5, not opted out).
+ * Fetch all contacts that still need emails (sequence_step 1-7, not opted out).
+ * Applies gap-based cadence: a contact is only returned if enough days have
+ * elapsed since their `last_emailed_at` for their current step.
+ *   step 1 → 0 days  (no prior email required)
+ *   step 2 → 1 day
+ *   step 3 → 2 days
+ *   step 4 → 2 days
+ *   step 5 → 3 days
+ *   step 6 → 4 days
+ *   step 7 → 7 days
  * Uses pagination to pull beyond the default 1,000 row limit.
  */
 export async function fetchContacts() {
@@ -38,7 +47,7 @@ export async function fetchContacts() {
     const { data, error } = await supabase
       .from(table)
       .select('*')
-      .lte('sequence_step', 5)
+      .lte('sequence_step', 7)
       .or('opted_out.is.null,opted_out.eq.false')
       .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
 
@@ -61,8 +70,39 @@ export async function fetchContacts() {
     return [];
   }
 
-  console.log(`✅ Supabase: ${allData.length} active contacts`);
-  return allData;
+  // Apply day-gap cadence filter.
+  const nowMs = Date.now();
+  const MS_PER_DAY = 24 * 60 * 60 * 1000;
+  const eligible = [];
+  const waiting = { byStep: {}, total: 0 };
+
+  for (const row of allData) {
+    const step = row.sequence_step || 1;
+    const minDays = MIN_DAYS_SINCE_LAST_BY_STEP[step] ?? 0;
+
+    if (minDays === 0 || !row.last_emailed_at) {
+      eligible.push(row);
+      continue;
+    }
+
+    const lastMs = new Date(row.last_emailed_at).getTime();
+    const daysSince = (nowMs - lastMs) / MS_PER_DAY;
+
+    if (daysSince >= minDays) {
+      eligible.push(row);
+    } else {
+      waiting.byStep[step] = (waiting.byStep[step] || 0) + 1;
+      waiting.total++;
+    }
+  }
+
+  console.log(`✅ Supabase: ${allData.length} active, ${eligible.length} eligible now, ${waiting.total} waiting for day-gap to elapse`);
+  if (waiting.total > 0) {
+    for (const [step, count] of Object.entries(waiting.byStep).sort()) {
+      console.log(`   waiting at step ${step}: ${count}`);
+    }
+  }
+  return eligible;
 }
 
 /**

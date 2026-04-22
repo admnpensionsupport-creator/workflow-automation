@@ -1,6 +1,6 @@
 /**
  * UTILITY: Email Sender via Resend
- * Sends personalized outreach emails from a 5-email sequence.
+ * Sends personalized outreach emails from a 7-email sequence (Email 0-6).
  * Each contact gets the email matching their current sequence_step.
  * Uses Resend batch API for efficiency (up to 100 emails per call).
  */

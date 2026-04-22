@@ -3,9 +3,11 @@
  * Orchestrates: fetch contacts → send personalized sequence emails → advance sequence
  *
  * Each day, the workflow:
- * 1. Pulls all active contacts from Supabase (sequence_step 1-5, not opted out)
- * 2. Sends each contact their current email in the 5-email sequence
- * 3. Advances their sequence_step so they get the next email tomorrow
+ * 1. Pulls all active contacts from Supabase (sequence_step 1-7, not opted out)
+ *    and filters by day-gap cadence (Day 0/1/3/5/8/12/19 from first send).
+ * 2. Sends each contact their current email in the 7-email sequence (Email 0-6).
+ * 3. Advances their sequence_step so they get the next email on the next
+ *    cadence window.
  */
 
 import { fetchContacts, advanceSequence } from './sources/supabase.js';
