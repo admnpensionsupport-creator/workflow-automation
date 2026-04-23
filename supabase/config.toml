@@ -1,0 +1,5 @@
+project_id = "uvoahchfsjzthvsszloh"
+
+[functions.unsubscribe]
+# Public endpoint — Gmail one-click and anonymous recipients must POST without auth.
+verify_jwt = false

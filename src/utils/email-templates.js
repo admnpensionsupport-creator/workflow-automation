@@ -17,7 +17,11 @@
  * - Recipients see normal button text — no weird URLs visible
  */
 
+// Tracking server = Fly app hosting open/click pixels.
 const TRACKING_SERVER = 'https://resend-webhook-xjstbyru.fly.dev';
+// Unsubscribe endpoint = Supabase Edge Function (see supabase/functions/unsubscribe/).
+// Deployed at https://<project-ref>.supabase.co/functions/v1/unsubscribe
+const UNSUBSCRIBE_SERVER = 'https://uvoahchfsjzthvsszloh.supabase.co/functions/v1';
 const CALENDLY_LINK = 'https://calendly.com/pension-support-info/30-mins';
 
 /**
@@ -52,7 +56,7 @@ function trackingPixel(contactId) {
  * one-click unsubscribe POSTs to the same URL (see email-sender.js headers).
  */
 export function unsubscribeUrl(contactId) {
-  return `${TRACKING_SERVER}/unsubscribe?cid=${contactId}`;
+  return `${UNSUBSCRIBE_SERVER}/unsubscribe?cid=${contactId}`;
 }
 
 function wrapHtml(bodyContent, contactId) {
