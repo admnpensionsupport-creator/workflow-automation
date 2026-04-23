@@ -9,7 +9,8 @@
  *     with `reason` field)
  *   - Gmail / Yahoo / RFC 8058 one-click POST (body: `List-Unsubscribe=One-Click`)
  *
- * On unsubscribe, sets on the matching row in `Cold Email`:
+ * On unsubscribe, sets on the matching row in the first table (from
+ * `SUPABASE_TABLES`, default `Batch 1,Batch 2`) that contains the cid:
  *   - opted_out           = true
  *   - unsubscribed_at     = now()
  *   - unsubscribe_reason  = <form value if any, capped at 500 chars>
@@ -22,7 +23,13 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.7';
 
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-const TABLE = Deno.env.get('SUPABASE_TABLE') ?? 'Cold Email';
+// Multi-table support: try each table in order when resolving/updating a
+// contact by id. Defaults to both cohorts so a single deployed function
+// handles unsubscribes for every batch.
+const TABLES = (Deno.env.get('SUPABASE_TABLES') ?? 'Batch 1,Batch 2')
+  .split(',')
+  .map((t) => t.trim())
+  .filter((t) => t.length > 0);
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
   auth: { persistSession: false, autoRefreshToken: false },
@@ -120,19 +127,38 @@ async function extractCidAndReason(req: Request, url: URL): Promise<{ cid: numbe
   return { cid: Number.isFinite(cid) ? cid : null, reason };
 }
 
-async function lookupEmail(cid: number): Promise<string> {
-  try {
-    const { data } = await supabase
-      .from(TABLE)
-      .select('email')
-      .eq('id', cid)
-      .limit(1)
-      .maybeSingle();
-    return data?.email ? escapeHtml(String(data.email)) : '';
-  } catch (e) {
-    console.error(`lookupEmail(${cid}) failed:`, e);
-    return '';
+async function findTableForCid(cid: number): Promise<string | null> {
+  for (const table of TABLES) {
+    try {
+      const { data } = await supabase
+        .from(table)
+        .select('id')
+        .eq('id', cid)
+        .limit(1)
+        .maybeSingle();
+      if (data) return table;
+    } catch (e) {
+      console.error(`findTableForCid(${cid}) on '${table}' failed:`, e);
+    }
   }
+  return null;
+}
+
+async function lookupEmail(cid: number): Promise<string> {
+  for (const table of TABLES) {
+    try {
+      const { data } = await supabase
+        .from(table)
+        .select('email')
+        .eq('id', cid)
+        .limit(1)
+        .maybeSingle();
+      if (data?.email) return escapeHtml(String(data.email));
+    } catch (e) {
+      console.error(`lookupEmail(${cid}) on '${table}' failed:`, e);
+    }
+  }
+  return '';
 }
 
 async function markUnsubscribed(cid: number, reason: string | null): Promise<void> {
@@ -143,9 +169,14 @@ async function markUnsubscribed(cid: number, reason: string | null): Promise<voi
   if (reason && reason.trim()) {
     update.unsubscribe_reason = reason.slice(0, 500);
   }
-  const { error } = await supabase.from(TABLE).update(update).eq('id', cid);
+  const table = await findTableForCid(cid);
+  if (!table) {
+    console.error(`markUnsubscribed(${cid}): contact not found in any of ${TABLES.join(', ')}`);
+    return;
+  }
+  const { error } = await supabase.from(table).update(update).eq('id', cid);
   if (error) {
-    console.error(`markUnsubscribed(${cid}) failed:`, error);
+    console.error(`markUnsubscribed(${cid}) on '${table}' failed:`, error);
     throw error;
   }
 }

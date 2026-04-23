@@ -6,15 +6,23 @@ Email Tracking Server
 
 Note: `/unsubscribe` is hosted as a Supabase Edge Function — see
 `supabase/functions/unsubscribe/index.ts`. It is NOT served from this Fly app.
+
+Multi-table support:
+Contact rows now live across multiple Supabase tables (one per cohort/batch,
+e.g. ``Batch 1`` and ``Batch 2``). The webhook resolves each tracking event by
+walking ``SUPABASE_TABLES`` in order and using the first table that contains
+the contact id (or email, for Resend events). Writes go to that same table.
 """
 
+import base64
 from datetime import datetime, timezone
+from typing import Optional, Tuple
 from urllib.parse import unquote
 
 from fastapi import FastAPI, Request, HTTPException, Query
 from fastapi.responses import Response, RedirectResponse
 from supabase import create_client
-from config import SUPABASE_URL, SUPABASE_SERVICE_KEY, SUPABASE_TABLE
+from config import SUPABASE_URL, SUPABASE_SERVICE_KEY, SUPABASE_TABLES
 
 app = FastAPI(title="Email Tracking Server")
 
@@ -30,18 +38,59 @@ def get_supabase():
     return create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
 
-def update_contact(contact_id: int, update_data: dict):
-    """Update a contact's tracking data in Supabase."""
+def find_by_id(supabase, contact_id: int, select: str) -> Tuple[Optional[str], Optional[dict]]:
+    """Walk SUPABASE_TABLES and return (table_name, row) for the first match by id.
+
+    Returns (None, None) when the contact id isn't present in any configured table.
+    """
+    for table in SUPABASE_TABLES:
+        try:
+            result = (
+                supabase.table(table)
+                .select(select)
+                .eq("id", contact_id)
+                .limit(1)
+                .execute()
+            )
+        except Exception as e:
+            print(f"Lookup error id={contact_id} in table='{table}': {e}")
+            continue
+        if result.data:
+            return table, result.data[0]
+    return None, None
+
+
+def find_by_email(supabase, email: str, select: str) -> Tuple[Optional[str], Optional[dict]]:
+    """Same as find_by_id, but keyed by email for Resend bounce/complaint events."""
+    for table in SUPABASE_TABLES:
+        try:
+            result = (
+                supabase.table(table)
+                .select(select)
+                .eq("email", email)
+                .limit(1)
+                .execute()
+            )
+        except Exception as e:
+            print(f"Lookup error email={email} in table='{table}': {e}")
+            continue
+        if result.data:
+            return table, result.data[0]
+    return None, None
+
+
+def update_contact_in(table: str, contact_id: int, update_data: dict):
+    """Update a contact's tracking data in a specific Supabase table."""
     try:
         supabase = get_supabase()
-        supabase.table(SUPABASE_TABLE).update(update_data).eq("id", contact_id).execute()
+        supabase.table(table).update(update_data).eq("id", contact_id).execute()
     except Exception as e:
-        print(f"Failed to update contact {contact_id}: {e}")
+        print(f"Failed to update contact {contact_id} in '{table}': {e}")
 
 
 @app.get("/")
 async def health():
-    return {"status": "ok", "service": "email-tracking-server"}
+    return {"status": "ok", "service": "email-tracking-server", "tables": SUPABASE_TABLES}
 
 
 @app.get("/track/open")
@@ -57,18 +106,17 @@ async def track_open(cid: int = Query(..., description="Contact ID")):
 
     try:
         supabase = get_supabase()
-        result = supabase.table(SUPABASE_TABLE).select("id, open_count, opened_at").eq("id", cid).limit(1).execute()
-
-        if result.data:
-            contact = result.data[0]
+        table, contact = find_by_id(supabase, cid, "id, open_count, opened_at")
+        if table and contact:
             update_data = {
                 "open_count": (contact.get("open_count") or 0) + 1,
             }
             # Only set opened_at on first open
             if not contact.get("opened_at"):
                 update_data["opened_at"] = now
-
-            update_contact(cid, update_data)
+            update_contact_in(table, cid, update_data)
+        else:
+            print(f"Open tracking: cid={cid} not found in any of {SUPABASE_TABLES}")
     except Exception as e:
         print(f"Open tracking error for cid={cid}: {e}")
 
@@ -100,18 +148,17 @@ async def track_click(
 
     try:
         supabase = get_supabase()
-        result = supabase.table(SUPABASE_TABLE).select("id, click_count, clicked_at").eq("id", cid).limit(1).execute()
-
-        if result.data:
-            contact = result.data[0]
+        table, contact = find_by_id(supabase, cid, "id, click_count, clicked_at")
+        if table and contact:
             update_data = {
                 "click_count": (contact.get("click_count") or 0) + 1,
             }
             # Only set clicked_at on first click
             if not contact.get("clicked_at"):
                 update_data["clicked_at"] = now
-
-            update_contact(cid, update_data)
+            update_contact_in(table, cid, update_data)
+        else:
+            print(f"Click tracking: cid={cid} not found in any of {SUPABASE_TABLES}")
     except Exception as e:
         print(f"Click tracking error for cid={cid}: {e}")
 
@@ -141,15 +188,14 @@ async def resend_webhook(request: Request):
         return {"status": "skipped", "reason": "no recipient in event"}
 
     recipient_email = to_list[0].strip().lower()
-    now = datetime.now(timezone.utc).isoformat()
 
     supabase = get_supabase()
-    result = supabase.table(SUPABASE_TABLE).select("id, open_count, click_count").eq("email", recipient_email).limit(1).execute()
-
-    if not result.data:
+    table, contact = find_by_email(
+        supabase, recipient_email, "id, open_count, click_count"
+    )
+    if not table or not contact:
         return {"status": "skipped", "reason": f"no contact found for {recipient_email}"}
 
-    contact = result.data[0]
     contact_id = contact["id"]
     update_data = {}
 
@@ -164,6 +210,12 @@ async def resend_webhook(request: Request):
         return {"status": "ok", "event": event_type, "action": "no_update"}
 
     if update_data:
-        supabase.table(SUPABASE_TABLE).update(update_data).eq("id", contact_id).execute()
+        supabase.table(table).update(update_data).eq("id", contact_id).execute()
 
-    return {"status": "ok", "event": event_type, "contact_id": contact_id, "updated": list(update_data.keys())}
+    return {
+        "status": "ok",
+        "event": event_type,
+        "contact_id": contact_id,
+        "table": table,
+        "updated": list(update_data.keys()),
+    }
