@@ -26,7 +26,7 @@ const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 // Multi-table support: try each table in order when resolving/updating a
 // contact by id. Defaults to both cohorts so a single deployed function
 // handles unsubscribes for every batch.
-const TABLES = (Deno.env.get('SUPABASE_TABLES') ?? 'Batch 1,Batch 2')
+const TABLES = (Deno.env.get('SUPABASE_TABLES') ?? 'Cold Email,Batch 2')
   .split(',')
   .map((t) => t.trim())
   .filter((t) => t.length > 0);
