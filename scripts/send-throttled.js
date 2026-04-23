@@ -9,6 +9,7 @@
  *   node scripts/send-throttled.js --chunk=50 --pause=30 # custom
  *   node scripts/send-throttled.js --dry-run             # plan-only, no send
  *   node scripts/send-throttled.js --limit=5             # cap total contacts (test run)
+ *   node scripts/send-throttled.js --batch=batch2        # only rows where batch='batch2'
  */
 
 import { fetchContacts, advanceSequence } from '../src/sources/supabase.js';
@@ -23,10 +24,16 @@ function argInt(flag, def) {
   return Number.isFinite(n) && n > 0 ? n : def;
 }
 
+function argStr(flag, def) {
+  const match = process.argv.find((a) => a.startsWith(`${flag}=`));
+  return match ? match.split('=').slice(1).join('=') : def;
+}
+
 const CHUNK = argInt('--chunk', 100);
 const PAUSE_SEC = argInt('--pause', 15);
 const LIMIT = argInt('--limit', 0);
 const STEP = argInt('--step', 0); // 0 = no filter, otherwise only contacts at this sequence_step
+const BATCH = argStr('--batch', ''); // '' = no filter, otherwise only rows with batch=<value>
 const DRY_RUN = process.argv.includes('--dry-run');
 
 function sleep(ms) {
@@ -36,11 +43,11 @@ function sleep(ms) {
 async function main() {
   console.log('════════════════════════════════════════');
   console.log('  THROTTLED SEND');
-  console.log(`  chunk=${CHUNK}  pause=${PAUSE_SEC}s  limit=${LIMIT || 'none'}  step=${STEP || 'any'}  dryRun=${DRY_RUN}`);
+  console.log(`  chunk=${CHUNK}  pause=${PAUSE_SEC}s  limit=${LIMIT || 'none'}  step=${STEP || 'any'}  batch=${BATCH || 'any'}  dryRun=${DRY_RUN}`);
   console.log(`  ${new Date().toISOString()}`);
   console.log('════════════════════════════════════════\n');
 
-  let contacts = await fetchContacts();
+  let contacts = await fetchContacts({ batch: BATCH || undefined });
   if (STEP > 0) {
     const before = contacts.length;
     contacts = contacts.filter((c) => (c.sequence_step || 1) === STEP);

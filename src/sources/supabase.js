@@ -34,12 +34,15 @@ function getClient() {
  * subsequent send. The JS-side check on `unsubscribed_at` is defense in depth.
  * Uses pagination to pull beyond the default 1,000 row limit.
  */
-export async function fetchContacts() {
+export async function fetchContacts(options = {}) {
   const table = process.env.SUPABASE_TABLE;
   if (!table) throw new Error('Missing SUPABASE_TABLE in .env');
 
+  // Optional batch filter (e.g. 'batch1', 'batch2'). Falls back to env var.
+  const batchFilter = options.batch ?? process.env.BATCH ?? null;
+
   const supabase = getClient();
-  console.log(`🗄️  Querying Supabase table: ${table}`);
+  console.log(`🗄️  Querying Supabase table: ${table}${batchFilter ? `  (batch=${batchFilter})` : ''}`);
 
   let allData = [];
   const PAGE_SIZE = 1000;
@@ -47,12 +50,14 @@ export async function fetchContacts() {
   let hasMore = true;
 
   while (hasMore) {
-    const { data, error } = await supabase
+    let q = supabase
       .from(table)
       .select('*')
       .lte('sequence_step', 7)
       .or('opted_out.is.null,opted_out.eq.false')
       .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
+    if (batchFilter) q = q.eq('batch', batchFilter);
+    const { data, error } = await q;
 
     if (error) {
       throw new Error(`Supabase query failed: ${error.message}`);
