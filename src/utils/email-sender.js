@@ -6,7 +6,7 @@
  */
 
 import { Resend } from 'resend';
-import { getEmailForStep } from './email-templates.js';
+import { getEmailForStep, unsubscribeUrl } from './email-templates.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -29,6 +29,23 @@ function chunk(arr, size) {
  */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Build RFC 2369 + RFC 8058 unsubscribe headers for a single recipient.
+ * - `List-Unsubscribe` advertises a one-click HTTPS endpoint (tracking server)
+ *   and a mailto fallback.
+ * - `List-Unsubscribe-Post: List-Unsubscribe=One-Click` tells Gmail/Yahoo it's
+ *   safe to POST directly (no confirmation page needed) — required by the
+ *   Gmail/Yahoo bulk-sender rules to render the native "Unsubscribe" button.
+ */
+function buildUnsubscribeHeaders(contactId, fromEmail) {
+  const url = unsubscribeUrl(contactId);
+  const mailto = `mailto:${fromEmail}?subject=Unsubscribe`;
+  return {
+    'List-Unsubscribe': `<${url}>, <${mailto}>`,
+    'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+  };
 }
 
 /**
@@ -74,6 +91,7 @@ export async function sendSequenceEmails({ contacts }) {
       subject: template.subject,
       html: template.html,
       text: template.text,
+      headers: buildUnsubscribeHeaders(contact.id, fromEmail),
     });
   }
 
@@ -100,6 +118,7 @@ export async function sendSequenceEmails({ contacts }) {
           subject: payload.subject,
           html: payload.html,
           text: payload.text,
+          headers: payload.headers,
         }))
       );
 

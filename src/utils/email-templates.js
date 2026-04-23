@@ -46,7 +46,17 @@ function trackingPixel(contactId) {
   return `<img src="${TRACKING_SERVER}/track/open?cid=${contactId}" width="1" height="1" alt="" style="display:block;width:1px;height:1px;border:0;" />`;
 }
 
+/**
+ * Build the unsubscribe URL for a given contact. Clicking the link lands on
+ * a confirmation page served by the tracking webhook; Gmail/Yahoo's native
+ * one-click unsubscribe POSTs to the same URL (see email-sender.js headers).
+ */
+export function unsubscribeUrl(contactId) {
+  return `${TRACKING_SERVER}/unsubscribe?cid=${contactId}`;
+}
+
 function wrapHtml(bodyContent, contactId) {
+  const unsubUrl = unsubscribeUrl(contactId);
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -67,7 +77,8 @@ function wrapHtml(bodyContent, contactId) {
             <td style="padding:16px 36px 24px;border-top:1px solid #e2e8f0;">
               <div style="color:#94a3b8;font-size:11px;line-height:1.5;">
                 Pension Service Group<br>
-                If you prefer not to receive follow-ups, reply "No thanks."
+                Don't want these emails?
+                <a href="${unsubUrl}" style="color:#64748b;text-decoration:underline;">Unsubscribe</a>.
               </div>
             </td>
           </tr>
@@ -78,6 +89,14 @@ function wrapHtml(bodyContent, contactId) {
   ${trackingPixel(contactId)}
 </body>
 </html>`;
+}
+
+/**
+ * Append an Unsubscribe line to every plain-text body. Keeps the templates
+ * terse — each email function calls this once at the end.
+ */
+function textFooter(contactId) {
+  return `\n\n—\nPension Service Group. To unsubscribe: ${unsubscribeUrl(contactId)}`;
 }
 
 function sig() {
@@ -112,7 +131,7 @@ It is 100% focused on you, with zero pressure or obligation.
 Schedule Your 30-Min Session: ${CALENDLY_LINK}
 
 Best,
-Pension Service Group`;
+Pension Service Group${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
@@ -139,7 +158,7 @@ With recent salary adjustments hitting paychecks, it's a great time to see how y
 Let's look at your numbers: ${CALENDLY_LINK}
 
 Best,
-Pension Service Group`;
+Pension Service Group${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
@@ -166,7 +185,7 @@ Given the recent shifts in district health contributions, it's worth checking ho
 Book a 30-min audit: ${CALENDLY_LINK}
 
 Best,
-Pension Service Group`;
+Pension Service Group${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
@@ -193,7 +212,7 @@ We don't just look at the money; we help you map out what those first few months
 Plan your transition: ${CALENDLY_LINK}
 
 Best,
-Pension Service Group`;
+Pension Service Group${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
@@ -220,7 +239,7 @@ Think of it as a 30-minute tutorial on your own benefits. You've worked hard for
 Schedule your session: ${CALENDLY_LINK}
 
 Best,
-Pension Service Group`;
+Pension Service Group${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
@@ -247,7 +266,7 @@ If you'd like to spend 30 minutes getting organized before the school year wraps
 Final 30-min invite: ${CALENDLY_LINK}
 
 Best,
-Pension Service Group`;
+Pension Service Group${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
@@ -283,7 +302,7 @@ If you ever want a second pair of eyes on your specific situation, our door is a
 Book your session here: ${CALENDLY_LINK}
 
 Wishing you all the best,
-Pension Service Group`;
+Pension Service Group${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
