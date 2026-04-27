@@ -5,6 +5,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
+import { getEmailForStep, MIN_DAYS_SINCE_LAST_BY_STEP } from '../utils/email-templates.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -18,15 +19,30 @@ function getClient() {
 }
 
 /**
- * Fetch all contacts that still need emails (sequence_step 1-5, not opted out).
+ * Fetch all contacts that still need emails (sequence_step 1-7, not opted out,
+ * not unsubscribed). Applies gap-based cadence: a contact is only returned if
+ * enough days have elapsed since their `last_emailed_at` for their current step.
+ *   step 1 → 0 days  (no prior email required)
+ *   step 2 → 1 day
+ *   step 3 → 2 days
+ *   step 4 → 2 days
+ *   step 5 → 3 days
+ *   step 6 → 4 days
+ *   step 7 → 7 days
+ * Unsubscribes: the /unsubscribe endpoint sets both `opted_out=true` and
+ * `unsubscribed_at=<timestamp>`, so an unsubscribed contact drops out of every
+ * subsequent send. The JS-side check on `unsubscribed_at` is defense in depth.
  * Uses pagination to pull beyond the default 1,000 row limit.
  */
-export async function fetchContacts() {
+export async function fetchContacts(options = {}) {
   const table = process.env.SUPABASE_TABLE;
   if (!table) throw new Error('Missing SUPABASE_TABLE in .env');
 
+  // Optional batch filter (e.g. 'batch1', 'batch2'). Falls back to env var.
+  const batchFilter = options.batch ?? process.env.BATCH ?? null;
+
   const supabase = getClient();
-  console.log(`🗄️  Querying Supabase table: ${table}`);
+  console.log(`🗄️  Querying Supabase table: ${table}${batchFilter ? `  (batch=${batchFilter})` : ''}`);
 
   let allData = [];
   const PAGE_SIZE = 1000;
@@ -34,12 +50,14 @@ export async function fetchContacts() {
   let hasMore = true;
 
   while (hasMore) {
-    const { data, error } = await supabase
+    let q = supabase
       .from(table)
       .select('*')
       .lte('sequence_step', 7)
       .or('opted_out.is.null,opted_out.eq.false')
       .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
+    if (batchFilter) q = q.eq('batch', batchFilter);
+    const { data, error } = await q;
 
     if (error) {
       throw new Error(`Supabase query failed: ${error.message}`);
@@ -60,13 +78,58 @@ export async function fetchContacts() {
     return [];
   }
 
-  console.log(`✅ Supabase: ${allData.length} active contacts`);
-  return allData;
+  // Drop any rows that have been unsubscribed (defense in depth — the server
+  // query already excludes opted_out=true, but this guards against older rows
+  // that were marked only via `unsubscribed_at`).
+  let unsubscribedSkipped = 0;
+  const active = [];
+  for (const row of allData) {
+    if (row.unsubscribed_at) {
+      unsubscribedSkipped++;
+      continue;
+    }
+    active.push(row);
+  }
+
+  // Apply day-gap cadence filter.
+  const nowMs = Date.now();
+  const MS_PER_DAY = 24 * 60 * 60 * 1000;
+  const eligible = [];
+  const waiting = { byStep: {}, total: 0 };
+
+  for (const row of active) {
+    const step = row.sequence_step || 1;
+    const minDays = MIN_DAYS_SINCE_LAST_BY_STEP[step] ?? 0;
+
+    if (minDays === 0 || !row.last_emailed_at) {
+      eligible.push(row);
+      continue;
+    }
+
+    const lastMs = new Date(row.last_emailed_at).getTime();
+    const daysSince = (nowMs - lastMs) / MS_PER_DAY;
+
+    if (daysSince >= minDays) {
+      eligible.push(row);
+    } else {
+      waiting.byStep[step] = (waiting.byStep[step] || 0) + 1;
+      waiting.total++;
+    }
+  }
+
+  console.log(`✅ Supabase: ${allData.length} active, ${eligible.length} eligible now, ${waiting.total} waiting for day-gap to elapse, ${unsubscribedSkipped} skipped (unsubscribed)`);
+  if (waiting.total > 0) {
+    for (const [step, count] of Object.entries(waiting.byStep).sort()) {
+      console.log(`   waiting at step ${step}: ${count}`);
+    }
+  }
+  return eligible;
 }
 
 /**
- * After successful sends, increment sequence_step and set last_emailed_at
- * for the given contact IDs.
+ * After successful sends, increment sequence_step, set last_emailed_at,
+ * and refresh the `subject` / `body` columns so they reflect the NEXT email
+ * the contact will receive (or null if the sequence is complete).
  */
 export async function advanceSequence(contactIds) {
   if (!contactIds || contactIds.length === 0) return;
@@ -82,10 +145,10 @@ export async function advanceSequence(contactIds) {
   for (let i = 0; i < contactIds.length; i += BATCH) {
     const batch = contactIds.slice(i, i + BATCH);
 
-    // Fetch current step for each contact, then increment
+    // Fetch current step + name for each contact, then increment and preview next
     const { data: contacts, error: fetchErr } = await supabase
       .from(table)
-      .select('id, sequence_step')
+      .select('id, name, sequence_step')
       .in('id', batch);
 
     if (fetchErr) {
@@ -94,11 +157,16 @@ export async function advanceSequence(contactIds) {
     }
 
     for (const contact of contacts) {
+      const nextStep = (contact.sequence_step || 1) + 1;
+      const nextTemplate = getEmailForStep(nextStep, contact.name, contact.id);
+
       const { error: updateErr } = await supabase
         .from(table)
         .update({
-          sequence_step: (contact.sequence_step || 1) + 1,
+          sequence_step: nextStep,
           last_emailed_at: now,
+          subject: nextTemplate ? nextTemplate.subject : null,
+          body: nextTemplate ? nextTemplate.text : null,
         })
         .eq('id', contact.id);
 
