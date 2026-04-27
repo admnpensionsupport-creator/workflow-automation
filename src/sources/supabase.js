@@ -37,7 +37,7 @@ export async function fetchContacts() {
     const { data, error } = await supabase
       .from(table)
       .select('*')
-      .lte('sequence_step', 5)
+      .lte('sequence_step', 7)
       .or('opted_out.is.null,opted_out.eq.false')
       .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
 
