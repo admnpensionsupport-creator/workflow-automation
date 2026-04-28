@@ -110,7 +110,7 @@ function sig() {
 // ─── Email 0 — THE INTRO (Day 0) ──────────────────────────
 export function email0(name, contactId) {
   const greeting = name ? `Hi ${name},` : 'Hi,';
-  const subject = 'Thinking about your pension?';
+  const subject = '🍎 California Educators: Your Pension Landscape Just Changed';
 
   const html = wrapHtml(`
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
