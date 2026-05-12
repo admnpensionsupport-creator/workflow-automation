@@ -9,7 +9,10 @@
     "run-now": "node src/run-now.js",
     "test-email": "node src/test-email.js",
     "test-sheets": "node src/sources/sheets.js",
-    "test-supabase": "node src/sources/supabase.js"
+    "test-supabase": "node src/sources/supabase.js",
+    "test-pipedrive": "node src/sources/pipedrive-api.js",
+    "test-gsheet": "node src/sources/gsheet-reader.js",
+    "sync-sheet-to-pipedrive": "node scripts/sync-gsheet-to-pipedrive.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
