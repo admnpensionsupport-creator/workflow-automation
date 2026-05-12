@@ -31,7 +31,8 @@ dotenv.config();
 const SHEET_ID =
   process.env.GSHEET_CONTACTS_ID ||
   '1KK51iAzUl-U_YN28DnwAGd6IeauDv7sfywVKH6o79mc';
-const SHEET_RANGE = process.env.GSHEET_CONTACTS_RANGE || 'Sheet1!A1:Z500';
+const SHEET_TAB = process.env.GSHEET_CONTACTS_TAB || '1';
+const SHEET_RANGE = process.env.GSHEET_CONTACTS_RANGE || `'${SHEET_TAB}'!A1:Z500`;
 
 // The tags we need on Pipedrive
 const REQUIRED_TAGS = [
@@ -141,7 +142,7 @@ async function writePipedriveIds(sheets, updates) {
   if (updates.length === 0) return;
 
   const data = updates.map(({ rowIndex, pipedriveId }) => ({
-    range: `Sheet1!X${rowIndex}`,
+    range: `'${SHEET_TAB}'!X${rowIndex}`,
     values: [[String(pipedriveId)]],
   }));
 
@@ -190,12 +191,12 @@ export async function syncSheetToPipedrive() {
   // 2. Ensure "Pipedrive ID" header in column X
   const hdrRes = await sheets.spreadsheets.values.get({
     spreadsheetId: SHEET_ID,
-    range: 'Sheet1!X1',
+    range: `'${SHEET_TAB}'!X1`,
   });
   if ((hdrRes.data.values?.[0]?.[0] || '') !== 'Pipedrive ID') {
     await sheets.spreadsheets.values.update({
       spreadsheetId: SHEET_ID,
-      range: 'Sheet1!X1',
+      range: `'${SHEET_TAB}'!X1`,
       valueInputOption: 'RAW',
       requestBody: { values: [['Pipedrive ID']] },
     });
