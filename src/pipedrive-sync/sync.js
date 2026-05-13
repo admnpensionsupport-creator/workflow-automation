@@ -22,7 +22,9 @@ import {
   updatePerson,
   addNote,
   getPersonNotes,
+  getPersonCallActivities,
 } from './pipedrive.js';
+import { Resend } from 'resend';
 
 dotenv.config();
 
@@ -31,7 +33,7 @@ dotenv.config();
 const SHEET_ID =
   process.env.GSHEET_CONTACTS_ID ||
   '1KK51iAzUl-U_YN28DnwAGd6IeauDv7sfywVKH6o79mc';
-const SHEET_TAB = process.env.GSHEET_CONTACTS_TAB || '1';
+const SHEET_TAB = process.env.GSHEET_CONTACTS_TAB || 'LEADS';
 const SHEET_RANGE = process.env.GSHEET_CONTACTS_RANGE || `'${SHEET_TAB}'!A1:Z500`;
 
 // The tags we need on Pipedrive
@@ -41,6 +43,7 @@ const REQUIRED_TAGS = [
   'Do Not Call',
   'Not the Right Person',
   'Warm Leads',
+  'Send Email',
 ];
 
 // Map sheet Notes values → Pipedrive label names (case-insensitive)
@@ -51,7 +54,11 @@ const TAG_MAP = {
   'not the right person': 'Not the Right Person',
   'warm leads': 'Warm Leads',
   'warm lead': 'Warm Leads',
+  'send email': 'Send Email',
 };
+
+// Notes values that trigger an automatic email
+const EMAIL_TRIGGER_TAGS = ['send email'];
 
 // Column letter → 0-based index helper
 function colIndex(letter) {
@@ -177,6 +184,104 @@ function buildNoteHtml(contact) {
   return `<b>Sheet sync:</b><br>${parts.join('<br>')}`;
 }
 
+// ── Auto-email sender ───────────────────────────────────
+
+async function sendAutoEmail(contact) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.EMAIL_FROM;
+
+  if (!apiKey || !fromEmail) {
+    console.warn('  ⚠️  Skipping auto-email — missing RESEND_API_KEY or EMAIL_FROM');
+    return false;
+  }
+  if (!contact.email) {
+    console.warn(`  ⚠️  Skipping auto-email for ${contact.firstName} — no email address`);
+    return false;
+  }
+
+  const resend = new Resend(apiKey);
+  const name = contact.firstName || 'there';
+  const { data, error } = await resend.emails.send({
+    from: fromEmail,
+    to: [contact.email],
+    subject: `Quick follow-up — ${contact.firstName || 'Hello'}`,
+    html: `<p>Hi ${name},</p>
+<p>I just wanted to reach out and follow up. I'd love to connect and see if there's a good time to chat about how we can help.</p>
+<p>Would you have 15-30 minutes this week for a quick call?</p>
+<p>Best,<br><strong>Pension Service Group</strong></p>`,
+    text: `Hi ${name},\n\nI just wanted to reach out and follow up. I'd love to connect and see if there's a good time to chat about how we can help.\n\nWould you have 15-30 minutes this week for a quick call?\n\nBest,\nPension Service Group`,
+  });
+
+  if (error) {
+    console.error(`  ❌ Auto-email failed for ${contact.email}: ${JSON.stringify(error)}`);
+    return false;
+  }
+  console.log(`  📧 Auto-email sent to ${contact.email}`);
+  return true;
+}
+
+// ── Call timestamp sync (Pipedrive → Sheet) ─────────────
+
+async function syncCallTimestamps(sheets, contacts) {
+  console.log('\n📞 Syncing call timestamps from Pipedrive → Sheet...');
+  const callUpdates = [];
+
+  for (const contact of contacts) {
+    const pdId = contact.pipedriveId ? parseInt(contact.pipedriveId, 10) : null;
+    if (!pdId) continue;
+
+    try {
+      const calls = await getPersonCallActivities(pdId);
+      if (calls.length === 0) continue;
+
+      // Get the most recent call
+      const latestCall = calls.sort(
+        (a, b) => new Date(b.done_time || b.add_time) - new Date(a.done_time || a.add_time)
+      )[0];
+
+      const callTime = latestCall.done_time || latestCall.add_time || latestCall.due_date;
+      if (!callTime) continue;
+
+      // Format timestamp for the sheet
+      const ts = new Date(callTime);
+      const formatted = ts.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      });
+
+      // Only update if the sheet doesn't already have this timestamp
+      if (contact.date !== formatted) {
+        callUpdates.push(
+          { range: `'${SHEET_TAB}'!R${contact.rowIndex}`, values: [['TRUE']] },
+          { range: `'${SHEET_TAB}'!U${contact.rowIndex}`, values: [[formatted]] }
+        );
+        console.log(`  📞 ${contact.firstName} ${contact.lastName}: call at ${formatted}`);
+      }
+    } catch (err) {
+      // Skip silently — some persons may not have activities access
+    }
+
+    // Rate-limit
+    await new Promise((r) => setTimeout(r, 200));
+  }
+
+  if (callUpdates.length > 0) {
+    await sheets.spreadsheets.values.batchUpdate({
+      spreadsheetId: SHEET_ID,
+      requestBody: { valueInputOption: 'RAW', data: callUpdates },
+    });
+    console.log(`  ✅ Updated ${callUpdates.length / 2} call timestamps in sheet`);
+  } else {
+    console.log('  ℹ️  No new call timestamps to sync');
+  }
+
+  return callUpdates.length / 2;
+}
+
 // ── Core sync ───────────────────────────────────────────
 
 export async function syncSheetToPipedrive() {
@@ -211,7 +316,9 @@ export async function syncSheetToPipedrive() {
   let created = 0;
   let updated = 0;
   let skipped = 0;
+  let emailsSent = 0;
   const idUpdates = [];
+  const emailSentUpdates = []; // tracks rows where we sent auto-emails
 
   for (const contact of contacts) {
     const name = `${contact.firstName} ${contact.lastName}`.trim();
@@ -281,6 +388,18 @@ export async function syncSheetToPipedrive() {
           process.stdout.write(`  ✅ Created: ${name}\n`);
         }
       }
+
+      // ── Auto-email: send if Notes = "send email" and not already sent ──
+      if (EMAIL_TRIGGER_TAGS.includes(noteTag) && contact.sentEmail !== 'Yes') {
+        const sent = await sendAutoEmail(contact);
+        if (sent) {
+          emailsSent++;
+          emailSentUpdates.push({
+            range: `'${SHEET_TAB}'!W${contact.rowIndex}`,
+            values: [['Yes']],
+          });
+        }
+      }
     } catch (err) {
       console.error(`  ❌ Error syncing ${name}: ${err.message}`);
     }
@@ -292,6 +411,18 @@ export async function syncSheetToPipedrive() {
   // 4. Write Pipedrive IDs back to sheet
   await writePipedriveIds(sheets, idUpdates);
 
-  console.log(`\n🎉 Sync complete — created: ${created}, updated: ${updated}, skipped: ${skipped}`);
-  return { created, updated, skipped };
+  // 5. Mark auto-emails as sent in column W
+  if (emailSentUpdates.length > 0) {
+    await sheets.spreadsheets.values.batchUpdate({
+      spreadsheetId: SHEET_ID,
+      requestBody: { valueInputOption: 'RAW', data: emailSentUpdates },
+    });
+    console.log(`📧 Marked ${emailSentUpdates.length} contacts as "Sent Email: Yes"`);
+  }
+
+  // 6. Sync call timestamps from Pipedrive → Sheet
+  const callsUpdated = await syncCallTimestamps(sheets, contacts);
+
+  console.log(`\n🎉 Sync complete — created: ${created}, updated: ${updated}, skipped: ${skipped}, emails sent: ${emailsSent}, call timestamps: ${callsUpdated}`);
+  return { created, updated, skipped, emailsSent, callsUpdated };
 }

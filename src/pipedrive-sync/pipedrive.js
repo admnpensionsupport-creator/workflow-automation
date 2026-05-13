@@ -146,3 +146,17 @@ export async function getPersonNotes(personId) {
   });
   return json.data || [];
 }
+
+// ── Activities ──────────────────────────────────────────
+
+/**
+ * Fetch call activities for a person.
+ * Returns array of call activity objects sorted by add_time desc.
+ */
+export async function getPersonCallActivities(personId) {
+  const json = await request(`/persons/${personId}/activities`, {
+    query: { limit: '50', done: '1' },
+  });
+  const activities = json.data || [];
+  return activities.filter((a) => a.type === 'call');
+}
