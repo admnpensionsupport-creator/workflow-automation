@@ -293,7 +293,7 @@ function buildNoteHtml(contact) {
 
 // ── Auto-email sender ───────────────────────────────────
 
-const FSJ_FROM = process.env.FSJ_EMAIL_FROM || 'janitorialfirstservice@gmail.com';
+const FSJ_FROM = process.env.FSJ_EMAIL_FROM || 'support.firstservice@expressjanitors.com';
 const CALENDLY_LINK = 'https://calendly.com/ryan-firstservicejanitorial/30min';
 
 async function sendAutoEmail(contact) {
