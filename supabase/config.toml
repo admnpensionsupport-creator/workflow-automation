@@ -3,3 +3,8 @@ project_id = "uvoahchfsjzthvsszloh"
 [functions.unsubscribe]
 # Public endpoint — Gmail one-click and anonymous recipients must POST without auth.
 verify_jwt = false
+
+[functions.resend-webhook]
+# Public endpoint — Resend POSTs without a Supabase JWT. Auth is handled by
+# Svix signature verification inside the function (RESEND_WEBHOOK_SECRET).
+verify_jwt = false

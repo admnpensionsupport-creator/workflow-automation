@@ -2,10 +2,16 @@
 Email Tracking Server
 - Tracking pixel: /track/open?cid=<contact_id> (embedded in emails as invisible image)
 - Click redirect: /track/click?cid=<contact_id>&url=<destination> (wraps Calendly link)
-- Resend webhook: /webhook/resend (optional, for bounce/complaint tracking)
+- Resend webhook: /webhook/resend (bounce/complaint tracking, Svix-signed)
 
 Note: `/unsubscribe` is hosted as a Supabase Edge Function — see
 `supabase/functions/unsubscribe/index.ts`. It is NOT served from this Fly app.
+
+The Resend webhook receiver is ALSO available as a Supabase Edge Function at
+`supabase/functions/resend-webhook/index.ts`. New deployments should prefer
+the Edge Function (one less service to run); this FastAPI version is kept for
+the `/track/open` and `/track/click` pixel/redirect endpoints, which still
+require a long-running HTTP host.
 
 Multi-table support:
 Contact rows now live across multiple Supabase tables (one per cohort/batch,
@@ -15,6 +21,10 @@ the contact id (or email, for Resend events). Writes go to that same table.
 """
 
 import base64
+import hashlib
+import hmac
+import os
+import time
 from datetime import datetime, timezone
 from typing import Optional, Tuple
 from urllib.parse import unquote
@@ -23,6 +33,15 @@ from fastapi import FastAPI, Request, HTTPException, Query
 from fastapi.responses import Response, RedirectResponse
 from supabase import create_client
 from config import SUPABASE_URL, SUPABASE_SERVICE_KEY, SUPABASE_TABLES
+
+# Signing secret from the Resend dashboard (the `whsec_...` value shown when
+# you register a webhook). Required when this FastAPI app handles Resend
+# events directly — if empty, the /webhook/resend handler refuses every
+# request with HTTP 401.
+RESEND_WEBHOOK_SECRET = os.environ.get("RESEND_WEBHOOK_SECRET", "")
+# How much clock skew is tolerated between Resend's signed timestamp and
+# this server's wall clock. Matches the Edge Function for parity.
+WEBHOOK_TIMESTAMP_TOLERANCE_SECONDS = 5 * 60
 
 app = FastAPI(title="Email Tracking Server")
 
@@ -166,12 +185,69 @@ async def track_click(
     return RedirectResponse(url=destination, status_code=302)
 
 
+def _verify_svix_signature(request: Request, raw_body: bytes) -> Optional[str]:
+    """Verify the Svix-style signature Resend attaches to webhook POSTs.
+
+    Returns ``None`` when the request is valid; otherwise returns a short
+    string describing the failure reason (used for HTTP 401 responses).
+
+    Algorithm (see https://docs.svix.com/receiving/verifying-payloads/how-manual):
+        payload  = f"{svix-id}.{svix-timestamp}.{raw_body}"
+        key      = base64-decode(secret with "whsec_" prefix stripped)
+        expected = base64( HMAC-SHA256(key, payload) )
+    The ``svix-signature`` header is a space-separated list of
+    ``vN,<base64sig>`` tokens; the request is accepted if any ``v1`` token
+    matches ``expected`` (constant-time compare).
+    """
+    if not RESEND_WEBHOOK_SECRET:
+        return "RESEND_WEBHOOK_SECRET not configured"
+
+    svix_id = request.headers.get("svix-id")
+    svix_timestamp = request.headers.get("svix-timestamp")
+    svix_signature = request.headers.get("svix-signature")
+    if not svix_id or not svix_timestamp or not svix_signature:
+        return "missing svix headers"
+
+    try:
+        ts = int(svix_timestamp)
+    except ValueError:
+        return "invalid svix-timestamp"
+    if abs(time.time() - ts) > WEBHOOK_TIMESTAMP_TOLERANCE_SECONDS:
+        return "timestamp outside tolerance window"
+
+    secret_body = RESEND_WEBHOOK_SECRET
+    if secret_body.startswith("whsec_"):
+        secret_body = secret_body[len("whsec_"):]
+    try:
+        key_bytes = base64.b64decode(secret_body)
+    except Exception:
+        return "malformed signing secret"
+
+    signed = f"{svix_id}.{svix_timestamp}.".encode("utf-8") + raw_body
+    expected = base64.b64encode(
+        hmac.new(key_bytes, signed, hashlib.sha256).digest()
+    ).decode("ascii")
+
+    for token in svix_signature.split(" "):
+        version, _, sig = token.partition(",")
+        if version == "v1" and hmac.compare_digest(sig, expected):
+            return None
+    return "signature mismatch"
+
+
 @app.post("/webhook/resend")
 async def resend_webhook(request: Request):
     """
-    Optional: Resend webhook for bounce/complaint tracking.
-    Only needed if you configure webhooks in Resend dashboard.
+    Resend webhook for bounce/complaint tracking. Requires a valid Svix
+    signature (set ``RESEND_WEBHOOK_SECRET`` to the ``whsec_...`` value from
+    the Resend dashboard).
     """
+    raw_body = await request.body()
+    failure_reason = _verify_svix_signature(request, raw_body)
+    if failure_reason is not None:
+        print(f"Signature verification failed: {failure_reason}")
+        raise HTTPException(status_code=401, detail=failure_reason)
+
     try:
         payload = await request.json()
     except Exception:
