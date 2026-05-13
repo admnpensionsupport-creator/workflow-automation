@@ -14,6 +14,9 @@
  */
 
 import { google } from 'googleapis';
+import { readFileSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import {
   ensureLabels,
@@ -25,6 +28,9 @@ import {
   getPersonCallActivities,
 } from './pipedrive.js';
 import { Resend } from 'resend';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const BROCHURE_PATH = join(__dirname, 'assets', 'fsj-brochure.png');
 
 dotenv.config();
 
@@ -287,12 +293,14 @@ function buildNoteHtml(contact) {
 
 // ── Auto-email sender ───────────────────────────────────
 
+const FSJ_FROM = process.env.FSJ_EMAIL_FROM || 'janitorialfirstservice@gmail.com';
+const CALENDLY_LINK = 'https://calendly.com/ryan-firstservicejanitorial/30min';
+
 async function sendAutoEmail(contact) {
   const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.EMAIL_FROM;
 
-  if (!apiKey || !fromEmail) {
-    console.warn('  ⚠️  Skipping auto-email — missing RESEND_API_KEY or EMAIL_FROM');
+  if (!apiKey) {
+    console.warn('  ⚠️  Skipping auto-email — missing RESEND_API_KEY');
     return false;
   }
   if (!contact.email) {
@@ -302,15 +310,76 @@ async function sendAutoEmail(contact) {
 
   const resend = new Resend(apiKey);
   const name = contact.firstName || 'there';
+
+  // Load brochure attachment
+  let attachments = [];
+  try {
+    const brochureContent = readFileSync(BROCHURE_PATH);
+    attachments = [{
+      filename: 'First-Service-Janitorial-Services.png',
+      content: brochureContent,
+    }];
+  } catch (err) {
+    console.warn('  ⚠️  Brochure attachment not found, sending without it');
+  }
+
+  const subject = 'Quick next steps for your Janitorial Cleaning from First Service Janitorial';
+
+  const html = `<p>Hi ${name},</p>
+
+<p>I'd love to catch up and hear about your priorities for this year and see how we can collaborate to make them happen.</p>
+
+<p>We offer a comprehensive range of janitorial services, including nightly, daily, weekly, monthly and specialized cleaning options such as window cleaning, carpet cleaning and upholstery cleaning, deep cleaning, hard surface floors, power washing, office cleaning, bathroom and kitchen cleaning, stripping and washing, etc.</p>
+
+<p>We are confident that we have the right solution to keep your facility pristine. The complete set of services that we can offer is attached to this email for your detailed review.</p>
+
+<p><strong>Next Step: Schedule Your Appointment</strong></p>
+
+<p>To provide you with an accurate, transparent, and cost-effective proposal, our Expert Estimator is available in your area for a no-obligation facility assessment.<br>
+Please use the Calendly link below to schedule your appointment, or reply with your availability.</p>
+
+<p><a href="${CALENDLY_LINK}" style="display:inline-block;padding:12px 24px;background:#0066cc;color:#ffffff;text-decoration:none;border-radius:6px;font-weight:bold;">CLICK ME TO SET AN APPOINTMENT</a></p>
+
+<p>Thank you and we look forward to serving you.</p>
+
+<p>--<br><br>
+Customer Service Team<br>
+<strong>First Service Janitorial</strong><br><br>
+<em>Speed. Service. Professionalism</em><br>
+Tel: (614) 806-0233 | (408) 668-1353</p>`;
+
+  const text = `Hi ${name},
+
+I'd love to catch up and hear about your priorities for this year and see how we can collaborate to make them happen.
+
+We offer a comprehensive range of janitorial services, including nightly, daily, weekly, monthly and specialized cleaning options such as window cleaning, carpet cleaning and upholstery cleaning, deep cleaning, hard surface floors, power washing, office cleaning, bathroom and kitchen cleaning, stripping and washing, etc.
+
+We are confident that we have the right solution to keep your facility pristine. The complete set of services that we can offer is attached to this email for your detailed review.
+
+Next Step: Schedule Your Appointment
+
+To provide you with an accurate, transparent, and cost-effective proposal, our Expert Estimator is available in your area for a no-obligation facility assessment.
+Please use the Calendly link below to schedule your appointment, or reply with your availability.
+
+CLICK ME TO SET AN APPOINTMENT: ${CALENDLY_LINK}
+
+Thank you and we look forward to serving you.
+
+--
+
+Customer Service Team
+First Service Janitorial
+
+Speed. Service. Professionalism
+Tel: (614) 806-0233 | (408) 668-1353`;
+
   const { data, error } = await resend.emails.send({
-    from: fromEmail,
+    from: FSJ_FROM,
     to: [contact.email],
-    subject: `Quick follow-up — ${contact.firstName || 'Hello'}`,
-    html: `<p>Hi ${name},</p>
-<p>I just wanted to reach out and follow up. I'd love to connect and see if there's a good time to chat about how we can help.</p>
-<p>Would you have 15-30 minutes this week for a quick call?</p>
-<p>Best,<br><strong>Pension Service Group</strong></p>`,
-    text: `Hi ${name},\n\nI just wanted to reach out and follow up. I'd love to connect and see if there's a good time to chat about how we can help.\n\nWould you have 15-30 minutes this week for a quick call?\n\nBest,\nPension Service Group`,
+    subject,
+    html,
+    text,
+    attachments,
   });
 
   if (error) {
