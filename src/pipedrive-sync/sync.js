@@ -30,11 +30,21 @@ dotenv.config();
 
 // ── Configuration ───────────────────────────────────────
 
-const SHEET_ID =
-  process.env.GSHEET_CONTACTS_ID ||
-  '1KK51iAzUl-U_YN28DnwAGd6IeauDv7sfywVKH6o79mc';
-const SHEET_TAB = process.env.GSHEET_CONTACTS_TAB || 'LEADS';
-const SHEET_RANGE = process.env.GSHEET_CONTACTS_RANGE || `'${SHEET_TAB}'!A1:Z500`;
+// Multiple sheet sources to sync from
+const SHEET_SOURCES = [
+  {
+    id: process.env.GSHEET_CONTACTS_ID || '1KK51iAzUl-U_YN28DnwAGd6IeauDv7sfywVKH6o79mc',
+    tab: process.env.GSHEET_CONTACTS_TAB || 'LEADS',
+    name: 'Metro Area FSJ Contacts',
+  },
+  {
+    id: process.env.GSHEET_CONTACTS_ID_2 || '1bMPyW6yEzFQkKtib5RQbCFx-6dqF9LgaBiFDPR1-UWo',
+    tab: process.env.GSHEET_CONTACTS_TAB_2 || 'CALL BACKS',
+    name: 'FSJ Call Backs',
+  },
+];
+
+
 
 // The tags we need on Pipedrive
 const REQUIRED_TAGS = [
@@ -69,8 +79,19 @@ function colIndex(letter) {
   return idx - 1;
 }
 
-// Fixed column positions matching the sheet layout.
-// Hidden columns (C-H, J, L, Q) are still present in the values array.
+// 0-based index → column letter helper
+function colLetter(idx) {
+  let letter = '';
+  let n = idx + 1;
+  while (n > 0) {
+    n--;
+    letter = String.fromCharCode(65 + (n % 26)) + letter;
+    n = Math.floor(n / 26);
+  }
+  return letter;
+}
+
+// Fixed column positions for the primary LEADS sheet.
 const COL = {
   FIRST_NAME: colIndex('A'),  // 0
   LAST_NAME: colIndex('B'),   // 1
@@ -88,6 +109,41 @@ const COL = {
   PIPEDRIVE_ID: colIndex('X'),// 23
 };
 
+/**
+ * Dynamically detect column positions from a header row.
+ * Matches common variations of field names.
+ */
+function detectColumns(headerRow) {
+  const map = {};
+  const lowerHeaders = headerRow.map((h) => (h || '').toString().trim().toLowerCase());
+
+  const matchers = {
+    FIRST_NAME: ['first name', 'firstname'],
+    LAST_NAME: ['last name', 'lastname'],
+    INDUSTRY: ['industry'],
+    CITY: ['city', 'person city'],
+    COMPANY: ['company', 'company address'],
+    EMAIL: ['email', 'email address', 'email addresses'],
+    PHONE: ['phone', 'phone (mobile)', 'phone number', 'phone number '],
+    CALLED: ['called'],
+    ANSWERED: ['answered'],
+    VOICEMAIL: ['left voicemail', 'voicemail'],
+    DATE: ['date'],
+    NOTES: ['notes', 'notes '],
+    SENT_EMAIL: ['sent email'],
+    PIPEDRIVE_ID: ['pipedrive id'],
+    TITLE: ['title', 'title '],
+    ADDRESS: ['address', 'company address'],
+  };
+
+  for (const [field, variants] of Object.entries(matchers)) {
+    const idx = lowerHeaders.findIndex((h) => variants.includes(h));
+    if (idx >= 0) map[field] = idx;
+  }
+
+  return map;
+}
+
 // ── Google Sheets auth ──────────────────────────────────
 
 async function getSheetsClient() {
@@ -104,43 +160,78 @@ async function getSheetsClient() {
 // ── Read helpers ────────────────────────────────────────
 
 function cell(row, idx) {
+  if (idx === undefined || idx === null) return '';
   return (row[idx] ?? '').toString().trim();
 }
 
-async function readSheet(sheets) {
-  console.log(`📊 Fetching contacts from sheet ${SHEET_ID}`);
+/**
+ * Read contacts from a given sheet source.
+ * Uses dynamic column detection via header row.
+ */
+async function readSheetSource(sheets, source) {
+  const { id, tab, name } = source;
+  const range = `'${tab}'!A1:Z500`;
+  console.log(`📊 Fetching contacts from "${name}" (${tab})`);
+
   const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: SHEET_ID,
-    range: SHEET_RANGE,
+    spreadsheetId: id,
+    range,
   });
 
   const rows = res.data.values;
   if (!rows || rows.length < 2) {
-    console.warn('⚠️  Sheet returned 0 data rows.');
-    return [];
+    console.warn(`  ⚠️  Sheet "${name}" returned 0 data rows.`);
+    return { contacts: [], cols: null, headerRow: null };
   }
 
-  // First row = header; data starts at row index 1
-  const contacts = rows.slice(1).map((row, idx) => ({
-    rowIndex: idx + 2, // 1-based sheet row (header = 1)
-    firstName: cell(row, COL.FIRST_NAME),
-    lastName: cell(row, COL.LAST_NAME),
-    industry: cell(row, COL.INDUSTRY),
-    city: cell(row, COL.CITY),
-    company: cell(row, COL.COMPANY),
-    email: cell(row, COL.EMAIL),
-    phone: cell(row, COL.PHONE),
-    called: cell(row, COL.CALLED),
-    answered: cell(row, COL.ANSWERED),
-    voicemail: cell(row, COL.VOICEMAIL),
-    date: cell(row, COL.DATE),
-    notes: cell(row, COL.NOTES),
-    sentEmail: cell(row, COL.SENT_EMAIL),
-    pipedriveId: cell(row, COL.PIPEDRIVE_ID),
-  }));
+  // Detect columns from header row
+  const headerRow = rows[0];
+  const cols = detectColumns(headerRow);
 
-  console.log(`✅ Read ${contacts.length} contacts from sheet`);
-  return contacts;
+  // If no Pipedrive ID column found, we'll add one
+  if (cols.PIPEDRIVE_ID === undefined) {
+    // Find the first empty column after the last used header
+    const lastCol = headerRow.length;
+    cols.PIPEDRIVE_ID = lastCol;
+  }
+
+  // If no Sent Email column found, add one after Pipedrive ID
+  if (cols.SENT_EMAIL === undefined) {
+    cols.SENT_EMAIL = cols.PIPEDRIVE_ID + 1;
+  }
+
+  const contacts = [];
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    const firstName = cell(row, cols.FIRST_NAME);
+    const lastName = cell(row, cols.LAST_NAME);
+    if (!firstName && !lastName) continue; // skip empty rows
+
+    contacts.push({
+      rowIndex: i + 1, // 1-based sheet row
+      firstName,
+      lastName,
+      industry: cell(row, cols.INDUSTRY),
+      city: cell(row, cols.CITY),
+      company: cell(row, cols.COMPANY),
+      email: cell(row, cols.EMAIL),
+      phone: cell(row, cols.PHONE),
+      called: cell(row, cols.CALLED),
+      answered: cell(row, cols.ANSWERED),
+      voicemail: cell(row, cols.VOICEMAIL),
+      date: cell(row, cols.DATE),
+      notes: cell(row, cols.NOTES),
+      sentEmail: cell(row, cols.SENT_EMAIL),
+      pipedriveId: cell(row, cols.PIPEDRIVE_ID),
+      // Source metadata for write-back
+      _sheetId: id,
+      _sheetTab: tab,
+      _cols: cols,
+    });
+  }
+
+  console.log(`  ✅ Read ${contacts.length} contacts from "${name}"`);
+  return { contacts, cols, headerRow };
 }
 
 // ── Write Pipedrive ID back to sheet ────────────────────
@@ -148,16 +239,26 @@ async function readSheet(sheets) {
 async function writePipedriveIds(sheets, updates) {
   if (updates.length === 0) return;
 
-  const data = updates.map(({ rowIndex, pipedriveId }) => ({
-    range: `'${SHEET_TAB}'!X${rowIndex}`,
-    values: [[String(pipedriveId)]],
-  }));
+  // Group updates by sheet ID
+  const grouped = {};
+  for (const u of updates) {
+    const key = u.sheetId;
+    if (!grouped[key]) grouped[key] = [];
+    grouped[key].push(u);
+  }
 
-  await sheets.spreadsheets.values.batchUpdate({
-    spreadsheetId: SHEET_ID,
-    requestBody: { valueInputOption: 'RAW', data },
-  });
-  console.log(`📝 Wrote ${updates.length} Pipedrive IDs back to column X`);
+  for (const [sheetId, items] of Object.entries(grouped)) {
+    const data = items.map(({ sheetTab, colIdx, rowIndex, pipedriveId }) => ({
+      range: `'${sheetTab}'!${colLetter(colIdx)}${rowIndex}`,
+      values: [[String(pipedriveId)]],
+    }));
+
+    await sheets.spreadsheets.values.batchUpdate({
+      spreadsheetId: sheetId,
+      requestBody: { valueInputOption: 'RAW', data },
+    });
+    console.log(`  📝 Wrote ${items.length} Pipedrive IDs to sheet ${sheetId}`);
+  }
 }
 
 // ── Build Pipedrive note body from sheet fields ─────────
@@ -224,11 +325,19 @@ async function sendAutoEmail(contact) {
 
 async function syncCallTimestamps(sheets, contacts) {
   console.log('\n📞 Syncing call timestamps from Pipedrive → Sheet...');
-  const callUpdates = [];
+
+  // Group by sheet for batch updates
+  const updatesBySheet = {};
+  let totalUpdated = 0;
 
   for (const contact of contacts) {
     const pdId = contact.pipedriveId ? parseInt(contact.pipedriveId, 10) : null;
     if (!pdId) continue;
+
+    const cols = contact._cols;
+    const sheetId = contact._sheetId;
+    const sheetTab = contact._sheetTab;
+    if (!cols || cols.DATE === undefined) continue;
 
     try {
       const calls = await getPersonCallActivities(pdId);
@@ -255,10 +364,23 @@ async function syncCallTimestamps(sheets, contacts) {
 
       // Only update if the sheet doesn't already have this timestamp
       if (contact.date !== formatted) {
-        callUpdates.push(
-          { range: `'${SHEET_TAB}'!R${contact.rowIndex}`, values: [['TRUE']] },
-          { range: `'${SHEET_TAB}'!U${contact.rowIndex}`, values: [[formatted]] }
-        );
+        if (!updatesBySheet[sheetId]) updatesBySheet[sheetId] = [];
+
+        // Update Date column
+        updatesBySheet[sheetId].push({
+          range: `'${sheetTab}'!${colLetter(cols.DATE)}${contact.rowIndex}`,
+          values: [[formatted]],
+        });
+
+        // Update Called column if it exists
+        if (cols.CALLED !== undefined) {
+          updatesBySheet[sheetId].push({
+            range: `'${sheetTab}'!${colLetter(cols.CALLED)}${contact.rowIndex}`,
+            values: [['TRUE']],
+          });
+        }
+
+        totalUpdated++;
         console.log(`  📞 ${contact.firstName} ${contact.lastName}: call at ${formatted}`);
       }
     } catch (err) {
@@ -269,17 +391,20 @@ async function syncCallTimestamps(sheets, contacts) {
     await new Promise((r) => setTimeout(r, 200));
   }
 
-  if (callUpdates.length > 0) {
+  for (const [sheetId, data] of Object.entries(updatesBySheet)) {
     await sheets.spreadsheets.values.batchUpdate({
-      spreadsheetId: SHEET_ID,
-      requestBody: { valueInputOption: 'RAW', data: callUpdates },
+      spreadsheetId: sheetId,
+      requestBody: { valueInputOption: 'RAW', data },
     });
-    console.log(`  ✅ Updated ${callUpdates.length / 2} call timestamps in sheet`);
+  }
+
+  if (totalUpdated > 0) {
+    console.log(`  ✅ Updated ${totalUpdated} call timestamps`);
   } else {
     console.log('  ℹ️  No new call timestamps to sync');
   }
 
-  return callUpdates.length / 2;
+  return totalUpdated;
 }
 
 // ── Core sync ───────────────────────────────────────────
@@ -289,25 +414,7 @@ export async function syncSheetToPipedrive() {
 
   const sheets = await getSheetsClient();
 
-  // 1. Read contacts
-  const contacts = await readSheet(sheets);
-  if (contacts.length === 0) return { created: 0, updated: 0, skipped: 0 };
-
-  // 2. Ensure "Pipedrive ID" header in column X
-  const hdrRes = await sheets.spreadsheets.values.get({
-    spreadsheetId: SHEET_ID,
-    range: `'${SHEET_TAB}'!X1`,
-  });
-  if ((hdrRes.data.values?.[0]?.[0] || '') !== 'Pipedrive ID') {
-    await sheets.spreadsheets.values.update({
-      spreadsheetId: SHEET_ID,
-      range: `'${SHEET_TAB}'!X1`,
-      valueInputOption: 'RAW',
-      requestBody: { values: [['Pipedrive ID']] },
-    });
-  }
-
-  // 3. Ensure labels
+  // 1. Ensure labels (shared across all sheets)
   const labelMap = await ensureLabels(REQUIRED_TAGS);
   console.log(
     `🏷️  Labels ready: ${[...labelMap.entries()].map(([k, v]) => `${k}=${v}`).join(', ')}\n`
@@ -318,110 +425,181 @@ export async function syncSheetToPipedrive() {
   let skipped = 0;
   let emailsSent = 0;
   const idUpdates = [];
-  const emailSentUpdates = []; // tracks rows where we sent auto-emails
+  const emailSentUpdates = []; // grouped by sheetId
+  const allContacts = [];
 
-  for (const contact of contacts) {
-    const name = `${contact.firstName} ${contact.lastName}`.trim();
-    if (!name) {
-      skipped++;
-      continue;
-    }
+  // 2. Process each sheet source
+  for (const source of SHEET_SOURCES) {
+    console.log(`\n── Sheet: ${source.name} ──────────────────────`);
 
-    // Resolve label
-    const noteTag = contact.notes.toLowerCase().trim();
-    const pipedriveLabelName = TAG_MAP[noteTag];
-    const labelId = pipedriveLabelName
-      ? labelMap.get(pipedriveLabelName.toLowerCase())
-      : undefined;
+    const { contacts, cols } = await readSheetSource(sheets, source);
+    if (contacts.length === 0) continue;
 
-    // Person payload
-    const personData = { name };
-    if (contact.email) {
-      personData.email = [{ value: contact.email, label: 'work', primary: true }];
-    }
-    if (contact.phone) {
-      personData.phone = [{ value: contact.phone, label: 'work', primary: true }];
-    }
-    if (labelId !== undefined) personData.label = labelId;
-
-    const noteHtml = buildNoteHtml(contact);
-
+    // Ensure "Pipedrive ID" header exists
+    const pdIdCol = colLetter(cols.PIPEDRIVE_ID);
     try {
-      const existingPdId = contact.pipedriveId
-        ? parseInt(contact.pipedriveId, 10)
-        : null;
-
-      if (existingPdId) {
-        // ── Update existing ──
-        await updatePerson(existingPdId, personData);
-
-        if (noteHtml) {
-          const existingNotes = await getPersonNotes(existingPdId);
-          const alreadyPosted = existingNotes.some(
-            (n) => n.content && n.content.includes(noteHtml)
-          );
-          if (!alreadyPosted) {
-            await addNote(existingPdId, noteHtml);
-          }
-        }
-        updated++;
-        process.stdout.write(`  ✏️  Updated: ${name}\n`);
-      } else {
-        // ── Create or match by email ──
-        let person = contact.email
-          ? await findPersonByEmail(contact.email)
-          : null;
-
-        if (person) {
-          await updatePerson(person.id, personData);
-          idUpdates.push({ rowIndex: contact.rowIndex, pipedriveId: person.id });
-          if (noteHtml) await addNote(person.id, noteHtml);
-          updated++;
-          process.stdout.write(
-            `  ✏️  Matched & updated: ${name} (${contact.email})\n`
-          );
-        } else {
-          person = await createPerson(personData);
-          idUpdates.push({ rowIndex: contact.rowIndex, pipedriveId: person.id });
-          if (noteHtml) await addNote(person.id, noteHtml);
-          created++;
-          process.stdout.write(`  ✅ Created: ${name}\n`);
-        }
-      }
-
-      // ── Auto-email: send if Notes = "send email" and not already sent ──
-      if (EMAIL_TRIGGER_TAGS.includes(noteTag) && contact.sentEmail !== 'Yes') {
-        const sent = await sendAutoEmail(contact);
-        if (sent) {
-          emailsSent++;
-          emailSentUpdates.push({
-            range: `'${SHEET_TAB}'!W${contact.rowIndex}`,
-            values: [['Yes']],
-          });
-        }
+      const hdrRes = await sheets.spreadsheets.values.get({
+        spreadsheetId: source.id,
+        range: `'${source.tab}'!${pdIdCol}1`,
+      });
+      if ((hdrRes.data.values?.[0]?.[0] || '') !== 'Pipedrive ID') {
+        await sheets.spreadsheets.values.update({
+          spreadsheetId: source.id,
+          range: `'${source.tab}'!${pdIdCol}1`,
+          valueInputOption: 'RAW',
+          requestBody: { values: [['Pipedrive ID']] },
+        });
       }
     } catch (err) {
-      console.error(`  ❌ Error syncing ${name}: ${err.message}`);
+      // If header check fails, still try to sync
     }
 
-    // Rate-limit: ~5 req per contact, Pipedrive allows 100 req / 10 s
-    await new Promise((r) => setTimeout(r, 250));
+    // Ensure "Sent Email" header exists
+    if (cols.SENT_EMAIL !== undefined) {
+      const seCol = colLetter(cols.SENT_EMAIL);
+      try {
+        const hdrRes = await sheets.spreadsheets.values.get({
+          spreadsheetId: source.id,
+          range: `'${source.tab}'!${seCol}1`,
+        });
+        if ((hdrRes.data.values?.[0]?.[0] || '') !== 'Sent Email') {
+          await sheets.spreadsheets.values.update({
+            spreadsheetId: source.id,
+            range: `'${source.tab}'!${seCol}1`,
+            valueInputOption: 'RAW',
+            requestBody: { values: [['Sent Email']] },
+          });
+        }
+      } catch (err) {
+        // non-critical
+      }
+    }
+
+    for (const contact of contacts) {
+      const name = `${contact.firstName} ${contact.lastName}`.trim();
+      if (!name) {
+        skipped++;
+        continue;
+      }
+
+      // Resolve label
+      const noteTag = contact.notes.toLowerCase().trim();
+      const pipedriveLabelName = TAG_MAP[noteTag];
+      const labelId = pipedriveLabelName
+        ? labelMap.get(pipedriveLabelName.toLowerCase())
+        : undefined;
+
+      // Person payload
+      const personData = { name };
+      if (contact.email) {
+        personData.email = [{ value: contact.email, label: 'work', primary: true }];
+      }
+      if (contact.phone) {
+        personData.phone = [{ value: contact.phone, label: 'work', primary: true }];
+      }
+      if (labelId !== undefined) personData.label = labelId;
+
+      const noteHtml = buildNoteHtml(contact);
+
+      try {
+        const existingPdId = contact.pipedriveId
+          ? parseInt(contact.pipedriveId, 10)
+          : null;
+
+        if (existingPdId) {
+          // ── Update existing ──
+          await updatePerson(existingPdId, personData);
+
+          if (noteHtml) {
+            const existingNotes = await getPersonNotes(existingPdId);
+            const alreadyPosted = existingNotes.some(
+              (n) => n.content && n.content.includes(noteHtml)
+            );
+            if (!alreadyPosted) {
+              await addNote(existingPdId, noteHtml);
+            }
+          }
+          updated++;
+          process.stdout.write(`  ✏️  Updated: ${name}\n`);
+        } else {
+          // ── Create or match by email ──
+          let person = contact.email
+            ? await findPersonByEmail(contact.email)
+            : null;
+
+          if (person) {
+            await updatePerson(person.id, personData);
+            idUpdates.push({
+              rowIndex: contact.rowIndex,
+              pipedriveId: person.id,
+              sheetId: source.id,
+              sheetTab: source.tab,
+              colIdx: cols.PIPEDRIVE_ID,
+            });
+            if (noteHtml) await addNote(person.id, noteHtml);
+            updated++;
+            process.stdout.write(
+              `  ✏️  Matched & updated: ${name} (${contact.email})\n`
+            );
+          } else {
+            person = await createPerson(personData);
+            idUpdates.push({
+              rowIndex: contact.rowIndex,
+              pipedriveId: person.id,
+              sheetId: source.id,
+              sheetTab: source.tab,
+              colIdx: cols.PIPEDRIVE_ID,
+            });
+            if (noteHtml) await addNote(person.id, noteHtml);
+            created++;
+            process.stdout.write(`  ✅ Created: ${name}\n`);
+          }
+        }
+
+        // ── Auto-email: send if Notes = "send email" and not already sent ──
+        if (EMAIL_TRIGGER_TAGS.includes(noteTag) && contact.sentEmail !== 'Yes') {
+          const sent = await sendAutoEmail(contact);
+          if (sent) {
+            emailsSent++;
+            emailSentUpdates.push({
+              sheetId: source.id,
+              range: `'${source.tab}'!${colLetter(cols.SENT_EMAIL)}${contact.rowIndex}`,
+              values: [['Yes']],
+            });
+          }
+        }
+      } catch (err) {
+        console.error(`  ❌ Error syncing ${name}: ${err.message}`);
+      }
+
+      // Rate-limit: ~5 req per contact, Pipedrive allows 100 req / 10 s
+      await new Promise((r) => setTimeout(r, 250));
+    }
+
+    allContacts.push(...contacts);
   }
 
-  // 4. Write Pipedrive IDs back to sheet
+  // 3. Write Pipedrive IDs back to sheets
   await writePipedriveIds(sheets, idUpdates);
 
-  // 5. Mark auto-emails as sent in column W
+  // 4. Mark auto-emails as sent
   if (emailSentUpdates.length > 0) {
-    await sheets.spreadsheets.values.batchUpdate({
-      spreadsheetId: SHEET_ID,
-      requestBody: { valueInputOption: 'RAW', data: emailSentUpdates },
-    });
+    const grouped = {};
+    for (const u of emailSentUpdates) {
+      if (!grouped[u.sheetId]) grouped[u.sheetId] = [];
+      grouped[u.sheetId].push({ range: u.range, values: u.values });
+    }
+    for (const [sheetId, data] of Object.entries(grouped)) {
+      await sheets.spreadsheets.values.batchUpdate({
+        spreadsheetId: sheetId,
+        requestBody: { valueInputOption: 'RAW', data },
+      });
+    }
     console.log(`📧 Marked ${emailSentUpdates.length} contacts as "Sent Email: Yes"`);
   }
 
-  // 6. Sync call timestamps from Pipedrive → Sheet
-  const callsUpdated = await syncCallTimestamps(sheets, contacts);
+  // 5. Sync call timestamps from Pipedrive → Sheet
+  const callsUpdated = await syncCallTimestamps(sheets, allContacts);
 
   console.log(`\n🎉 Sync complete — created: ${created}, updated: ${updated}, skipped: ${skipped}, emails sent: ${emailsSent}, call timestamps: ${callsUpdated}`);
   return { created, updated, skipped, emailsSent, callsUpdated };
