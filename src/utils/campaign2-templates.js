@@ -11,7 +11,7 @@
 
 const TRACKING_SERVER = 'https://resend-webhook-xjstbyru.fly.dev';
 const UNSUBSCRIBE_SERVER = 'https://uvoahchfsjzthvsszloh.supabase.co/functions/v1';
-const CALENDLY_LINK = 'https://calendly.com/pension-support-info/30-mins';
+const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min';
 
 function trackedButton(contactId, label = 'SCHEDULE YOUR 30-MIN PENSION REVIEW') {
   const trackUrl = `${TRACKING_SERVER}/track/click?cid=${contactId}&url=${encodeURIComponent(CALENDLY_LINK)}`;
