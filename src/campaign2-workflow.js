@@ -131,7 +131,7 @@ async function main() {
   }
 
   const apiKey = process.env.CAMPAIGN2_RESEND_API_KEY || process.env.RESEND_API_KEY;
-  const fromEmail = process.env.CAMPAIGN2_EMAIL_FROM || 'peakfinancial@io.pensionexpertshq.com';
+  const fromEmail = process.env.CAMPAIGN2_EMAIL_FROM || 'tgarcia@io.pensionexpertshq.com';
   if (!apiKey) throw new Error('Missing CAMPAIGN2_RESEND_API_KEY or RESEND_API_KEY in .env');
   console.log(`   Sending from: ${fromEmail}`);
 

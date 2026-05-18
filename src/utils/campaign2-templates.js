@@ -56,7 +56,7 @@ function wrapHtml(bodyContent, contactId) {
           <tr>
             <td style="padding:16px 36px 24px;border-top:1px solid #e2e8f0;">
               <div style="color:#94a3b8;font-size:11px;line-height:1.5;">
-                Peak Financial Experts<br>
+                Pension Experts<br>
                 Don't want these emails?
                 <a href="${unsubUrl}" style="color:#64748b;text-decoration:underline;">Unsubscribe</a>.
               </div>
@@ -72,7 +72,7 @@ function wrapHtml(bodyContent, contactId) {
 }
 
 function textFooter(contactId) {
-  return `\n\n—\nPeak Financial Experts. To unsubscribe: ${unsubscribeUrl(contactId)}`;
+  return `\n\n—\nPension Experts. To unsubscribe: ${unsubscribeUrl(contactId)}`;
 }
 
 // ─── Campaign 2 Email — End-of-Year Summer Pension Review ──────────
@@ -94,7 +94,7 @@ export function campaign2Email(name, contactId) {
     <p>The goal is simple: I want you to walk out of that classroom on the last day of school knowing exactly when you can retire and how much you\u2019ll have.</p>
     ${trackedButton(contactId, 'CLICK HERE TO SCHEDULE YOUR 30-MINUTE PENSION REVIEW')}
     <p>Let\u2019s get this off your \u201cTo-Do\u201d list so you can truly enjoy your summer\u2014stress-free.</p>
-    <p style="margin:16px 0 0;">Sincerely,<br><strong>Peak Financial Experts</strong></p>
+    <p style="margin:16px 0 0;">Sincerely,<br><strong>Terry Garcia</strong><br><span style="font-size:13px;color:#64748b;">Retirement Planning Scheduler | Pension Experts</span></p>
   `, contactId);
 
   const text = `${greeting}
@@ -120,7 +120,8 @@ Schedule your 30-minute Pension Review: ${CALENDLY_LINK}
 Let's get this off your "To-Do" list so you can truly enjoy your summer--stress-free.
 
 Sincerely,
-Peak Financial Experts${textFooter(contactId)}`;
+Terry Garcia
+Retirement Planning Scheduler | Pension Experts${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
