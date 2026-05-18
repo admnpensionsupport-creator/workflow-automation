@@ -132,6 +132,11 @@ async function main() {
   console.log(`  DONE — sent=${totalSent} failed=${totalFailed} skipped=${totalSkipped}`);
   console.log(`  Total time: ${Math.round((Date.now() - start) / 1000)}s`);
   console.log('════════════════════════════════════════');
+
+  // Auto-generate a post-send report
+  console.log('\n⏳ Generating post-send report...\n');
+  const { generateReport } = await import('./generate-report-lib.js');
+  await generateReport({ batch: BATCH || undefined });
 }
 
 main().catch((err) => {
