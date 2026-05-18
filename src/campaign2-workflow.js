@@ -130,10 +130,10 @@ async function main() {
     return;
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.EMAIL_FROM;
-  if (!apiKey) throw new Error('Missing RESEND_API_KEY in .env');
-  if (!fromEmail) throw new Error('Missing EMAIL_FROM in .env');
+  const apiKey = process.env.CAMPAIGN2_RESEND_API_KEY || process.env.RESEND_API_KEY;
+  const fromEmail = process.env.CAMPAIGN2_EMAIL_FROM || 'peakfinancial@io.pensionexpertshq.com';
+  if (!apiKey) throw new Error('Missing CAMPAIGN2_RESEND_API_KEY or RESEND_API_KEY in .env');
+  console.log(`   Sending from: ${fromEmail}`);
 
   const resend = new Resend(apiKey);
   const emailPayloads = [];
