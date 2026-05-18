@@ -11,26 +11,33 @@
 
 import cron from 'node-cron';
 import { runWorkflow } from './workflow.js';
+import { runSync } from '../scripts/sync-gsheet-to-pipedrive.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
 const schedule = process.env.CRON_SCHEDULE || '0 7 * * *';
+const pipedriveSyncSchedule = process.env.PIPEDRIVE_SYNC_SCHEDULE || '0 */6 * * *';
 
 console.log('');
 console.log('┌─────────────────────────────────────────┐');
 console.log('│   Daily Workflow Automation — Active     │');
-console.log(`│   Schedule: ${schedule.padEnd(28)}│`);
+console.log(`│   Email:    ${schedule.padEnd(28)}│`);
+console.log(`│   PD Sync:  ${pipedriveSyncSchedule.padEnd(28)}│`);
 console.log('│   Press Ctrl+C to stop                  │');
 console.log('└─────────────────────────────────────────┘');
 console.log('');
 
-// Validate cron expression
+// Validate cron expressions
 if (!cron.validate(schedule)) {
   console.error(`❌ Invalid CRON_SCHEDULE: "${schedule}"`);
   process.exit(1);
 }
+if (!cron.validate(pipedriveSyncSchedule)) {
+  console.error(`❌ Invalid PIPEDRIVE_SYNC_SCHEDULE: "${pipedriveSyncSchedule}"`);
+  process.exit(1);
+}
 
-// Schedule the job
+// Schedule the email workflow
 cron.schedule(schedule, async () => {
   try {
     await runWorkflow();
@@ -39,7 +46,20 @@ cron.schedule(schedule, async () => {
     console.error(err.stack);
   }
 }, {
-  timezone: 'America/Chicago', // ← Change to your timezone
+  timezone: 'America/Chicago',
+});
+
+// Schedule the Google Sheet → Pipedrive sync
+cron.schedule(pipedriveSyncSchedule, async () => {
+  try {
+    console.log('\n📋 Starting scheduled Google Sheet → Pipedrive sync...');
+    await runSync();
+  } catch (err) {
+    console.error('❌ Pipedrive sync crashed:', err.message);
+    console.error(err.stack);
+  }
+}, {
+  timezone: 'America/Chicago',
 });
 
 // Graceful shutdown

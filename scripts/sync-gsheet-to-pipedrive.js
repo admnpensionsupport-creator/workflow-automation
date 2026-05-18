@@ -25,12 +25,6 @@ import { readAllTabs, TABS } from '../src/sources/gsheet-reader.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const DRY_RUN = process.argv.includes('--dry-run');
-const TAB_FILTER = (() => {
-  const match = process.argv.find((a) => a.startsWith('--tab='));
-  return match ? match.split('=')[1].toUpperCase().replace(/\s+/g, '_') : null;
-})();
-
 const RATE_LIMIT_MS = 400;
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -38,7 +32,7 @@ function sleep(ms) {
 
 // ─── Label management ───────────────────────────────
 
-async function ensureLabels() {
+async function ensureLabels(dryRun) {
   const existing = await getPersonLabels();
   const labelMap = {};
   for (const opt of existing) {
@@ -49,7 +43,7 @@ async function ensureLabels() {
   for (const label of needed) {
     if (!labelMap[label.toLowerCase()]) {
       console.log(`   Creating label: ${label}`);
-      if (!DRY_RUN) {
+      if (!dryRun) {
         const id = await addPersonLabel(label);
         if (id) labelMap[label.toLowerCase()] = id;
         await sleep(RATE_LIMIT_MS);
@@ -85,7 +79,7 @@ async function findOrCreateOrg(name, address) {
     // search may return empty
   }
 
-  if (DRY_RUN) {
+  if (findOrCreateOrg._dryRun) {
     orgCache.set(key, null);
     return null;
   }
@@ -215,7 +209,7 @@ async function syncContact(contact, labelMap, index, stats) {
       }
     }
 
-    if (changed && !DRY_RUN) {
+    if (changed && !syncContact._dryRun) {
       try {
         await updatePerson(existing.id, updates);
         await sleep(RATE_LIMIT_MS);
@@ -261,7 +255,7 @@ async function syncContact(contact, labelMap, index, stats) {
   if (contact.title) personData[JOB_TITLE_KEY] = contact.title;
   if (labelId) personData.label_ids = [labelId];
 
-  if (DRY_RUN) {
+  if (syncContact._dryRun) {
     stats.created++;
     return;
   }
@@ -297,7 +291,7 @@ async function syncContact(contact, labelMap, index, stats) {
 // ─── Note sync ──────────────────────────────────────
 
 async function syncNote(personId, contact, tabLabel) {
-  if (!contact.notes || DRY_RUN) return;
+  if (!contact.notes || syncNote._dryRun) return;
 
   const noteContent = [
     `[Sheet: ${tabLabel}]`,
@@ -327,11 +321,22 @@ async function syncNote(personId, contact, tabLabel) {
 
 // ─── Main ───────────────────────────────────────────
 
-async function main() {
+/**
+ * Run the Google Sheet → Pipedrive sync.
+ * @param {object} [opts]
+ * @param {boolean} [opts.dryRun=false]  Preview only, no writes.
+ * @param {string}  [opts.tabFilter]     Only sync a specific tab (e.g. 'BOOKED').
+ */
+export async function runSync({ dryRun = false, tabFilter = null } = {}) {
+  // Wire dry-run flag into helpers
+  findOrCreateOrg._dryRun = dryRun;
+  syncContact._dryRun = dryRun;
+  syncNote._dryRun = dryRun;
+
   console.log('════════════════════════════════════════');
   console.log('  GOOGLE SHEET → PIPEDRIVE SYNC');
   console.log(`  ${new Date().toISOString()}`);
-  console.log(`  dry-run=${DRY_RUN}  tab=${TAB_FILTER || 'all'}`);
+  console.log(`  dry-run=${dryRun}  tab=${tabFilter || 'all'}`);
   console.log('════════════════════════════════════════\n');
 
   // Step 1: Read Google Sheet
@@ -340,7 +345,7 @@ async function main() {
 
   // Step 2: Setup labels
   console.log('\n── Step 2: Ensure Pipedrive Labels ────────');
-  const labelMap = await ensureLabels();
+  const labelMap = await ensureLabels(dryRun);
   console.log('   Labels:', JSON.stringify(labelMap));
 
   // Step 3: Load existing Pipedrive persons for dedup
@@ -355,7 +360,7 @@ async function main() {
   const totalStats = { created: 0, updated: 0, unchanged: 0, failed: 0, skipped: 0 };
 
   for (const [tabKey, { label, contacts }] of Object.entries(tabData)) {
-    if (TAB_FILTER && tabKey !== TAB_FILTER) continue;
+    if (tabFilter && tabKey !== tabFilter) continue;
 
     console.log(`\n   ── ${label} (${contacts.length} contacts) ──`);
 
@@ -390,10 +395,21 @@ async function main() {
   console.log(`  Unchanged: ${totalStats.unchanged}`);
   console.log(`  Failed:    ${totalStats.failed}`);
   console.log('════════════════════════════════════════\n');
+
+  return totalStats;
 }
 
-main().catch((err) => {
-  console.error('\n💥 Fatal error:', err.message);
-  console.error(err.stack);
-  process.exit(1);
-});
+// ─── CLI entry point ────────────────────────────────
+if (process.argv[1]?.endsWith('sync-gsheet-to-pipedrive.js')) {
+  const dryRun = process.argv.includes('--dry-run');
+  const tabMatch = process.argv.find((a) => a.startsWith('--tab='));
+  const tabFilter = tabMatch
+    ? tabMatch.split('=')[1].toUpperCase().replace(/\s+/g, '_')
+    : null;
+
+  runSync({ dryRun, tabFilter }).catch((err) => {
+    console.error('\n💥 Fatal error:', err.message);
+    console.error(err.stack);
+    process.exit(1);
+  });
+}
