@@ -9,7 +9,10 @@
     "run-now": "node src/run-now.js",
     "test-email": "node src/test-email.js",
     "test-sheets": "node src/sources/sheets.js",
-    "test-supabase": "node src/sources/supabase.js"
+    "test-supabase": "node src/sources/supabase.js",
+    "campaign2:dry-run": "node src/campaign2-workflow.js --dry-run",
+    "campaign2:send": "node src/campaign2-workflow.js",
+    "campaign2:import": "node scripts/import-campaign2-csv.js data/campaign2-contacts.csv"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
