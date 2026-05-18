@@ -94,7 +94,7 @@ async function main() {
     const batch = inserts.slice(i, i + BATCH_SIZE);
     const { data, error } = await supabase
       .from(TABLE)
-      .upsert(batch, { onConflict: 'email', ignoreDuplicates: true });
+      .insert(batch);
 
     if (error) {
       console.error(`\u274c Batch insert failed: ${error.message}`);
