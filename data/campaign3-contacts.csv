@@ -1,0 +1,996 @@
+First Name,Last Name,Email,Title,School
+Jeff,Downing,jdowning@pausd.org,Principal,Addison Elementary School
+Melinda,Zschietzschmann,mzschietzschmann@pausd.org,Secretary,Addison Elementary School
+Valerie,Rainey,addisonattendance@pausd.org,Clerk,Addison Elementary School
+Lina,Castaneda,lcastaneda@pausd.org,Custodian - Daytime,Addison Elementary School
+Antonio,Valencia,avalencia@pausd.org,Custodian - Evening,Addison Elementary School
+Lee,Mitchell,lmitchell@pausd.org,Teacher – Kindergarten,Addison Elementary School
+Athena,Foley,afoley@pausd.org,Teacher – Kindergarten,Addison Elementary School
+Joanne,Fong,jfong@pausd.org,Teacher – Kindergarten,Addison Elementary School
+Lindsey,Devargas,ldevargas@pausd.org,Teacher – Grade 1,Addison Elementary School
+Aman,Multani,amultani@pausd.org,Teacher – Grade 1,Addison Elementary School
+Annie,Harrier,aharrier@pausd.org,Teacher – Grade 1,Addison Elementary School
+Laura,Wright,lawright@pausd.org,Teacher – Grade 2,Addison Elementary School
+Lynn,Beck,lbeck@pausd.org,Teacher – Grade 2,Addison Elementary School
+Nancy,Sanchez,nsanchez@pausd.org,Teacher – Grade 2,Addison Elementary School
+Sylvie,Cordova,scordova@pausd.org,Teacher – Grade 3,Addison Elementary School
+Sheena,Hansrai,shansrai@pausd.org,Teacher – Grade 3,Addison Elementary School
+Manny,Rangel,mrangel@pausd.org,Teacher – Grade 3,Addison Elementary School
+Therese,Walls,twalls@pausd.org,Teacher – Grade 4,Addison Elementary School
+Cindy,Ando,cando@pausd.org,Teacher – Grade 4,Addison Elementary School
+Addison,Lucia,adlucia@pausd.org,Teacher – Grade 4,Addison Elementary School
+Taline,Cox,tcox@pausd.org,Teacher – Grade 5,Addison Elementary School
+Desiree,Rudd,drudd@pausd.org,Teacher – Grade 5,Addison Elementary School
+Nicole,Davidson,ndavidson@pausd.org,Teacher – Grade 5,Addison Elementary School
+Leslie,Gehring,lgehring@pausd.org,Instructional Aide GE,Addison Elementary School
+Karleen,Lykken,klykken@pausd.org,Instructional Aide GE,Addison Elementary School
+Linda,Nguyen,lnguyen@pausd.org,Instructional Aide GE,Addison Elementary School
+Ana-Cecilia,Picazo,apicazo@pausd.org,Instructional Aide GE,Addison Elementary School
+Marilyn,Uzan,muzan@pausd.org,Instructional Aide GE,Addison Elementary School
+Uwimana,Middleton,umiddleton@pausd.org,Instructional Aide GE,Addison Elementary School
+Divya,Visweswaran,dvisweswaran@pausd.org,Instructional Aide GE,Addison Elementary School
+Tamlin,Santos,tsantos@pausd.org,Student Attendant,Addison Elementary School
+Britt,Brown,bbrown@pausd.org,"Teacher, Reading Specialist",Addison Elementary School
+Sabrina,Cheng,scheng@pausd.org,"Teacher, Speech/Language",Addison Elementary School
+Aleksandra,Dudukovic,adudukovic@pausd.org,"Teacher, Art",Addison Elementary School
+Amanda,Gantley,agantley@pausd.org,"Teacher, English Language Learner",Addison Elementary School
+Amy,Kageyama,akageyama@pausd.org,"Teacher, Librarian",Addison Elementary School
+Leah,Musker,lmusker@pausd.org,"Teacher, Music (K–4)",Addison Elementary School
+Jonathan,Kessler,jkessler@pausd.org,"Teacher, PE",Addison Elementary School
+Kimberly,Peckenpaugh,kpeckenpaugh@pausd.org,"Teacher, Reading Specialist (K–2)",Addison Elementary School
+Claudia,Quiroga Cortez,cquirogacortez@pausd.org,Family Engagement Specialist,Addison Elementary School
+Marissa,Tessman,mtessman@pausd.org,"Teacher, Resource Specialist",Addison Elementary School
+Theresa,Vanacore,tvanacore@pausd.org,Mental Health Counselor,Addison Elementary School
+Andi,Werboff,awerboff@pausd.org,"Teacher, Art",Addison Elementary School
+Scott,Yarbrough,syarbrough@pausd.org,Psychologist,Addison Elementary School
+Syed,Zaidi,szaidi@pausd.org,Computer Support Specialist,Addison Elementary School
+Claudia,Corpus,ccorpus@pausd.org,Principal,Barron Park Elementary School
+Annalyssa,Garcia,agarcia@pausd.org,Secretary,Barron Park Elementary School
+Rene,Hart,rhart@pausd.org,Clerk,Barron Park Elementary School
+Lara,Duenas,lduenas@pausd.org,Psychologist,Barron Park Elementary School
+Malisa,Moore,mmoore@pausd.org,Teacher - Transitional Kinder,Barron Park Elementary School
+Olivia,Renfro,orenfro@pausd.org,Teacher - Transitional Kinder,Barron Park Elementary School
+Isabella,Avila,iavila@pausd.org,Teacher - KN,Barron Park Elementary School
+Cindy,Yan,cyan@pausd.org,Teacher - KN,Barron Park Elementary School
+Alyson,Seedman,aseedman@pausd.org,Teacher - 1st Grade,Barron Park Elementary School
+Haley,Harrier,hharrier@pausd.org,Teacher - 1st Grade,Barron Park Elementary School
+Emily,Laurance,elaurance@pausd.org,"Teacher - 1st Grade, Librarian",Barron Park Elementary School
+Jessica,Clancey,jclancey@pausd.org,Teacher - 2nd Grade,Barron Park Elementary School
+Revathy,Shiv,rshiv@pausd.org,Teacher - 2nd Grade,Barron Park Elementary School
+Kelly,VanBruggen,kvanbruggen@pausd.org,Teacher - 2nd Grade,Barron Park Elementary School
+Maariyah,Din,mdin@pausd.org,Teacher - 3rd Grade,Barron Park Elementary School
+Tina,Franceschi,tfranceschi@pausd.org,Teacher - 3rd Grade,Barron Park Elementary School
+Helen,Miranda,hmiranda@pausd.org,Teacher - 4th Grade,Barron Park Elementary School
+Lori,Patton,lpatton@pausd.org,Teacher - 4th Grade,Barron Park Elementary School
+Shromila,Gupta,sgupta@pausd.org,Teacher - 5th Grade,Barron Park Elementary School
+Elena,Melendez,emelendez@pausd.org,Teacher - 5th Grade,Barron Park Elementary School
+Amanda,Redmond,aredmond@pausd.org,Teacher - ELD,Barron Park Elementary School
+Edie,Lau,elau@pausd.org,"Teacher - ELD, Reading Specialist",Barron Park Elementary School
+Angie,Lew,alew@pausd.org,Teacher - Reading Specialist,Barron Park Elementary School
+Sarah,Ramirez,sramirez@pausd.org,Teacher - Education Specialist,Barron Park Elementary School
+Pei-Chi,Kuo,pkuo@pausd.org,Teacher - Education Specialist,Barron Park Elementary School
+Jenna,Mccomb,jmccomb@pausd.org,Teacher - Speech/Language,Barron Park Elementary School
+Grace,Padilla,gpadilla@pausd.org,Teacher - Education Specialist,Barron Park Elementary School
+Sylvia,Sanders,ssanders@pausd.org,"Math Specialist, TOSA",Barron Park Elementary School
+Bianca,Acosta,bacosta@pausd.org,Behavior Intervention Coach,Barron Park Elementary School
+Lilia,Sanchez,lsanchez@pausd.org,SAFE Specialist,Barron Park Elementary School
+Francisco,Garcia,fgarcia@pausd.org,Custodian,Barron Park Elementary School
+Jerry,Phok,jphok@pausd.org,Custodian I,Barron Park Elementary School
+Sophia,Ali,sali@pausd.org,Teacher – 4th Grade,Duveneck Elementary School
+Janis,Bajor,jbajor@pausd.org,"Instructional Aide – TK, Instructional Aide GE",Duveneck Elementary School
+Pampilo,Bayquen,pbayquen@pausd.org,Custodian I,Duveneck Elementary School
+Kara,Brahana,kbrahana@pausd.org,Teacher – Speech/Language,Duveneck Elementary School
+Lauren,Bullene,lbullene@pausd.org,"Campus Supervisor, Instructional Aide GE",Duveneck Elementary School
+Teresa,Callan,tcallan@pausd.org,Teacher – Education Specialist,Duveneck Elementary School
+Mildred,Cardoso Apen,mcardosoapen@pausd.org,Instructional Aide – TK,Duveneck Elementary School
+Leona,Cherry,lcherry@pausd.org,Campus Supervisor,Duveneck Elementary School
+Jessica,Clark,jclark@pausd.org,"Campus Supervisor, Instructional Aide GE",Duveneck Elementary School
+Judy,Cloud,jcloud@pausd.org,Teacher – Reading Specialist,Duveneck Elementary School
+Maddy,Daum,mdaum@pausd.org,Teacher – Education Specialist,Duveneck Elementary School
+Elena,Dorofeeva,edorofeeva@pausd.org,Instructional Aide GE,Duveneck Elementary School
+Melissa,Fassler Hauer,mhauer@pausd.org,Teacher – 3rd Grade,Duveneck Elementary School
+Viridiana,Fonseca,vfonseca@pausd.org,School-Based MHT I,Duveneck Elementary School
+Erika,Gardiner,egardiner@pausd.org,Psychologist,Duveneck Elementary School
+Brittany,Gardner,bgardner@pausd.org,Elementary School Principal,Duveneck Elementary School
+Anne,Gerfen,agerfen@pausd.org,Teacher – 2nd Grade,Duveneck Elementary School
+Elizabeth,Hedge,ehedge@pausd.org,Secretary – Elementary School,Duveneck Elementary School
+Linda,Henigin,lhenigin@pausd.org,Instructional Aide GE,Duveneck Elementary School
+James,Holbrook,jholbrook@pausd.org,Teacher – 3rd Grade,Duveneck Elementary School
+Matthew,Keith,mkeith@pausd.org,Teacher – 5th Grade,Duveneck Elementary School
+Tanya,Kennedy-DeGrazia,tkennedydegrazia@pausd.org,Teacher – Education Specialist,Duveneck Elementary School
+James,Lubbe,jlubbe@pausd.org,Teacher – Physical Education,Duveneck Elementary School
+Kimberly,Marrujo,kmarrujo@pausd.org,Teacher – 3rd Grade,Duveneck Elementary School
+Silvia,Meinke,smeinke@pausd.org,Teacher – 4th Grade,Duveneck Elementary School
+Tanya,Meyers,tmeyers@pausd.org,Teacher – ELD,Duveneck Elementary School
+Ching-Wen,Miron,cwmiron@pausd.org,Teacher – 1st Grade,Duveneck Elementary School
+Sarit,Murkes,smurkes@pausd.org,Elementary School Clerk,Duveneck Elementary School
+Rudy,Osoteo,rosoteo@pausd.org,Custodian I,Duveneck Elementary School
+Judy,Peng,jpeng@pausd.org,Teacher – 5th Grade,Duveneck Elementary School
+Graciela,Porras,gporras@pausd.org,"Teacher – Intervention TOSA, Transitional Kinder",Duveneck Elementary School
+Jennifer,Rabanal,jrabanal@pausd.org,Teacher – 1st Grade,Duveneck Elementary School
+Kanmani,Rajan,krajan@pausd.org,"Campus Supervisor, Instructional Aide GE",Duveneck Elementary School
+Xiomara,Rodriguez,xrodriguez@pausd.org,Elementary School Secretary,Duveneck Elementary School
+Lisa,Schmidt,lschmidt@pausd.org,Teacher – 1st Grade,Duveneck Elementary School
+Lisa,Sinclair,lsinclair@pausd.org,Teacher – Music,Duveneck Elementary School
+Srijayanthi,Srinivasan,ssrinivasan@pausd.org,"Instructional Aide – TK, Instructional Aide GE",Duveneck Elementary School
+Jen,Tai,jtai@pausd.org,Teacher – Kindergarten,Duveneck Elementary School
+Kathleen,Thibault,kthibault@pausd.org,Teacher – Kindergarten,Duveneck Elementary School
+Doree,Tschudy,dtschudy@pausd.org,Teacher – Library Media,Duveneck Elementary School
+Krista,Velasquez,kvelasquez@pausd.org,"Teacher – Intervention TOSA, Transitional Kinder",Duveneck Elementary School
+William,Voorhees,wvoorhees@pausd.org,"Instructional Aide – TK, Instructional Aide GE",Duveneck Elementary School
+Jodi,Winchester,jwinchester@pausd.org,Teacher – 4th Grade,Duveneck Elementary School
+Elaine,Wong,elwong@pausd.org,Teacher – 3rd Grade,Duveneck Elementary School
+QiWen,Xie,qxie@pausd.org,Custodian,Duveneck Elementary School
+Marta,Apple,mapple@pausd.org,Instructional Aide GE,El Carmelo Elementary School
+Leonel,Argumedo,largumedo@pausd.org,Elementary School Principal,El Carmelo Elementary School
+Roxana,Barbera,rbarbera@pausd.org,Teacher – Kindergarten,El Carmelo Elementary School
+Loretta,Beasley,lbeasley@pausd.org,Teacher – Library Media,El Carmelo Elementary School
+Ericka,Berkson,eberkson@pausd.org,Teacher – Physical Education,El Carmelo Elementary School
+Roxanne,Cano,rcano@pausd.org,Teacher – Kindergarten,El Carmelo Elementary School
+Thomas,Carriveau,tcarriveau@pausd.org,Teacher – Education Specialist,El Carmelo Elementary School
+Jennifer,Chu,jchu@pausd.org,Instructional Aide GE,El Carmelo Elementary School
+Iris,Clifford,iclifford@pausd.org,Teacher – Education Specialist,El Carmelo Elementary School
+Bruno,Colchen,bcolchen@pausd.org,Teacher – 4th Grade,El Carmelo Elementary School
+Lesley,Cordova,lcordova@pausd.org,Teacher – Education Specialist,El Carmelo Elementary School
+Maria,Derrick,mderrick@pausd.org,Instructional Aide GE,El Carmelo Elementary School
+Romeo,Famularcano,rfamularcano@pausd.org,Custodian,El Carmelo Elementary School
+Claudia,Flores,cflores@pausd.org,Teacher – 1st Grade,El Carmelo Elementary School
+Leanne,Fonteyn,lfonteyn@pausd.org,Teacher – 2nd Grade,El Carmelo Elementary School
+Erika,Gonzalez,ergonzalez@pausd.org,Instructional Aide GE,El Carmelo Elementary School
+Marci,Hakeman,mhakeman@pausd.org,Psychologist,El Carmelo Elementary School
+Sarah,Hamilton,shamilton@pausd.org,Teacher – 4th Grade,El Carmelo Elementary School
+Eva,Herberger,eherberger@pausd.org,Teacher – Transitional Kinder,El Carmelo Elementary School
+Ann,Holum,aholum@pausd.org,Instructional Aide GE,El Carmelo Elementary School
+Jessica,Hom,jhom@pausd.org,Elementary School Clerk,El Carmelo Elementary School
+Kyle,Jantzi,kjantzi@pausd.org,Teacher – 5th Grade,El Carmelo Elementary School
+Vidya,Karra,vkarra@pausd.org,Teacher – 2nd Grade,El Carmelo Elementary School
+Eileen,Laughlin,elaughlin@pausd.org,Teacher – 3rd Grade,El Carmelo Elementary School
+Fernando,Lopez,felopez@pausd.org,Instructional Aide GE,El Carmelo Elementary School
+Gaelyn,Mason,gmason@pausd.org,Teacher – 5th Grade,El Carmelo Elementary School
+Rickey,Moore,rmoore@pausd.org,Custodian I,El Carmelo Elementary School
+Virginia,Nagao,vnagao@pausd.org,Elementary School Secretary,El Carmelo Elementary School
+Maria,Ormaza-Mathia,mmathia@pausd.org,Teacher – Reading Specialist,El Carmelo Elementary School
+Leah,Persing,lpersing@pausd.org,Teacher – Speech/Language,El Carmelo Elementary School
+Maria,Reyes Munguia,mreyesmunguia@pausd.org,Mental Health & Wellness Associate,El Carmelo Elementary School
+Heather,Stone,hstone@pausd.org,Teacher – 1st Grade,El Carmelo Elementary School
+Serena,Villalobos,svillalobos@pausd.org,Teacher – 5th Grade,El Carmelo Elementary School
+Yvette,Vo,yvo@pausd.org,Teacher – ELD,El Carmelo Elementary School
+Teri,Wilde,twilde@pausd.org,Teacher – 3rd Grade,El Carmelo Elementary School
+Carol,Wu,cbaewu@pausd.org,"Teacher – Intervention TOSA, Teacher – Math Resource",El Carmelo Elementary School
+Rachel,Adams,radams@pausd.org,Teacher – 4th/5th Grade,Escondido Elementary School
+Esther,Agustin Perez,eagustinperez@pausd.org,Teacher – Reading Specialist,Escondido Elementary School
+Irene,Ayala Espinoza,iayalaespinoza@pausd.org,Custodian,Escondido Elementary School
+Nina,Bailey,nbailey@pausd.org,Teacher – Library Media,Escondido Elementary School
+Debra,Bhalla,dbhalla@pausd.org,Teacher – 2nd Grade,Escondido Elementary School
+Amy,Boyarsky,aboyarsky@pausd.org,Teacher – 2nd/3rd Grade,Escondido Elementary School
+John,Brubaker,jbrubaker@pausd.org,Teacher – 4th Grade,Escondido Elementary School
+Leslie,Crane,lcrane@pausd.org,Elementary School Principal,Escondido Elementary School
+Tamar,Defrancesco,tdefrancesco@pausd.org,Teacher – Intervention TOSA,Escondido Elementary School
+Amanda,Dungan,adungan@pausd.org,Teacher – 1st Grade,Escondido Elementary School
+Zilda,Endo,zendo@pausd.org,"Campus Supervisor, Instructional Aide GE",Escondido Elementary School
+Sharon,Fekete,sfekete@pausd.org,Teacher – ELD,Escondido Elementary School
+Tara,Feldmeier,tfeldmeier@pausd.org,Teacher – 2nd Grade,Escondido Elementary School
+Richard,Garcia,rgarcia@pausd.org,Teacher – 5th Grade,Escondido Elementary School
+Mariam,Gates,magates@pausd.org,Teacher – Education Specialist,Escondido Elementary School
+Alejandro,Gonzalez,algonzalez@pausd.org,Teacher – 3rd Grade,Escondido Elementary School
+Mayra,Gonzalez,magonzalez@pausd.org,"Campus Supervisor, Instructional Aide GE",Escondido Elementary School
+Monica,Gutierrez,mgutierrez@pausd.org,Teacher – ELD,Escondido Elementary School
+Kaisey,Hake,khake@pausd.org,"Teacher – Intervention TOSA, Reading Specialist",Escondido Elementary School
+Sheri,Heise,sheise@pausd.org,Psychologist,Escondido Elementary School
+Anna,Hernandez,anhernandez@pausd.org,Instructional Aide GE,Escondido Elementary School
+Helena,Holmes,hholmes@pausd.org,Teacher – 3rd Grade,Escondido Elementary School
+Miki,Kim,mkim@pausd.org,Instructional Aide GE,Escondido Elementary School
+Christine,Koehnke,ckoehnke@pausd.org,Teacher – 5th Grade,Escondido Elementary School
+Katherine,Kuwada,kkuwada@pausd.org,Teacher – Kindergarten,Escondido Elementary School
+Agustina,Lodoen,alodoen@pausd.org,Teacher – 5th Grade,Escondido Elementary School
+Mirna,Lopez Maldonado,mlopezmaldonado@pausd.org,Custodian I,Escondido Elementary School
+Allison,Marin,amarin@pausd.org,Instructional Aide GE,Escondido Elementary School
+Tiffany,Martin,tmartin@pausd.org,Teacher – 3rd Grade,Escondido Elementary School
+Angelica,Martinez Santin,amartinez@pausd.org,"Campus Supervisor, Instructional Aide GE",Escondido Elementary School
+Tara,McCann,tmccann@pausd.org,Teacher – 4th Grade,Escondido Elementary School
+Kimberly,Moore,kmoore@pausd.org,Teacher – 1st Grade,Escondido Elementary School
+Sindy,Ochoa Gonzales,sochoagonzales@pausd.org,Health Technician,Escondido Elementary School
+Cecilia,Ortega,cortega@pausd.org,Teacher – 2nd Grade,Escondido Elementary School
+Rachel,Passinsky,rpassinsky@pausd.org,Teacher – 1st Grade,Escondido Elementary School
+Claudia,Penaloza,cpenaloza@pausd.org,Teacher – Kindergarten,Escondido Elementary School
+Jessica,Pineda,jpineda@pausd.org,Teacher – 4th Grade,Escondido Elementary School
+Emma,Pulsipher,epulsipher@pausd.org,Teacher – Kindergarten,Escondido Elementary School
+Paola,Ramirez Rojas,pramirezrojas@pausd.org,"Campus Supervisor, Instructional Aide GE",Escondido Elementary School
+Anai,Ramos,aramos@pausd.org,Teacher – Kindergarten,Escondido Elementary School
+Martha,Rivera,marivera@pausd.org,Elementary School Secretary,Escondido Elementary School
+Liliana,Robertson,lrobertson@pausd.org,Instructional Aide GE,Escondido Elementary School
+Angeline,Rodriguez,arodriguez@pausd.org,Teacher – 1st Grade,Escondido Elementary School
+Jennifer,Samayoa,jsamayoa@pausd.org,Elementary School Clerk,Escondido Elementary School
+Brooke,Tassa,btassa@pausd.org,Assistant Principal – Elementary,Escondido Elementary School
+Edgardo,Vazquez Hernandez,evazquezhernandez@pausd.org,Custodian I,Escondido Elementary School
+Margaret,Williams,mwilliams@pausd.org,Teacher – ELD,Escondido Elementary School
+Ruiqi,Zhu,rzhu@pausd.org,Instructional Aide GE,Escondido Elementary School
+Trebor,Winslow,twinslow@pausd.org,Principal,Fairmeadow Elementary School
+Patty,Sakuma,psakuma@pausd.org,Clerk,Fairmeadow Elementary School
+Alison,Mui,amui@pausd.org,Teacher,Fairmeadow Elementary School
+Cheryl,Tsuruda,ctsuruda@pausd.org,Teacher,Fairmeadow Elementary School
+Chris,Easton,ceaston@pausd.org,Teacher,Fairmeadow Elementary School
+Christina,Bonzani,cbonzani@pausd.org,Teacher,Fairmeadow Elementary School
+Dawn,Gray,dgray@pausd.org,Teacher,Fairmeadow Elementary School
+Heidi,Vermaire,hvermaire@pausd.org,Teacher,Fairmeadow Elementary School
+Karen,Krimmer,kkrimmer@pausd.org,Teacher,Fairmeadow Elementary School
+Kristi,Van,kvan@pausd.org,Teacher,Fairmeadow Elementary School
+Lanette,Konrad,lkonrad@pausd.org,Teacher,Fairmeadow Elementary School
+Lara,Jarvis,ljarvis@pausd.org,Teacher,Fairmeadow Elementary School
+Laura,Duckworth,lduckworth@pausd.org,Teacher,Fairmeadow Elementary School
+Lynn,Tabuchi,ltabuchi@pausd.org,Teacher,Fairmeadow Elementary School
+Nayely,Cortes Garcia,ncortes@pausd.org,Teacher,Fairmeadow Elementary School
+Robin,Kozina-Carlson,rkozinacarlson@pausd.org,Teacher,Fairmeadow Elementary School
+Stephanie,Choy,schoy@pausd.org,Teacher,Fairmeadow Elementary School
+Sujin,Park,spark@pausd.org,Teacher,Fairmeadow Elementary School
+Valerie,Sabbag,vsabbag@pausd.org,Teacher,Fairmeadow Elementary School
+Victor,Gutierrez,vgutierrez@pausd.org,Teacher,Fairmeadow Elementary School
+Zoe,Peters,zpeters@pausd.org,Teacher,Fairmeadow Elementary School
+Chermaine,Millares,cmillares@pausd.org,Education Specialist,Fairmeadow Elementary School
+Kim,Ryan,kryan@pausd.org,Educational Specialist,Fairmeadow Elementary School
+Christine,Wang,cwang@pausd.org,Educational Specialist,Fairmeadow Elementary School
+Rusty,Tooley,rtooley@pausd.org,Librarian,Fairmeadow Elementary School
+Melissa,Hinkle,mhinkle@pausd.org,EL Specialist,Fairmeadow Elementary School
+Ann,Quan,aquan@pausd.org,Intervention TOSA / Reading,Fairmeadow Elementary School
+Toshih,Nargund,tnargund@pausd.org,Speech/Language,Fairmeadow Elementary School
+Andy,Nguyen,annguyen@pausd.org,Technology,Fairmeadow Elementary School
+Jose,Prieto,jprieto@pausd.org,General Music,Fairmeadow Elementary School
+Gary,Ortega,gortega@pausd.org,Woodwinds,Fairmeadow Elementary School
+Shawn,McGinn,smcginn@pausd.org,Woodwinds,Fairmeadow Elementary School
+Allison,Zenner,azenner@pausd.org,Strings,Fairmeadow Elementary School
+Keith,Hunter,khunter@pausd.org,Brass,Fairmeadow Elementary School
+Aida,Benavidez,abenavidez@pausd.org,Elementary School Secretary,Herbert Hoover Elementary School
+Danielle,Castillo,dcastillo@pausd.org,Teacher - 2nd Grade,Herbert Hoover Elementary School
+Victoria,Chavez,vchavez@pausd.org,Teacher - 1st Grade,Herbert Hoover Elementary School
+Fiona,Chew,fchew@pausd.org,Instructional Aide GE,Herbert Hoover Elementary School
+Stephanie,Ching,sching@pausd.org,Teacher - 5th Grade,Herbert Hoover Elementary School
+Janice,Choi,jachoi@pausd.org,Psychologist,Herbert Hoover Elementary School
+Colleen,Coburn,ccoburn@pausd.org,Teacher - 4th Grade,Herbert Hoover Elementary School
+Celeste,Deggeller,cdeggeller@pausd.org,Teacher - 3rd Grade,Herbert Hoover Elementary School
+Jamie,Eap,jeap@pausd.org,Campus Supervisor,Herbert Hoover Elementary School
+Miranda,Erikson,merikson@pausd.org,Teacher - KN,Herbert Hoover Elementary School
+Nancy,Felch,nfelch@pausd.org,Teacher - ELD,Herbert Hoover Elementary School
+Younju,Han,yhan@pausd.org,Instructional Aide GE,Herbert Hoover Elementary School
+Catherine,Harkness Lemat,charknesslemat@pausd.org,Teacher - Library Media,Herbert Hoover Elementary School
+Nestor,Ibardolasa,nibardolasa@pausd.org,Custodian,Herbert Hoover Elementary School
+Catherine,Kim,ckim@pausd.org,Teacher - 5th Grade,Herbert Hoover Elementary School
+Rachel,Kim,rkim@pausd.org,Teacher - 4th Grade,Herbert Hoover Elementary School
+Nathan,Kong,nkong@pausd.org,Teacher - 1st Grade,Herbert Hoover Elementary School
+Kimberly,Kwon,kikwon@pausd.org,Teacher - 5th Grade,Herbert Hoover Elementary School
+Amy,Lee,amlee@pausd.org,Teacher - 2nd Grade,Herbert Hoover Elementary School
+Cara,Lewis,clewis@pausd.org,Teacher - Education Specialist,Herbert Hoover Elementary School
+Nikole,Manou,nmanou@pausd.org,Elementary School Principal,Herbert Hoover Elementary School
+Pavitra,Mathoda,pmathoda@pausd.org,Teacher - 3rd Grade,Herbert Hoover Elementary School
+Kevin,Mcalpin,kmcalpin@pausd.org,Teacher - 4th Grade,Herbert Hoover Elementary School
+Rachel,Milliken-Weitzman,rmillikenweitzman@pausd.org,Teacher - Reading Specialist,Herbert Hoover Elementary School
+Jose,Orellana,jorellana@pausd.org,Custodian I,Herbert Hoover Elementary School
+Mele,Perla Adams,mperla@pausd.org,Teacher - 1st Grade,Herbert Hoover Elementary School
+Stefanie,Plaat,splaat@pausd.org,Teacher - 2nd Grade,Herbert Hoover Elementary School
+Andrea,Posada,aposada@pausd.org,Teacher - Speech/Language,Herbert Hoover Elementary School
+Pamela,Price,pprice@pausd.org,Teacher - Reading Specialist,Herbert Hoover Elementary School
+Seema,Ramanathan,sramanathan@pausd.org,Teacher - 3rd Grade,Herbert Hoover Elementary School
+Skyler,Ramirez,skramirez@pausd.org,Teacher - KN,Herbert Hoover Elementary School
+Liz,Schremp,lschremp@pausd.org,Instructional Assistant,Herbert Hoover Elementary School
+Bina,Shah,bshah@pausd.org,Instructional Assistant,Herbert Hoover Elementary School
+Michelle,Sullivan,msullivan@pausd.org,Teacher - KN,Herbert Hoover Elementary School
+Lu,Wang,luwang@pausd.org,Elementary School Clerk,Herbert Hoover Elementary School
+Katy,Bimpson,kbimpson@pausd.org,Principal,Juana Briones Elementary School
+Rachelle,Tarifa,rtarifa@pausd.org,Secretary,Juana Briones Elementary School
+Kathryn,Ames,kames@pausd.org,Clerk,Juana Briones Elementary School
+Susan,Giovannotto,sgiovannotto@pausd.org,Teacher (K),Juana Briones Elementary School
+Megan,Rompre,mrompre@pausd.org,Teacher (K),Juana Briones Elementary School
+Marquia,Monteiro,mmonteiro@pausd.org,Teacher (1),Juana Briones Elementary School
+Gina,Dal Fuoco,gdalfuoco@pausd.org,Teacher (1),Juana Briones Elementary School
+April,McCandless,amccandless@pausd.org,Teacher (2),Juana Briones Elementary School
+Julia,Hughes,jhughes@pausd.org,Teacher (2),Juana Briones Elementary School
+Sarah,Noonan,snoonan@pausd.org,Teacher (3),Juana Briones Elementary School
+Yasmin,Shirole,yshirole@pausd.org,Teacher (3),Juana Briones Elementary School
+Tom,Culbertson,tculbertson@pausd.org,Teacher (4),Juana Briones Elementary School
+Rachel,Caldeira,rcaldeira@pausd.org,Teacher (4),Juana Briones Elementary School
+Laurie,Levy,llevy@pausd.org,Teacher (5),Juana Briones Elementary School
+Kim,Hanley,khanley@pausd.org,Teacher (5),Juana Briones Elementary School
+Kristin,Howell,khowell@pausd.org,Librarian,Juana Briones Elementary School
+Amber,Soto,asoto@pausd.org,SDC Teacher,Juana Briones Elementary School
+Tryst'n,Hart,thart@pausd.org,Ed. Specialist,Juana Briones Elementary School
+Maria,Spencer,mspencer@pausd.org,Speech/Language,Juana Briones Elementary School
+Laila,Adle,ladle@pausd.org,Vision Specialist,Juana Briones Elementary School
+Darcy,Miller,dmiller@pausd.org,Wellness Counselor,Juana Briones Elementary School
+Hannah,Lee,halee@pausd.org,Wellness Counselor,Juana Briones Elementary School
+Roxanne,Koopman,rkoopman@pausd.org,Adaptive PE,Juana Briones Elementary School
+Angel,Sheridan,asheridan@pausd.org,Health Technician,Juana Briones Elementary School
+Amy,Hartinger,ahartinger@pausd.org,Instructional Aide,Juana Briones Elementary School
+Minh-Trang,Nguyen,mnguyen@pausd.org,Instructional Aide,Juana Briones Elementary School
+So Young,Park,sopark@pausd.org,Instructional Aide,Juana Briones Elementary School
+Kim,Rodrigo,krodrigo@pausd.org,Instructional Aide,Juana Briones Elementary School
+Andrea,Rothenberg,arothenberg@pausd.org,Instructional Aide,Juana Briones Elementary School
+Pam,Steward,psteward@pausd.org,Instructional Aide,Juana Briones Elementary School
+Eryn,Trumbull,etrumbull@pausd.org,Student Attendant (K–3),Juana Briones Elementary School
+Marcus,Reynolds,mreynolds@pausd.org,Student Attendant (K–3),Juana Briones Elementary School
+Anjuli,Belwal,abelwal@pausd.org,Student Attendant (K–3),Juana Briones Elementary School
+Zara,Chughtai,zchughtai@pausd.org,Student Attendant (K–3),Juana Briones Elementary School
+Chanelle,Roces,croces@pausd.org,Student Attendant,Juana Briones Elementary School
+Monica,Gutierrez-Segura,mgutierrezsegura@pausd.org,Student Attendant,Juana Briones Elementary School
+Ted,Narayan,tnarayan@pausd.org,IT,Juana Briones Elementary School
+Edwin,DeGuzman,edeguzman@pausd.org,Custodian,Juana Briones Elementary School
+Mike,Sanchez,msanchez@pausd.org,Custodian,Juana Briones Elementary School
+Jose,Elizalde,jelizalde@pausd.org,Food Services,Juana Briones Elementary School
+Amy,Sheward,asheward@pausd.org,Principal,Lucille M. Nixon Elementary School
+Lee-Ann,Taylor,ltaylor@pausd.org,Secretary,Lucille M. Nixon Elementary School
+Vivian,Woo,vwoo@pausd.org,Clerk,Lucille M. Nixon Elementary School
+Courtney,Smith,cosmith@pausd.org,Teacher - K,Lucille M. Nixon Elementary School
+Kristina,Hayes,khayes@pausd.org,Teacher - K,Lucille M. Nixon Elementary School
+Jody,Harrier,jharrier@pausd.org,Teacher - K,Lucille M. Nixon Elementary School
+Karen,Ramorino,kramorino@pausd.org,Teacher - 1,Lucille M. Nixon Elementary School
+Kim,Powell,kpowell@pausd.org,Teacher - 1,Lucille M. Nixon Elementary School
+Susan,Barrie,sbarrie@pausd.org,Teacher - 1,Lucille M. Nixon Elementary School
+Joan,Dreschke,jdreschke@pausd.org,Teacher - 2,Lucille M. Nixon Elementary School
+Ann,Kwolek,akwolek@pausd.org,Teacher - 2,Lucille M. Nixon Elementary School
+Catherine,Dobroff,cdobroff@pausd.org,Teacher - 3,Lucille M. Nixon Elementary School
+Stephanie,Han,shan@pausd.org,Teacher - 3,Lucille M. Nixon Elementary School
+Susan,Foster,sfoster@pausd.org,Teacher - 3,Lucille M. Nixon Elementary School
+Sarah,Bloom,sbloom@pausd.org,Teacher - 4,Lucille M. Nixon Elementary School
+Kerrie,Edmonds,kedmonds@pausd.org,Teacher - 4,Lucille M. Nixon Elementary School
+Stacey,Soong,ssoong@pausd.org,Teacher - 4,Lucille M. Nixon Elementary School
+Katie,Ellenberger,kellenberger@pausd.org,Teacher - 5,Lucille M. Nixon Elementary School
+Chris,Nosek,cnosek@pausd.org,Teacher - 5,Lucille M. Nixon Elementary School
+Laura,Schwarz,lschwarz@pausd.org,Teacher - 5,Lucille M. Nixon Elementary School
+Serafin,Barron,sbarron@pausd.org,Custodian,Lucille M. Nixon Elementary School
+Martha,Waterhouse,mwaterhouse@pausd.org,Teacher - ELD,Lucille M. Nixon Elementary School
+Lu,Tran,ltran@pausd.org,IT,Lucille M. Nixon Elementary School
+Lillian,Seedman,lseedman@pausd.org,Speech,Lucille M. Nixon Elementary School
+Marie,Legrand,mlegrand@pausd.org,Teacher - 3–5 Learning Center,Lucille M. Nixon Elementary School
+Hanna,Miller,hmiller@pausd.org,Teacher - K–2 Learning Center,Lucille M. Nixon Elementary School
+Laura,Lajeunesse,llajeunesse@pausd.org,Librarian,Lucille M. Nixon Elementary School
+Maria,De La Rosa,mdelarosa@pausd.org,Lunch Server,Lucille M. Nixon Elementary School
+Allye,Mullins,amullins@pausd.org,PE,Lucille M. Nixon Elementary School
+Chloe,Billings,cbillings@pausd.org,Primary Music,Lucille M. Nixon Elementary School
+Kerith,Bates,kbates@pausd.org,Psychologist,Lucille M. Nixon Elementary School
+Sue,Chakos,schakos@pausd.org,Reading,Lucille M. Nixon Elementary School
+Sue,Emsley,semsley@pausd.org,Spectra Art,Lucille M. Nixon Elementary School
+Elsa,Chen,echen@pausd.org,Principal,Ohlone Elementary School
+Joe,Stendahl,jstendahl@pausd.org,Assistant Principal,Ohlone Elementary School
+Heike,Enders,henders@pausd.org,Secretary,Ohlone Elementary School
+Leslie,Ramos,lramos@pausd.org,Clerk,Ohlone Elementary School
+Chau,Pham,cpham@pausd.org,Custodian,Ohlone Elementary School
+Nancy,Shorum,nshorum@pausd.org,Teacher - Room 1,Ohlone Elementary School
+Roni,Kraft,rkraft@pausd.org,Teacher - K/1,Ohlone Elementary School
+Avery,Olesen,aolesen@pausd.org,Teacher - K/1,Ohlone Elementary School
+Santha,Furlanic,sfurlanic@pausd.org,Teacher - K/1,Ohlone Elementary School
+Joanna,Kovacs,jkovacs@pausd.org,Teacher - K/1,Ohlone Elementary School
+Claire,Albert,calbert@pausd.org,Teacher - 2/3 MI,Ohlone Elementary School
+Lu,Sun,lsun@pausd.org,Teacher (LTS),Ohlone Elementary School
+Huiyan,Neo,hneo@pausd.org,Teacher,Ohlone Elementary School
+Eddie,Ramirez,eramirez@pausd.org,Spectra Art,Ohlone Elementary School
+Corinne,Sturgis,csturgis@pausd.org,Music Teacher,Ohlone Elementary School
+Monica,Lynch,mlynch@pausd.org,Teacher - 2/3,Ohlone Elementary School
+Alex,White,awhite@pausd.org,Teacher,Ohlone Elementary School
+Lynn,Tsai,ltsai@pausd.org,Teacher,Ohlone Elementary School
+Ashley,McCrea,amccrea@pausd.org,Teacher,Ohlone Elementary School
+Michelle,Haughney,mhaughney@pausd.org,Teacher,Ohlone Elementary School
+Ying,Ren,yren@pausd.org,Teacher - K/1 MI,Ohlone Elementary School
+Judy,Kislitsyn,jkislitsyn@pausd.org,Teacher,Ohlone Elementary School
+Piper,Joseph,pjoseph@pausd.org,Teacher,Ohlone Elementary School
+Limin,Chen,lchen@pausd.org,Teacher - 4/5 MI,Ohlone Elementary School
+Emma,Clark,eclark@pausd.org,Teacher - 4/5,Ohlone Elementary School
+Yineng,Lu,ylu@pausd.org,Teacher,Ohlone Elementary School
+Nikki,Moore,nmoore@pausd.org,Teacher,Ohlone Elementary School
+Eloise,DeFrancesco,edefrancesco@pausd.org,Teacher,Ohlone Elementary School
+Maricela,Duran-Wright,mduranwright@pausd.org,Teacher,Ohlone Elementary School
+Sereena,Ojakian,sojakian@pausd.org,Teacher,Ohlone Elementary School
+Janice,Stone,janstone@pausd.org,Teacher,Ohlone Elementary School
+Grace,Bunya,gbunya@pausd.org,Library Teacher,Ohlone Elementary School
+Bobby,Rankin,rrankin@pausd.org,EL Specialist,Ohlone Elementary School
+Cynthia,Ehrhorn,cehrhorn@pausd.org,Reading Specialist,Ohlone Elementary School
+Sarah,Jados,sjados@pausd.org,Speech/Language Specialist,Ohlone Elementary School
+Kristina,Sandoval,ksandoval@pausd.org,PE Teacher,Ohlone Elementary School
+Allyson,Zeman,azeman@pausd.org,EL Specialist,Ohlone Elementary School
+Katherine,Aguayo,kaguayo@pausd.org,Reading Specialist,Ohlone Elementary School
+Brenda,Ngo,bngo@pausd.org,Occupational Therapist,Ohlone Elementary School
+Xi,Yan,xyan@pausd.org,Education Specialist,Ohlone Elementary School
+Ciara,Bleahen,cbleahen@pausd.org,Psychologist,Ohlone Elementary School
+Christian,Muñoz,chmunoz@pausd.org,Counselor,Ohlone Elementary School
+Christine,Baker,cbaker@pausd.org,Student & Family Engagement Specialist,Ohlone Elementary School
+Julie,Budas,jbudas@pausd.org,Farm Manager,Ohlone Elementary School
+Robert,Garzino,rgarzino@pausd.org,Farm Science Instructional Assistant,Ohlone Elementary School
+Annora,Lee,alee@pausd.org,Principal,Palo Verde Elementary School
+Jenny,Hsiung,jhsiung@pausd.org,Secretary,Palo Verde Elementary School
+Anabela,Pak,apak@pausd.org,Clerk,Palo Verde Elementary School
+Carlos,Valencia Verduzco,cverduzco@pausd.org,Day Custodian,Palo Verde Elementary School
+Jose,Revueltas,jrevueltas@pausd.org,Evening Custodian,Palo Verde Elementary School
+Laila,Agrama,lagrama@pausd.org,Kindergarten Teacher,Palo Verde Elementary School
+Mollie,Stitt,mstitt@pausd.org,Aide,Palo Verde Elementary School
+LilyAnn,Stolp,lstolp@pausd.org,Kindergarten Teacher,Palo Verde Elementary School
+Kimberly,Martinez,kimartinez@pausd.org,1st Grade Teacher,Palo Verde Elementary School
+Kathleen,Rice,karice@pausd.org,1st Grade Teacher,Palo Verde Elementary School
+Yvonne,Dennis,ydennis@pausd.org,1st–4th Grade Teacher,Palo Verde Elementary School
+Lynn,Lin,hsialin@pausd.org,1st Grade Teacher,Palo Verde Elementary School
+Nina,Vatkina,nvatkina@pausd.org,2nd Grade Teacher,Palo Verde Elementary School
+Alice,Cassidy,acassidy@pausd.org,2nd–3rd Grade Teacher,Palo Verde Elementary School
+Keri,Ghiorso,kghiorso@pausd.org,2nd Grade Teacher,Palo Verde Elementary School
+Susan,Kim,skim@pausd.org,2nd Grade Teacher,Palo Verde Elementary School
+Lili,Nova-Roessig,lnovaroessig@pausd.org,3rd & 5th Grade Teacher,Palo Verde Elementary School
+Grace,Kim,gkim@pausd.org,3rd Grade Teacher,Palo Verde Elementary School
+Kaitlyn,Aure,kaure@pausd.org,3rd Grade Teacher,Palo Verde Elementary School
+Heather,Cleland,hcleland@pausd.org,4th Grade Teacher,Palo Verde Elementary School
+Megan,Morse-Quevedo,mmorsequevedo@pausd.org,4th Grade Teacher,Palo Verde Elementary School
+Jenna,Segall,jsegall@pausd.org,4th Grade Teacher,Palo Verde Elementary School
+Jennifer,Aza Allan,jaza@pausd.org,5th Grade Teacher,Palo Verde Elementary School
+Laurence,Kancherla,lkancherla@pausd.org,5th Grade Teacher,Palo Verde Elementary School
+Carrie,May,cmay@pausd.org,5th Grade Teacher,Palo Verde Elementary School
+Hannah,Hoagland,hhoagland@pausd.org,5th Grade Teacher,Palo Verde Elementary School
+Renee,Doll,rdoll@pausd.org,Occupational Therapist (O.T.),Palo Verde Elementary School
+April,Nguyen,anguyen@pausd.org,Aide,Palo Verde Elementary School
+Veena,Bhushan,vbhushan@pausd.org,Learning Center,Palo Verde Elementary School
+Carolyn,Jones,cjones@pausd.org,ELD Specialist,Palo Verde Elementary School
+Amy,Hansen,ahansen@pausd.org,Reading Specialist,Palo Verde Elementary School
+Lisa,Scigliano,lscigliano@pausd.org,Reading Specialist,Palo Verde Elementary School
+Rachel,Lamptey,rlamptey@pausd.org,Speech Specialist,Palo Verde Elementary School
+Ellen,Rubel,erubel@pausd.org,Speech Specialist,Palo Verde Elementary School
+Scott,Benson,sbenson@pausd.org,Psychologist,Palo Verde Elementary School
+Shiraaz,Bhabha,sbhabha@pausd.org,Mental Health & Wellness Associate,Palo Verde Elementary School
+Virginia,Gutierrez-Porter,vigutierrez@pausd.org,Mental Health & Wellness,Palo Verde Elementary School
+Kate,Carmona Arbelaez,kcarmonaarbelaez@pausd.org,ERHMS Therapist,Palo Verde Elementary School
+Kerry,Li,keli@pausd.org,Music / General Music / P.E. / Art,Palo Verde Elementary School
+Iris,Wong,iwong@pausd.org,Principal,Walter Hays Elementary School
+Laurie,Shea,lshea@pausd.org,Secretary,Walter Hays Elementary School
+Kim,Brasil,kbrasil@pausd.org,Clerk,Walter Hays Elementary School
+Kathleen,Vargha,kvargha@pausd.org,Speech and Language Pathologist,Walter Hays Elementary School
+Stacey,Myers,smyers@pausd.org,Reading Specialist,Walter Hays Elementary School
+Jennifer,Ford,jford@pausd.org,Librarian & Literacy Intervention,Walter Hays Elementary School
+Jessica,Tolerba,jtolerba@pausd.org,Literacy Intervention Teacher,Walter Hays Elementary School
+Tara,Hatami,thatami@pausd.org,Mental Health & Wellness Associate,Walter Hays Elementary School
+Aubree,Guthrey,aguthery@pausd.org,Occupational Therapist,Walter Hays Elementary School
+Davis,Ron,dron@pausd.org,Head/Day Custodian,Walter Hays Elementary School
+Marin,Rodriguez,marodriguez@pausd.org,Night Custodian,Walter Hays Elementary School
+Andy,Vo,avo@pausd.org,Lunch Server / Record Keeper,Walter Hays Elementary School
+Kendra,Archuleta,kwilliams@pausd.org,TK Teacher,Walter Hays Elementary School
+Ashlyn,Rao,arao@pausd.org,Classroom Teacher,Walter Hays Elementary School
+Tara,Hunt,thunt@pausd.org,Classroom Teacher,Walter Hays Elementary School
+Jennifer,Arnout,jarnout@pausd.org,Paraprofessional,Walter Hays Elementary School
+Michelle,Robell,mrobell@pausd.org,Classroom Teacher,Walter Hays Elementary School
+Michele,Ketcham,mketcham@pausd.org,TK Teacher,Walter Hays Elementary School
+Michael,Hauss,mhauss@pausd.org,Classroom Teacher,Walter Hays Elementary School
+Mary,Stern,mstern@pausd.org,Kindergarten Teacher,Walter Hays Elementary School
+Hada,Jimenez-Chipres,hjimenezchipres@pausd.org,1st Grade Teacher,Walter Hays Elementary School
+Joyce,Alba,jalba@pausd.org,Classroom Teacher,Walter Hays Elementary School
+Yun Hee,Choi,ychoi@pausd.org,3rd Grade Teacher,Walter Hays Elementary School
+Holly,Harrison,hharrison@pausd.org,Classroom Teacher,Walter Hays Elementary School
+Shawn,Harvey,sharvey@pausd.org,4th Grade Teacher,Walter Hays Elementary School
+Patti,Schaffer,pschaffer@pausd.org,Classroom Teacher,Walter Hays Elementary School
+Brian,Hubbs,bhubbs@pausd.org,Classroom Teacher,Walter Hays Elementary School
+Helen,Carnes,hcarnes@pausd.org,5th Grade Teacher,Walter Hays Elementary School
+Corinne,Achiepo Haboeck,cachiepohaboeck@pausd.org,Classroom Teacher,Walter Hays Elementary School
+Helena,Katunaric,hkatunaric@pausd.org,Education Specialist – Learning Center I,Walter Hays Elementary School
+Clare,Elliott,celliott@pausd.org,Education Specialist – Resource Room,Walter Hays Elementary School
+Alyssa,Levitan,alevitan@pausd.org,Spectra Art,Walter Hays Elementary School
+Stefany,Anserlian,sanserlian@pausd.org,Science,Ellen Fletcher Middle School
+Jessica,Antoni,jantonio@pausd.org,Wheel / Art,Ellen Fletcher Middle School
+Teri,Baldwin,tbaldwin@pausd.org,Teacher Librarian,Ellen Fletcher Middle School
+Alexandra,Beltran,abeltran@pausd.org,Health Technician,Ellen Fletcher Middle School
+Jennifer,Benelli,jbenelli@pausd.org,Vision Teacher,Ellen Fletcher Middle School
+Nicole,Bliss,nbliss@pausd.org,Social Studies (7),Ellen Fletcher Middle School
+Victoria,Blockhus,vblockhus@pausd.org,"Social Studies, Dept. Lead (8)",Ellen Fletcher Middle School
+Marisa,Busick,mbusick@pausd.org,Education Specialist,Ellen Fletcher Middle School
+Bobby,Cabagbag,bcabagbag@pausd.org,Custodian 1 (Night),Ellen Fletcher Middle School
+Clemencia,Calk,ccalk@pausd.org,Instructional Aide – SpEd,Ellen Fletcher Middle School
+Beth,Carlson,bcarlson@pausd.org,"Science, Dept. Lead (8)",Ellen Fletcher Middle School
+Amanda,Carranza,amcarranza@pausd.org,School Secretary,Ellen Fletcher Middle School
+Keith,Casey,kcasey@pausd.org,Math & Science (6),Ellen Fletcher Middle School
+Christine,Castillo,ccastillo@pausd.org,Family Engagement Specialist (FES),Ellen Fletcher Middle School
+Juan,Cativo,jcativopinto@pausd.org,Campus Supervisor,Ellen Fletcher Middle School
+Hyang,Chang,hchang@pausd.org,Student Attendant,Ellen Fletcher Middle School
+Peggy,Chang,pchang@pausd.org,Mental Health Therapist,Ellen Fletcher Middle School
+Irma,Chavez,ichavezvalencia@pausd.org,Food Services,Ellen Fletcher Middle School
+Jim,Cox,jcox@pausd.org,Science (6 & 8),Ellen Fletcher Middle School
+Jennifer,Crane,jcrane@pausd.org,Physical Education,Ellen Fletcher Middle School
+Darcy,Dalton,ddalton@pausd.org,English,Ellen Fletcher Middle School
+De,Dean,ddean@pausd.org,Custodial Supervisor,Ellen Fletcher Middle School
+Aileen,Delaney,adelaney@pausd.org,Physical Education,Ellen Fletcher Middle School
+Nicholas,De Martini,ndemartini@pausd.org,SPED Ed Specialist / ASB,Ellen Fletcher Middle School
+Danele,Dixon,ddixon@pausd.org,Therapeutic Services,Ellen Fletcher Middle School
+Arcia,Dorosti,adorosti@pausd.org,"ALD, EL Coordinator, AVID",Ellen Fletcher Middle School
+Heather,Driscoll,hdriscoll@pausd.org,English / Social Studies (6),Ellen Fletcher Middle School
+Mark,Dungan,mdungan@pausd.org,"Music / Band, VAPA IL",Ellen Fletcher Middle School
+Jennifer,Ellington,jellington@pausd.org,"Drama, Creative Writing, Electives Lead",Ellen Fletcher Middle School
+Catherine,Flint,cflint@pausd.org,Math IL (6),Ellen Fletcher Middle School
+Kendra,Fraka,kfraka@pausd.org,EHRMS,Ellen Fletcher Middle School
+Gonzalo,Garcia,ggarciafrench@pausd.org,SPED Ed Specialist,Ellen Fletcher Middle School
+Mylinh,Gee,mgee@pausd.org,English Language Arts (8),Ellen Fletcher Middle School
+Tristan,Ginanni,tginanni@pausd.org,Social Studies (7),Ellen Fletcher Middle School
+Jacob,Havey,jhavey@pausd.org,Assistant Principal,Ellen Fletcher Middle School
+Hannah,Helsaple,hhelsaple@pausd.org,Student Attendant,Ellen Fletcher Middle School
+Joy,Helsaple,jhelsaple@pausd.org,Data Secretary,Ellen Fletcher Middle School
+Ross,Helsaple,rhelsaple@pausd.org,Social Studies (6 & 8),Ellen Fletcher Middle School
+Melissa,Howell,mhowell@pausd.org,Principal,Ellen Fletcher Middle School
+Richard,Hung,rhung@pausd.org,Mathematics (7),Ellen Fletcher Middle School
+Dalonna,Jackson,djackson@pausd.org,Mental Health & Wellness Associate,Ellen Fletcher Middle School
+Jovi,Johnston,jojohnston@pausd.org,Counselor (6 & 7),Ellen Fletcher Middle School
+Haydee,Juarez,hjuareztrejo@pausd.org,BIC,Ellen Fletcher Middle School
+Beth,Kahle,bkahle@pausd.org,Budget Clerk / Secretary,Ellen Fletcher Middle School
+Ekta,Kapur,ekapur@pausd.org,Family Consumer Science,Ellen Fletcher Middle School
+Janet,Lai,jlai@pausd.org,Instructional Aide – SpEd,Ellen Fletcher Middle School
+Jefferey,Lam,jlam@pausd.org,Science (6 & 7),Ellen Fletcher Middle School
+Cherish,Mae Larsen,clarsen@pausd.org,Mathematics (7),Ellen Fletcher Middle School
+Annabella,Macrae,amacrae@pausd.org,English Language Arts (6 & 7),Ellen Fletcher Middle School
+Joanne,Maher,jmaher@pausd.org,English Language Arts / Social Science (6),Ellen Fletcher Middle School
+Ivy,Manuel,emanuel@pausd.org,Extended Student Needs,Ellen Fletcher Middle School
+Margarita,Mendez,mmendez@pausd.org,"Spanish, World Lang. Dept. Lead (7 & 8)",Ellen Fletcher Middle School
+Lea Kabiri,Moghadam,lkabirimoghadam@pausd.org,Aide,Ellen Fletcher Middle School
+James,Monson,jmonson@pausd.org,Student Attendant,Ellen Fletcher Middle School
+Bryan,Nabas,bnabas@pausd.org,Mathematics (8),Ellen Fletcher Middle School
+Masoumeh,Nadimi,mnadimi@pausd.org,1:1 Aide,Ellen Fletcher Middle School
+Rima,Parekh,rparekh@pausd.org,Math,Ellen Fletcher Middle School
+George,Pascual,gpascual@pausd.org,Custodian I,Ellen Fletcher Middle School
+Lauren,Priddy,lpriddy@pausd.org,Math (6),Ellen Fletcher Middle School
+Gillian,Reid,greid@pausd.org,Special Ed Lead (6),Ellen Fletcher Middle School
+Dennis,Reyes,dreyesrivas@pausd.org,Food Services,Ellen Fletcher Middle School
+David,Rosenblatt,drosenblatt@pausd.org,"Computers, Web Design, Broadcast",Ellen Fletcher Middle School
+Kevin,Rouse,krouse@pausd.org,Assistant Principal,Ellen Fletcher Middle School
+Catharine,Ryan,cryan@pausd.org,Counselor (6 & 8),Ellen Fletcher Middle School
+Marilou,Sarmiento,msarmiento@pausd.org,Custodian I (Day),Ellen Fletcher Middle School
+Koeurn,Seu,kseu@pausd.org,Lunch Server / Record Keeper,Ellen Fletcher Middle School
+Joni,Shoemaker,jshoemaker@pausd.org,Reading Specialist – Literacy TOSA,Ellen Fletcher Middle School
+Marissa,Staffero,mstaffero@pausd.org,VAPA Orchestra,Ellen Fletcher Middle School
+Gary,Stallions,gstalions@pausd.org,CTE / IT,Ellen Fletcher Middle School
+Suganthi,Subramanian,ssubramanian@pausd.org,English / Social Studies (6),Ellen Fletcher Middle School
+Kirsten,Tasker,ktasker@pausd.org,WL French,Ellen Fletcher Middle School
+Tatiana,Tchoub,ttchoub@pausd.org,Student Attendant,Ellen Fletcher Middle School
+Scedrick,Tippins,stippins@pausd.org,Therapeutic Services,Ellen Fletcher Middle School
+Kera,Treichel,ktreichel@pausd.org,Therapeutic Services,Ellen Fletcher Middle School
+Susan,Turner,sturner@pausd.org,1:1 Instructional Assistant (7),Ellen Fletcher Middle School
+Marianne,Tuttle,mtuttle@pausd.org,Instructional Aide – SpEd,Ellen Fletcher Middle School
+Tammy,Wallace,twallace@pausd.org,Sustainability / Marine Biology (6–8),Ellen Fletcher Middle School
+Travis,Wood,twood@pausd.org,Physical Education,Ellen Fletcher Middle School
+Noel,Woodward,nwoodward@pausd.org,"English, Dept. Lead (7)",Ellen Fletcher Middle School
+Alan,Yu,ayu@pausd.org,Psychologist,Ellen Fletcher Middle School
+Jessica,Aguilar,jaguilar@pausd.org,Budget Clerk / Secretary,Frank S. Greene Jr. Middle School
+Francisco,Asmaeil,fasmaeil@pausd.org,Teacher - Social Science,Frank S. Greene Jr. Middle School
+Jena,Babcock,jbabcock@pausd.org,Secretary II,Frank S. Greene Jr. Middle School
+Craig,Bark,cbark@pausd.org,Teacher - English,Frank S. Greene Jr. Middle School
+Aimee,Becker,abecker@pausd.org,Teacher - Physical Education,Frank S. Greene Jr. Middle School
+Brandon,Byer,brbyer@pausd.org,Teacher - Physical Education,Frank S. Greene Jr. Middle School
+Michelle,Capriotti,mcapriotti@pausd.org,Teacher - Education Specialist,Frank S. Greene Jr. Middle School
+Courtney,Carlomagno,ccarlomagno@pausd.org,Middle School Principal,Frank S. Greene Jr. Middle School
+Samuel,Carpio,scarpio@pausd.org,Custodian I,Frank S. Greene Jr. Middle School
+Laura,Carty,lcarty@pausd.org,School-Based MHT I,Frank S. Greene Jr. Middle School
+Erin,Chan,echan@pausd.org,Teacher - English / Instructional Lead / Social Science,Frank S. Greene Jr. Middle School
+Danae,Clohan,dclohan@pausd.org,Teacher - World Languages,Frank S. Greene Jr. Middle School
+Susan,Curry,scurry@pausd.org,Counselor,Frank S. Greene Jr. Middle School
+Chris,Daduya,cdaduya@pausd.org,Teacher - Education Specialist,Frank S. Greene Jr. Middle School
+Diane,Darrow,ddarrow@pausd.org,Teacher - Induction / Reading Specialist / TOSA,Frank S. Greene Jr. Middle School
+David,De Geronimo,ddegeronimo@pausd.org,Teacher - Physical Education,Frank S. Greene Jr. Middle School
+Annette,Destefano,adestefano@pausd.org,Teacher - 6th Grade Wheel / CTE,Frank S. Greene Jr. Middle School
+Emily,Dinh,edinh@pausd.org,Teacher - Education Specialist,Frank S. Greene Jr. Middle School
+Trevor,Diven,tdiven@pausd.org,Teacher - 6th Grade / English,Frank S. Greene Jr. Middle School
+Suzanne,Doran,sdoran@pausd.org,Teacher - Social Science,Frank S. Greene Jr. Middle School
+Lorie,Englhardt,lenglhardt@pausd.org,Teacher - Math,Frank S. Greene Jr. Middle School
+Jorie,Fields,jfields@pausd.org,Teacher - Instructional Lead / Math,Frank S. Greene Jr. Middle School
+Roseller,Garcia,rogarcia@pausd.org,Custodian I,Frank S. Greene Jr. Middle School
+Abigail,Garrison,agarrison@pausd.org,Teacher - Science,Frank S. Greene Jr. Middle School
+Joseph,Ginanni,jginanni@pausd.org,Teacher - Physical Education,Frank S. Greene Jr. Middle School
+Erica,Goldsworthy,egoldsworthy@pausd.org,Teacher - Science / TOSA,Frank S. Greene Jr. Middle School
+Benjamin,Gonzales,bgonzales@pausd.org,Assistant Principal - Middle,Frank S. Greene Jr. Middle School
+Kare,Grant,kgrant@pausd.org,Teacher - 6th Grade,Frank S. Greene Jr. Middle School
+Amelia,Hancock,ahancock@pausd.org,Teacher - English,Frank S. Greene Jr. Middle School
+David,Havens,dhavens@pausd.org,Custodian I,Frank S. Greene Jr. Middle School
+Andrew,Holoka,aholoka@pausd.org,Teacher - Education Specialist,Frank S. Greene Jr. Middle School
+Laura,Hull,lhull@pausd.org,Teacher - Library Media,Frank S. Greene Jr. Middle School
+Harry,Ibuyan,hibuyan@pausd.org,Custodial Supervisor,Frank S. Greene Jr. Middle School
+Amie,Jan,ajan@pausd.org,Teacher - Visual & Performing Arts,Frank S. Greene Jr. Middle School
+Salma,Kandil,skandil@pausd.org,Teacher - Math,Frank S. Greene Jr. Middle School
+Kourtney,Kientzy,kkientzy@pausd.org,Teacher - Math,Frank S. Greene Jr. Middle School
+Mimi,Kwon,mkwon@pausd.org,Assistant Principal - Middle,Frank S. Greene Jr. Middle School
+Rammaine,Landells,rlandells@pausd.org,Psychologist,Frank S. Greene Jr. Middle School
+Julia,Lee,jullee@pausd.org,Teacher - CTE / Video Production / Multimedia Art,Frank S. Greene Jr. Middle School
+Kenny,Lee,kelee@pausd.org,Teacher - 6th Grade / Math,Frank S. Greene Jr. Middle School
+Alice,Lung,alung@pausd.org,Teacher - World Languages (Mandarin),Frank S. Greene Jr. Middle School
+Ernesto,Macias,emacias@pausd.org,Teacher - Math,Frank S. Greene Jr. Middle School
+Patricia,Malone,pmalone@pausd.org,Teacher - 6th Grade,Frank S. Greene Jr. Middle School
+Susie,Martone,smartone@pausd.org,Teacher - Visual & Performing Arts,Frank S. Greene Jr. Middle School
+Saki,Matayoshi,smatayoshi@pausd.org,Teacher - World Languages (Japanese),Frank S. Greene Jr. Middle School
+Erin,Mattson,emattson@pausd.org,School-Based MHT I,Frank S. Greene Jr. Middle School
+Hana,McHale,hmchale@pausd.org,Teacher - 6th Grade,Frank S. Greene Jr. Middle School
+Gregory,Miller,gmiller@pausd.org,Teacher - Visual & Performing Arts,Frank S. Greene Jr. Middle School
+Kirsten,Missett,kmissett@pausd.org,Teacher - Social Science,Frank S. Greene Jr. Middle School
+Robert,Moore,romoore@pausd.org,Campus Supervisor,Frank S. Greene Jr. Middle School
+Doan,Nguyen,donguyen@pausd.org,Teacher - Visual & Performing Arts,Frank S. Greene Jr. Middle School
+Terry,Noeth,tnoeth@pausd.org,Teacher - Science,Frank S. Greene Jr. Middle School
+Roger,Ourthiague,rourthiague@pausd.org,Teacher - CTE / Visual & Performing Arts,Frank S. Greene Jr. Middle School
+Jeffrey,Ouye,jouye@pausd.org,Health Technician,Frank S. Greene Jr. Middle School
+Cindy,Pappas,cpappas@pausd.org,Teacher - Physical Education,Frank S. Greene Jr. Middle School
+Erland,Patterson,epatterson@pausd.org,Teacher - Science,Frank S. Greene Jr. Middle School
+Kylie,Payne,kpayne@pausd.org,Counselor,Frank S. Greene Jr. Middle School
+Jennifer,Pequegnat,jpequegnat@pausd.org,Teacher - 6th Grade,Frank S. Greene Jr. Middle School
+Sanjna,Rana,srana@pausd.org,Teacher - Speech / Language,Frank S. Greene Jr. Middle School
+Sean,Rasmussen,srasmussen@pausd.org,Teacher - Social Science,Frank S. Greene Jr. Middle School
+Christy,Resinger,cresinger@pausd.org,Teacher - World Languages,Frank S. Greene Jr. Middle School
+Joel,Reynoso Jr,jreynosojr@pausd.org,Custodian I,Frank S. Greene Jr. Middle School
+Daryl,Richard,drichard@pausd.org,Teacher - 6th Grade / Instructional Lead / Social Science,Frank S. Greene Jr. Middle School
+Joleen,Roach,jroach@pausd.org,Teacher - AVID / FOS / Leadership,Frank S. Greene Jr. Middle School
+Cesar,Rodriguez,cerodriguez@pausd.org,Campus Supervisor,Frank S. Greene Jr. Middle School
+Joshua,Saldana,jsaldana@pausd.org,Teacher - Education Specialist,Frank S. Greene Jr. Middle School
+Stacy,Savickas,ssavickas@pausd.org,Teacher - Therapeutic / Visual & Performing Arts,Frank S. Greene Jr. Middle School
+Reena,Sharma,rsharma@pausd.org,Teacher - Education Specialist,Frank S. Greene Jr. Middle School
+Sukhmander,Singh,susingh@pausd.org,Budget Clerk / Secretary,Frank S. Greene Jr. Middle School
+Kara,Smith,kasmith@pausd.org,Teacher - English,Frank S. Greene Jr. Middle School
+Josh,Spira,jspira@pausd.org,Teacher - Math,Frank S. Greene Jr. Middle School
+Debbie,Sutherland,dsutherland@pausd.org,Teacher - 6th Grade / Instructional Lead / Social Science,Frank S. Greene Jr. Middle School
+Samantha,Todd,stodd@pausd.org,Teacher - English,Frank S. Greene Jr. Middle School
+Eva,Trockel,etrockel@pausd.org,Teacher - World Languages,Frank S. Greene Jr. Middle School
+Mana,Uchino,muchino@pausd.org,Instructional Aide GE,Frank S. Greene Jr. Middle School
+Karla,Valenzuela,kvalenzuela@pausd.org,Health Attendance Clerk,Frank S. Greene Jr. Middle School
+Travis,Vander Velden,tvandervelden@pausd.org,Teacher - ALD / EL Coordinator / English,Frank S. Greene Jr. Middle School
+Tami,Warr,twarr@pausd.org,Teacher - Instructional Lead / Science,Frank S. Greene Jr. Middle School
+Vanessa,Wong,vwong@pausd.org,Teacher - 6th Grade,Frank S. Greene Jr. Middle School
+Esteban,Zacarias,ezacarias@pausd.org,Data / Secretary,Frank S. Greene Jr. Middle School
+Kelly,Zalatimo,kzalatimo@pausd.org,Teacher - English,Frank S. Greene Jr. Middle School
+Jin,Zhu,jzhu@pausd.org,Teacher - Math,Frank S. Greene Jr. Middle School
+Chris,Grierson,cgrierson@pausd.org,Principal,Jane L. Stanford Middle School
+Ivette,Daugherty,idaugherty@pausd.org,Admin TOSA & 6th Grade,Jane L. Stanford Middle School
+Bryson,Peckenpaugh,bpeckenpaugh@pausd.org,Assistant Principal & 7th Grade,Jane L. Stanford Middle School
+Sarah,Pierce,spierce@pausd.org,Assistant Principal & 8th Grade,Jane L. Stanford Middle School
+Arvind,Arya,aarya@pausd.org,Counselor – 8th Grade,Jane L. Stanford Middle School
+Adriana,Flores Ragade,afloresragade@pausd.org,Counselor – 6th Grade,Jane L. Stanford Middle School
+Micaela,Flores Amaro,mfloresamaro@pausd.org,Counselor – 7th Grade,Jane L. Stanford Middle School
+Mihaela,Andrei,mandrei@pausd.org,Secretary (Counseling),Jane L. Stanford Middle School
+Megan,Warter,mwarter@pausd.org,Psychologist,Jane L. Stanford Middle School
+Karrie,Chen,kchen@pausd.org,Attendance,Jane L. Stanford Middle School
+Maurad,Stewart,mstewart@pausd.org,Budget Secretary,Jane L. Stanford Middle School
+Allan,Pascual,apascual@pausd.org,Cafeteria,Jane L. Stanford Middle School
+Jennifer,Wiener,jwiener@pausd.org,Custodial Supervisor,Jane L. Stanford Middle School
+Carol,Cannon,ccannon@pausd.org,Data Processing,Jane L. Stanford Middle School
+Michael,Ambrose,mambrose@pausd.org,Librarian,Jane L. Stanford Middle School
+Adriana,Sanchez,asanchez@pausd.org,Science/SS/WL Secretary,Henry M. Gunn High School
+Alexis,Letner,aletner@pausd.org,ELL/Instructional Lead (IL),Henry M. Gunn High School
+Alli,Wong,awong@pausd.org,Main Office Secretary,Henry M. Gunn High School
+Amy,Anderson,amanderson@pausd.org,PE,Henry M. Gunn High School
+Amy,Bradshaw,abradshaw@pausd.org,Science,Henry M. Gunn High School
+Andrea,Bueno,abueno@pausd.org,Guidance,Henry M. Gunn High School
+Angela,Merchant,amerchant@pausd.org,Science/CTE,Henry M. Gunn High School
+Angelina,Fitzhugh,afitzhugh@pausd.org,VAPA,Henry M. Gunn High School
+Anita,Su,asu@pausd.org,VAPA,Henry M. Gunn High School
+Ariane,Tuomy,atuomy@pausd.org,Social Studies,Henry M. Gunn High School
+Arlena,Arteaga,aarteaga@pausd.org,Social Studies,Henry M. Gunn High School
+Arshdeep,Shinh,ashinh@pausd.org,Transitionist,Henry M. Gunn High School
+Arthur,Kinyanjui,akinyanjui@pausd.org,Social Studies,Henry M. Gunn High School
+Ben,Beresford,bberesford@pausd.org,Social Studies,Henry M. Gunn High School
+Bill,Liberatore,bliberatore@pausd.org,VAPA,Henry M. Gunn High School
+Brandon,Boyd,bboyd@pausd.org,Campus Supervisor,Henry M. Gunn High School
+Braumon,Creighton,bcreighton@pausd.org,PE,Henry M. Gunn High School
+Breanna,Reyes,breyes@pausd.org,World Language,Henry M. Gunn High School
+Brenda,Young,byoung@pausd.org,Math,Henry M. Gunn High School
+Briana,Gonzalez,bgonzalez@pausd.org,SpEd/Instructional Lead (IL),Henry M. Gunn High School
+Carole,Main,cmain@pausd.org,Main Office Secretary,Henry M. Gunn High School
+Casey,O'Connell,coconnell@pausd.org,Science,Henry M. Gunn High School
+Ching,Wang,qwang@pausd.org,SaFE,Henry M. Gunn High School
+Chris,Chan,cchan@pausd.org,Campus Supervisor,Henry M. Gunn High School
+Chris,Dean,cdean@pausd.org,Custodian,Henry M. Gunn High School
+Chris,Eggert,ceggert@pausd.org,Social Studies,Henry M. Gunn High School
+Chris,Johnson,cjohnson@pausd.org,Social Studies,Henry M. Gunn High School
+Chris,Mahle,cmahle@pausd.org,VAPA,Henry M. Gunn High School
+Chris,Munoz,cmunoz@pausd.org,Technology,Henry M. Gunn High School
+Christina,Norberg,cnorberg@pausd.org,Science/SELF TOSA,Henry M. Gunn High School
+Cindy,Peters,cpeters@pausd.org,CTE/Instructional Lead (IL),Henry M. Gunn High School
+Clare,Gleeson,cgleeson@pausd.org,SpEd,Henry M. Gunn High School
+Claudia,Schroeppel,cschroeppel@pausd.org,World Language,Henry M. Gunn High School
+Cora,Ross,cross@pausd.org,Guidance,Henry M. Gunn High School
+Cristal,Cuevas,ccuevas@pausd.org,Health Office,Henry M. Gunn High School
+Daissy,Tabares,dtabares@pausd.org,World Language,Henry M. Gunn High School
+Daljeet,Gill,dgill@pausd.org,Librarian,Henry M. Gunn High School
+Danielle,Whichard,dwhichard@pausd.org,English/AVID,Henry M. Gunn High School
+Danning,Siu,dsiu@pausd.org,Math,Henry M. Gunn High School
+Danny,Hahn,dhahn@pausd.org,Math/Instructional Lead (IL),Henry M. Gunn High School
+David,Bisbee,dbisbee@pausd.org,Social Studies,Henry M. Gunn High School
+David,Deggeller,ddeggeller@pausd.org,Math,Henry M. Gunn High School
+David,Leftwich,dleftwich@pausd.org,Guidance/Lead Counselor,Henry M. Gunn High School
+Dawna,Linsdell,dlinsdell@pausd.org,Social Studies,Henry M. Gunn High School
+Derek,Johanson,djohanson@pausd.org,Guidance,Henry M. Gunn High School
+Dethrick,Slocum,dslocum@pausd.org,SpEd,Henry M. Gunn High School
+Diane,Ichikawa,dichikawa@pausd.org,English/Yoga,Henry M. Gunn High School
+Ed,Corpuz,ecorpuz@pausd.org,CTE,Henry M. Gunn High School
+Elana,Zizmor,ezizmor@pausd.org,Science,Henry M. Gunn High School
+Emily,Yun,eyun@pausd.org,Math,Henry M. Gunn High School
+Erik,Olah,eolah@pausd.org,Assistant Principal,Henry M. Gunn High School
+Fatima,Escobar,flopezsandoval@pausd.org,Wellness Secretary,Henry M. Gunn High School
+Felipe,Morales Torres,fmoralestorres@pausd.org,VAPA,Henry M. Gunn High School
+Florina,Limburg,flimburg@pausd.org,Math,Henry M. Gunn High School
+Gabriela,Garger,ggarger@pausd.org,World Language,Henry M. Gunn High School
+Gagan,Cheema,gcheema@pausd.org,Athletic Trainer,Henry M. Gunn High School
+Gopi,Tantod,gtantod@pausd.org,Math,Henry M. Gunn High School
+Gordon,Goodspeed,ggoodspeed@pausd.org,Custodian,Henry M. Gunn High School
+Grace,Flier,gflier@pausd.org,Wellness,Henry M. Gunn High School
+Harvey,Newland,hnewland@pausd.org,Assistant Principal,Henry M. Gunn High School
+Heather,Mellows,hmellows@pausd.org,Science/Instructional Lead (IL),Henry M. Gunn High School
+Hector,Mora,hmora@pausd.org,Psychologist,Henry M. Gunn High School
+Jacquelyn,Silverbush,jsilverbush@pausd.org,Math,Henry M. Gunn High School
+Janet,Owen,jowen@pausd.org,Principal's Secretary,Henry M. Gunn High School
+Jasmine,Cadenas,jcadenas@pausd.org,English,Henry M. Gunn High School
+Jeff,Patrick,jpatrick@pausd.org,Social Studies,Henry M. Gunn High School
+Jena,Lee,jlee@pausd.org,Science,Henry M. Gunn High School
+Jill,Naylor,jnaylor@pausd.org,PE,Henry M. Gunn High School
+Jodi,Snyder,jsnyder@pausd.org,SpEd Program Specialist,Henry M. Gunn High School
+Joey,Ordonez,jordonez@pausd.org,SaFE,Henry M. Gunn High School
+Jon,Fidani,jfidani@pausd.org,Guidance,Henry M. Gunn High School
+Jordan,Wells,jwells@pausd.org,English,Henry M. Gunn High School
+Jorge,Chavez,jchavez@pausd.org,Guidance,Henry M. Gunn High School
+Joshua,Little,jlittle@pausd.org,Science/Living Skills,Henry M. Gunn High School
+Julia,Angeles,jangeles@pausd.org,World Languages,Henry M. Gunn High School
+Julie,Munger,jmunger@pausd.org,English,Henry M. Gunn High School
+Justin,Brown,jdbrown@pausd.org,English,Henry M. Gunn High School
+Justin,Halas,juhalas@pausd.org,Athletic Director,Henry M. Gunn High School
+Karen,Saxena,ksaxena@pausd.org,Math,Henry M. Gunn High School
+Kate,Weymouth,kweymouth@pausd.org,English/Instructional Lead (IL),Henry M. Gunn High School
+Katherine,Ja,kja@pausd.org,English,Henry M. Gunn High School
+Kathryn,Catalano,kcatalano@pausd.org,Assistant Principal,Henry M. Gunn High School
+Keanna,Martinez,kmartinez@pausd.org,SpEd Aide,Henry M. Gunn High School
+Kevin,Johnson,kjohnson@pausd.org,Assistant Athletic Director,Henry M. Gunn High School
+Khoa,Dao,kdao@pausd.org,Math,Henry M. Gunn High School
+Kim,Knaack,kknaack@pausd.org,Copy Room,Henry M. Gunn High School
+Kristen,Lo,klo@pausd.org,VAPA,Henry M. Gunn High School
+Kristen,Owen,kowen@pausd.org,English/Intervention TOSA,Henry M. Gunn High School
+Kristina,Granlund,kgranlund@pausd.org,CTE,Henry M. Gunn High School
+Kristy,Blackburn,kblackburn@pausd.org,English/Yearbook/Oracle,Henry M. Gunn High School
+Kyle,Langdon,klangdon@pausd.org,Spangenberg Coordinator,Henry M. Gunn High School
+Latisha,Dorsey,ldorsey@pausd.org,Secondary Options,Henry M. Gunn High School
+Laurie,Pennington,lpennington@pausd.org,Science,Henry M. Gunn High School
+Leighton,Lang,llang@pausd.org,College + Career Center,Henry M. Gunn High School
+Leslie,Kousnetz,lkousnetz@pausd.org,SAC Clerk,Henry M. Gunn High School
+Leticia,Martinez,lmartinez@pausd.org,Transitionist,Henry M. Gunn High School
+Lisa,Collart,lcollart@pausd.org,Academic Center,Henry M. Gunn High School
+Lisa,Hall,lhall@pausd.org,English/SEC,Henry M. Gunn High School
+Liz,Libbey,llibbey@pausd.org,Guidance Dept. Secretary,Henry M. Gunn High School
+Lorenzo,Gomez,lgomez@pausd.org,Guidance,Henry M. Gunn High School
+Luciano,Hernandez,lhernandez@pausd.org,Custodial Supervisor,Henry M. Gunn High School
+Lupe,Camacho,mcamacho@pausd.org,SpEd,Henry M. Gunn High School
+Marcus,Jamison,mjamison@pausd.org,Math,Henry M. Gunn High School
+Maria,Caballero,mcaballero@pausd.org,Food Services,Henry M. Gunn High School
+Marie,Durquet,mdurquet@pausd.org,VAPA,Henry M. Gunn High School
+Marjorie,Paronable,mparonable@pausd.org,English,Henry M. Gunn High School
+Mark,Brassey,mbrassey@pausd.org,Science,Henry M. Gunn High School
+Mark,Weisman,mweisman@pausd.org,Social Studies,Henry M. Gunn High School
+Matthew,Hall,mhall@pausd.org,World Language/Instructional Lead (IL),Henry M. Gunn High School
+Matthew,McGinn,mmcginn@pausd.org,PE/Instructional Lead (IL),Henry M. Gunn High School
+Max,Zipperstein,mzipperstein@pausd.org,Social Studies/Living Skills,Henry M. Gunn High School
+Megan,Casino,mcasino@pausd.org,Psychologist,Henry M. Gunn High School
+Megan,Garcia,mgarcia@pausd.org,Assistant Librarian,Henry M. Gunn High School
+Melanie,Gomez,mgomez@pausd.org,Student Nutrition,Henry M. Gunn High School
+Melissa,Clark,mclark@pausd.org,Psychologist,Henry M. Gunn High School
+Micah,Wynn,mwynn@pausd.org,Science,Henry M. Gunn High School
+Michael,Bautista,mbautista@pausd.org,Math,Henry M. Gunn High School
+Michael,Galaviz,mgalaviz@pausd.org,Psychologist,Henry M. Gunn High School
+Michelle,Ramos,mramos@pausd.org,Wellness Coordinator,Henry M. Gunn High School
+Miranda,Long,mlong@pausd.org,English,Henry M. Gunn High School
+Misha,Hlasek,mhlasek@pausd.org,Math,Henry M. Gunn High School
+Monica,Casey,mcasey@pausd.org,Library Assistant,Henry M. Gunn High School
+Monica,Clark,moclark@pausd.org,SpEd,Henry M. Gunn High School
+Montserrat,Arellanes,carellanes@pausd.org,SpEd,Henry M. Gunn High School
+Mycal,Hixon,mhixon@pausd.org,Assistant Principal,Henry M. Gunn High School
+Myesha,Dickson,mdickson@pausd.org,Guidance,Henry M. Gunn High School
+Neeti,Schworetzky,nschworetzky@pausd.org,Science,Henry M. Gunn High School
+Neil,Barana,nbarana@pausd.org,Custodial,Henry M. Gunn High School
+Nestor,Vidonia,nvidonia@pausd.org,Custodian,Henry M. Gunn High School
+Nicole,Menache,nmenache@pausd.org,English/AAR/FOS,Henry M. Gunn High School
+Ning,Xu,nxu@pausd.org,Science,Henry M. Gunn High School
+Nora,Matta,nmatta@pausd.org,Social Studies,Henry M. Gunn High School
+Norma,Hesterman,nhesterman@pausd.org,Volunteer Coordinator,Henry M. Gunn High School
+Norma,Medina,nmedina@pausd.org,World Language,Henry M. Gunn High School
+Normalynn,Bato,nbato@pausd.org,Food Services,Henry M. Gunn High School
+Ofelia,Smith,osmith@pausd.org,Registrar,Henry M. Gunn High School
+Olga,Celis,ocelis@pausd.org,Technology,Henry M. Gunn High School
+Patricia,Holmes,pholmes@pausd.org,Social Studies/CTE,Henry M. Gunn High School
+Paul,Dunlap,pdunlap@pausd.org,English,Henry M. Gunn High School
+Paul,Medeiros,pmedeiros@pausd.org,PE,Henry M. Gunn High School
+Phil,Lyons,plyons@pausd.org,Social Studies,Henry M. Gunn High School
+Rachael,Kaci,rkaci@pausd.org,Work Experience,Henry M. Gunn High School
+Rachel,Congress,rcongress@pausd.org,Math,Henry M. Gunn High School
+Radhika,Thampuran,rthampuran@pausd.org,SpEd Aide,Henry M. Gunn High School
+Richard,Fujii,rfujii@pausd.org,Secondary Options,Henry M. Gunn High School
+Rolly,Vital,rvital@pausd.org,SpEd,Henry M. Gunn High School
+Rosanna,Pena,rpena@pausd.org,ERMHS Therapist,Henry M. Gunn High School
+Savannah,McDonnell,smcdonnell@pausd.org,Math,Henry M. Gunn High School
+Scott,Friedland,sfriedland@pausd.org,Math,Henry M. Gunn High School
+Sebastian,Castaneda,scastaneda@pausd.org,Social Studies,Henry M. Gunn High School
+Shilpan,Sheth,ssheth@pausd.org,Science/TECH TOSA,Henry M. Gunn High School
+Silvia,Griswold,sgriswold@pausd.org,Budget Secretary,Henry M. Gunn High School
+Snezhana,Ballagas,sballagas@pausd.org,Attendance,Henry M. Gunn High School
+Sofia,Raptis,sraptis@pausd.org,Science Dept,Henry M. Gunn High School
+Sophie,Magid-Gutkin,sgutkin@pausd.org,SpEd Aide,Henry M. Gunn High School
+Srilatha,Tiruchinapally,stiruchinapally@pausd.org,SpEd Aide,Henry M. Gunn High School
+Stacey,Kofman,scofman@pausd.org,CTE,Henry M. Gunn High School
+Susy,Kim,sukim@pausd.org,Attendance,Henry M. Gunn High School
+Takeshi,Kaneko,tkaneko@pausd.org,Math,Henry M. Gunn High School
+Tara,Firenzi,tfirenzi@pausd.org,Social Studies/TOSA,Henry M. Gunn High School
+Terence,Kitada,tkitada@pausd.org,English,Henry M. Gunn High School
+Teresa,Nino-Oliva,tninooliva@pausd.org,World Language,Henry M. Gunn High School
+Tiffany,Ou-Ponticelli,touponticelli@pausd.org,VAPA,Henry M. Gunn High School
+Timothy,Young,tyoung@pausd.org,SpEd,Henry M. Gunn High School
+TK,Hanie,thanie@pausd.org,SpEd,Henry M. Gunn High School
+Todd,Summers,tsummers@pausd.org,VAPA/Instructional Lead (IL),Henry M. Gunn High School
+Tomas,Grim,tgrim@pausd.org,CTE,Henry M. Gunn High School
+Tsailing,Haislmaier,thaislmaier@pausd.org,World Languages,Henry M. Gunn High School
+Victoria,Buck,vbuck@pausd.org,VAPA,Henry M. Gunn High School
+Warren,Collier,wcollier@pausd.org,Social Studies,Henry M. Gunn High School
+Wendy,Stratton,wstratton@pausd.org,Principal,Henry M. Gunn High School
+Yanan,Vrudny,yvrudny@pausd.org,World Language,Henry M. Gunn High School
+Zamir,Zamora,zzamora@pausd.org,Technology,Henry M. Gunn High School
+Brent,Kline,bkline@pausd.org,High School Principal,Palo Alto High School
+Jerry,Berkson,jberkson@pausd.org,Assistant Principal,Palo Alto High School
+La Donna,Butler,lbutler@pausd.org,Assistant Principal,Palo Alto High School
+Michael,Stieren,mstieren@pausd.org,Assistant Principal,Palo Alto High School
+Christa,Brown,cbrown@pausd.org,Principal's Office,Palo Alto High School
+Sandra,Dunlap,sdunlap@pausd.org,Attendance,Palo Alto High School
+Nancy,Scola,nscola@pausd.org,Attendance; Math & Science Secretary,Palo Alto High School
+Carl,Hubenthal,chubenthal@pausd.org,Lead Campus Supervisor,Palo Alto High School
+Edgar,Gonzalez,edgonzalez@pausd.org,Campus Supervisor,Palo Alto High School
+Mayerly,Short,mshort@pausd.org,Campus Supervisor,Palo Alto High School
+Sandra,Cernobori,scernobori@pausd.org,College and Career Advisor,Palo Alto High School
+Janet,Cochrane,jcochrane@pausd.org,College and Career Advisor,Palo Alto High School
+Tee,Chi,tchi@pausd.org,Custodial Supervisor,Palo Alto High School
+Pamela,Garcia,pgarcia@pausd.org,Guidance Secretary,Palo Alto High School
+Karla,Larson,klarson@pausd.org,Registrar,Palo Alto High School
+Ann,Deggelman,adeggelman@pausd.org,Teacher Advisor Program Specialist,Palo Alto High School
+James,Hamilton,jhamilton@pausd.org,Counselor (Be–Gr),Palo Alto High School
+Crystal,Laguna,claguna@pausd.org,"Counselor (A–Be, College Pathways)",Palo Alto High School
+Jillian,Bischoff,jbischoff@pausd.org,Counselor (She–Z),Palo Alto High School
+Selene,Singares,ssingares@pausd.org,Counselor (Gro–Lo),Palo Alto High School
+Charles,Taylor,chtaylor@pausd.org,Counselor (Lu–Sha),Palo Alto High School
+Jaime,Fanciullo,jfanciullo@pausd.org,Psychologist,Palo Alto High School
+Pamela,Lin,plin@pausd.org,Psychologist,Palo Alto High School
+Kristine,Ludemann,kludemann@pausd.org,Academic Tech Specialist,Palo Alto High School
+Frank,Gonzales,fgonzales@pausd.org,Computer Support Specialist,Palo Alto High School
+Robert,Leung,rleung@pausd.org,Computer Support Specialist,Palo Alto High School
+Alyssa,Bond,abond@pausd.org,Activities Director,Palo Alto High School
+Scott,Davis,scdavis@pausd.org,Athletic Director,Palo Alto High School
+Justine,Iongi,jiongi@pausd.org,Athletic Trainer,Palo Alto High School
+Beth,Martin,bmartin@pausd.org,Volunteer Services Assistant,Palo Alto High School
+Sima,Thomas,sthomas@pausd.org,Librarian,Palo Alto High School
+Deborah,Henry,dhenry@pausd.org,Library Assistant,Palo Alto High School
+Kindel,Launer,klauner@pausd.org,"Literacy TOSA, EL Coordinator, English",Palo Alto High School
+YJ,Lee,yjlee@pausd.org,Tower Learning Center/Math Interventionist,Palo Alto High School
+Nadine,Jefferson,njefferson@pausd.org,Testing Center Assistant,Palo Alto High School
+Sheryl,Loftin-Booth,sloftinbooth@pausd.org,Student Supports,Palo Alto High School
+Andrea,Barker,abarker@pausd.org,Mental Health Specialist,Palo Alto High School
+Ingrid,Katz,ikatz@pausd.org,Health Technician,Palo Alto High School
+Christopher,Bell,cbell@pausd.org,"Teacher - Career & Tech Ed, TOSA",Palo Alto High School
+Lucy,Filppu,lfilppu@pausd.org,"Teacher - English, Teacher Advisor",Palo Alto High School
+Paul,Kandell,pkandell@pausd.org,"Teacher - Career & Tech Ed, Production, Teacher Advisor",Palo Alto High School
+Doyle,Knight,dknight@pausd.org,Teacher - Career & Tech Ed,Palo Alto High School
+Roxanne,Lanzot,rlanzot@pausd.org,"Teacher - AVID/FOS, Career & Tech Ed",Palo Alto High School
+Hilary,McDaniel,hmcdaniel@pausd.org,"Teacher - Adv Authentic Research, Social Science",Palo Alto High School
+Theresa,McDermott,tmcdermott@pausd.org,"Teacher - Career & Tech Ed, English",Palo Alto High School
+Jennifer,Pierson,jpierson@pausd.org,Teacher - Career & Tech Ed,Palo Alto High School
+Rodney,Satterthwaite,rsatterthwaite@pausd.org,"Teacher - Career & Tech Ed, Production, Teacher Advisor",Palo Alto High School
+Richard,Rodriguez,rirodriguez@pausd.org,"Teacher - English, Instructional Lead",Palo Alto High School
+Wendy,Breu,wbreu@pausd.org,Typist Clerk III,Palo Alto High School
+Erin,Angell,eangell@pausd.org,"Teacher - Adv Authentic Research, Career & Tech Ed, TOSA, Teacher Advisor",Palo Alto High School
+Sarah,Bartlett,sbartlett@pausd.org,Teacher - English,Palo Alto High School
+Bekki,Casalco,bcasalco@pausd.org,Teacher - English,Palo Alto High School
+David,Cohen,dcohen@pausd.org,"Teacher - English, Teacher Advisor",Palo Alto High School
+Lizzie,DeKraai,ldekraai@pausd.org,Teacher - English,Palo Alto High School
+Joshua,Knowles Hinrichs,jknowleshinrichs@pausd.org,Teacher - English,Palo Alto High School
+Karin,Kolb,kkolb@pausd.org,Teacher - English,Palo Alto High School
+Mimi,Park,mpark@pausd.org,"Teacher - English, Teacher Advisor",Palo Alto High School
+Hunter,Reardon,hreardon@pausd.org,"Teacher - AVID/FOS, English",Palo Alto High School
+Kari,Snell,ksnell@pausd.org,Teacher - English,Palo Alto High School
+Keith,Tocci,ktocci@pausd.org,Teacher - English,Palo Alto High School
+Shirley,Tokheim,stokheim@pausd.org,Teacher - English,Palo Alto High School
+Marc,Tolentino,mtolentino@pausd.org,"Teacher - English, Teacher Advisor",Palo Alto High School
+Alanna,Williamson,awilliamson@pausd.org,Teacher - English,Palo Alto High School
+Ken,Tinsley,ktinsley@pausd.org,Teacher - Social Science,Palo Alto High School
+Grant,Blackburn,gblackburn@pausd.org,Teacher - Social Science,Palo Alto High School
+Eric,Bloom,ebloom@pausd.org,Teacher - Social Science,Palo Alto High School
+Benjamin,Bolanos,bbolanos@pausd.org,Teacher - Social Science,Palo Alto High School
+Justin,Cronin,jcronin@pausd.org,"Teacher - Social Science, Teacher Advisor",Palo Alto High School
+Austin,Davis,audavis@pausd.org,Teacher - Social Science,Palo Alto High School
+Corbin,Dodd,cdodd@pausd.org,Teacher - Social Science,Palo Alto High School
+Caitlin,Drewes,cdrewes@pausd.org,"Teacher - Social Science, Teacher Advisor",Palo Alto High School
+Jaclyn,Edwards,jedwards@pausd.org,"Teacher - Social Science, Teacher Advisor",Palo Alto High School
+Christopher,Farina,cfarina@pausd.org,"Teacher - Social Science, TOSA",Palo Alto High School
+Stephen,Foug,sfoug@pausd.org,Teacher - Social Science,Palo Alto High School
+Steven,Gallagher,sgallagher@pausd.org,"Teacher - Social Science, Student Activities",Palo Alto High School
+Melinda,Mattes,mmattes@pausd.org,"Teacher - Social Science, Teacher Advisor",Palo Alto High School
+Steve,Sabbag,ssabbag@pausd.org,Teacher - Social Science,Palo Alto High School
+Katya,Villalobos,kvillalobos@pausd.org,Teacher - Social Science,Palo Alto High School
+Adam,Yonkers,ayonkers@pausd.org,Teacher - Social Science,Palo Alto High School
+Randolph,Mercado,rmercado@pausd.org,Teacher - Math,Palo Alto High School
+David,Baker,dabaker@pausd.org,Teacher - Math,Palo Alto High School
+Zachary,Barnes,zbarnes@pausd.org,Teacher - Math,Palo Alto High School
+Quinn,Basewitz,qbasewitz@pausd.org,Teacher - Math,Palo Alto High School
+Herb,Bocksnick,hbocksnick@pausd.org,Teacher - Math,Palo Alto High School
+Cynthia,Chen,cchen@pausd.org,Teacher - Math,Palo Alto High School
+Idabelle,Cunningham,icunningham@pausd.org,Teacher - Math,Palo Alto High School
+Alexander,Dade,adade@pausd.org,Teacher - Math,Palo Alto High School
+Charlotte,Harris,charris@pausd.org,Teacher - Math,Palo Alto High School
+Ruby,Ibanga,ribanga@pausd.org,"Teacher - Induction, Math",Palo Alto High School
+Sharla,Jones,sjones@pausd.org,Teacher - Math,Palo Alto High School
+Daniel,Nguyen,dnguyen@pausd.org,Teacher - Math,Palo Alto High School
+David,Peters,dpeters@pausd.org,Teacher - Math,Palo Alto High School
+Misha,Stempel,mstempel@pausd.org,Teacher - Math,Palo Alto High School
+Peter,Diepenbrock,pdiepenbrock@pausd.org,Teacher - Physical Education,Palo Alto High School
+David,Duran,dduran@pausd.org,Teacher - Physical Education,Palo Alto High School
+Jason,Fung,jfung@pausd.org,Teacher - Physical Education,Palo Alto High School
+Jacob,Halas,jhalas@pausd.org,Teacher - Physical Education,Palo Alto High School
+Stacey,Kofman,skofman@pausd.org,"Teacher - Career & Tech Ed, Physical Education",Palo Alto High School
+Sheri,Mulroe,smulroe@pausd.org,Teacher - Physical Education,Palo Alto High School
+Aparna,Sankararaman,asankararaman@pausd.org,"Teacher - AVID/FOS, BTSA, Science",Palo Alto High School
+Adrienne,Bronstein,abronstein@pausd.org,Instructional Aide GE,Palo Alto High School
+Ashwini,Avadhani,aavadhani@pausd.org,Teacher - Science,Palo Alto High School
+Elizabeth,Brimhall,ebrimhall@pausd.org,"Teacher - Instructional Lead, Science",Palo Alto High School
+Josh,Bloom,jbloom@pausd.org,Teacher - Science,Palo Alto High School
+Vivian,Byun,vbyun@pausd.org,Teacher - Science,Palo Alto High School
+Margaret,Deng,madeng@pausd.org,Teacher - Science,Palo Alto High School
+Sefika,Eris,geris@pausd.org,Teacher - Science,Palo Alto High School
+Samuel,Howles-Banerji,showles-banerji@pausd.org,Teacher - Science,Palo Alto High School
+Taruna,Khanna,tkhanna@pausd.org,Teacher - Science,Palo Alto High School
+Nicole,Loomis,nloomis@pausd.org,Teacher - Science,Palo Alto High School
+Michael,Lupoli,mlupoli@pausd.org,"Teacher - Science, Teacher Advisor",Palo Alto High School
+Randy,Scilingo,rscilingo@pausd.org,Teacher - Science,Palo Alto High School
+Alicia,Szebert,aszebert@pausd.org,"Teacher - Advisor, Science",Palo Alto High School
+Leah,Thomas,lthomas@pausd.org,Teacher - Science,Palo Alto High School
+Tara,Vereyken,tvereyken@pausd.org,Teacher - Science,Palo Alto High School
+Cecilia,Walsh,cwalsh@pausd.org,Teacher - Science,Palo Alto High School
+J-Luke,Oakson,joakson@pausd.org,Secretary II,Palo Alto High School
+Merna,Khoury,mkhoury@pausd.org,Transition Specialist,Palo Alto High School
+Carley,Biblin,cbiblin@pausd.org,Teacher - Speech/Language,Palo Alto High School
+Edwin,Arbaiza,earbaiza@pausd.org,Teacher - Education Specialist,Palo Alto High School
+Kristen,Castro,kcastro@pausd.org,Teacher - Education Specialist,Palo Alto High School
+Dan,Galluccio,dgalluccio@pausd.org,Teacher - Education Specialist,Palo Alto High School
+Simon,Harris,siharris@pausd.org,Teacher - Education Specialist,Palo Alto High School
+Korynne,Headley,kheadley@pausd.org,Teacher - Education Specialist,Palo Alto High School
+Lisa,Jauregui,ljauregui@pausd.org,Teacher - Education Specialist,Palo Alto High School
+Elizabeth,Poux,epoux@pausd.org,Teacher - Education Specialist,Palo Alto High School
+Luke,Santos,lsantos@pausd.org,Teacher - Education Specialist,Palo Alto High School
+Attila,Tari,atari@pausd.org,Teacher - Education Specialist,Palo Alto High School
+Betty,Tran,btran@pausd.org,Teacher - Education Specialist,Palo Alto High School
+Brittney,Kerby,bkerby@pausd.org,Teacher - Visual & Performing Arts,Palo Alto High School
+Andrew,Carpenter,acarpenter@pausd.org,Theater Production Tech,Palo Alto High School
+Tracey,Atkinson,tatkinson@pausd.org,Teacher - Visual & Performing Arts,Palo Alto High School
+Kenna,Gallagher,kegallagher@pausd.org,Teacher - Visual & Performing Arts,Palo Alto High School
+Katie,Gilchrist,kgilchrist@pausd.org,"Teacher - Production, Visual & Performing Arts",Palo Alto High School
+Sue,La Fetra,slafetra@pausd.org,"Teacher - Instructional Lead, Visual & Performing Arts",Palo Alto High School
+Michael,Najar,mnajar@pausd.org,"Teacher - Career & Tech Ed, Production, Visual & Performing Arts",Palo Alto High School
+Sarah,Thermond,sthermond@pausd.org,Teacher - Visual & Performing Arts,Palo Alto High School
+Carla,Guerard,cguerard@pausd.org,"Teacher - Instructional Lead, World Languages, Teacher Advisor",Palo Alto High School
+Lisa,Bocksnick,lbocksnick@pausd.org,"Account Clerk/Secretary, Tutorial Center Asst, Typist Clerk III",Palo Alto High School
+Angela,Ambrosio,aambrosio@pausd.org,Teacher - World Languages,Palo Alto High School
+Pilar,Badillonovas,pbadillonovas@pausd.org,Teacher - World Languages,Palo Alto High School
+Kevin,Duffy,kduffy@pausd.org,Teacher - World Languages,Palo Alto High School
+Shuting,Kong,skong@pausd.org,Teacher - World Languages,Palo Alto High School
+Magdalena,Rivera,mrivera@pausd.org,Teacher - World Languages,Palo Alto High School
+Megumi,Shibamiya,mshibamiya@pausd.org,Teacher - World Languages,Palo Alto High School
+Donna,Alkadri,dalkadri@pausd.org,Instructional Aide SpEd - MM,Palo Alto High School
+Nathalie,Cabili,ncabili@pausd.org,Instructional Aide SpEd - MM,Palo Alto High School
+Vijay,Sethi,vsethi@pausd.org,Instructional Aide SpEd - MM,Palo Alto High School
+Mrigendra,Steiner,mrsteiner@pausd.org,Instructional Aide SpEd - MM,Palo Alto High School
+Gina,Vashio,gvashio@pausd.org,Instructional Aide SpEd - MM,Palo Alto High School
+Kamal,Vilms,kvilms@pausd.org,Instructional Aide SpEd - MM,Palo Alto High School
+Chamroeun,Yean,cyean@pausd.org,Instructional Aide SpEd - MM,Palo Alto High School
+Purabi,Bhattacharya,pbhattacharya@pausd.org,Instructional Asst - Therapeutic,Palo Alto High School
+Laurie,Hubert,lhubert@pausd.org,Instructional Asst - Therapeutic,Palo Alto High School
+Victoria,Mataele,vmataele@pausd.org,Instructional Assistant - MS,Palo Alto High School
+Ramon,Mendoza-Rios,rmendozarios@pausd.org,Instructional Assistant - MS,Palo Alto High School
+Scott,Peters,speters@pausd.org,Instructional Assistant - MS,Palo Alto High School
+Edward,Tonga,etonga@pausd.org,Instructional Assistant - MS,Palo Alto High School
+Emily,Garrison,egarrison@pausd.org,Principal,Palo Alto Middle College High School
+Molly,Loomis,mloomis@pausd.org,,Palo Alto Middle College High School
+Rachel,Dial,rdial@pausd.org,Counselor,Palo Alto Middle College High School
+Tatiana,Martinez,tmartinez@pausd.org,Education Specialist,Palo Alto Middle College High School
+Andrea,Carlisle,acarlisle@pausd.org,English & Advisory Teacher,Palo Alto Middle College High School
+Francisco,Lacayo,flacayo@pausd.org,"History, Social Science & Advisory Teacher",Palo Alto Middle College High School
+Steven,Shirley,sshirley@pausd.org,Math & Advisory Teacher,Palo Alto Middle College High School
+Jeanette,Tucker,jtucker@pausd.org,"Living Skills, Positive Psych & Advisory Teacher",Palo Alto Middle College High School
+Stephanie,Arevalo,sarevalo@pausd.org,Instructional Aide GE,Greendell
+Aida,Arrizon,aarrizon@pausd.org,Instructional Aide GE,Greendell
+Jessica,Baughn,jebaughn@pausd.org,Elementary School Clerk,Greendell
+Stephanie,Bowen,sbowen@pausd.org,Teacher - Education Specialist,Greendell
+Lacey,Dickinson,ldickinson@pausd.org,Teacher - Education Specialist,Greendell
+Melvin,Dumas,mdumas@pausd.org,Custodian,Greendell
+Luzely,Franco Alvarado,lfrancoalvarado@pausd.org,Teacher - Young Fives,Greendell
+Fiona,Gersh,fgersh@pausd.org,Elementary School Secretary,Greendell
+Leyla,Gonzalez,lgonzalez@pausd.org,Teacher - Speech/Language,Greendell
+Jenny,Lee,jelee@pausd.org,Teacher - Education Specialist,Greendell
+Christina,McIver,cmciver@pausd.org,Teacher - Speech/Language,Greendell
+Pepito,Tadios,ptadios@pausd.org,Custodian I,Greendell
+Katie,Talbot,ktalbot@pausd.org,"Teacher - 1:1 Instruction, Teacher - Science",Greendell
+Margaret,Weir,mweir@pausd.org,Occupational Therapist,Greendell
+C. French,Yarbrough III,cyarbrough@pausd.org,Teacher - Education Specialist,Greendell
