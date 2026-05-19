@@ -3,6 +3,7 @@ node_modules/
 credentials/
 output/
 *.csv
+!data/*.csv
 .DS_Store
 webhook/__pycache__/
 supabase/.temp/

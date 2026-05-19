@@ -9,7 +9,17 @@
     "run-now": "node src/run-now.js",
     "test-email": "node src/test-email.js",
     "test-sheets": "node src/sources/sheets.js",
-    "test-supabase": "node src/sources/supabase.js"
+    "test-supabase": "node src/sources/supabase.js",
+    "campaign2:dry-run": "node src/campaign2-workflow.js --dry-run",
+    "campaign2:send": "node src/campaign2-workflow.js",
+    "campaign2:import": "node scripts/import-campaign2-csv.js data/campaign2-contacts.csv",
+    "campaign3:dry-run": "node src/campaign3-workflow.js --dry-run",
+    "campaign3:send": "node src/campaign3-workflow.js",
+    "campaign3:send-step1": "node src/campaign3-workflow.js --step=1",
+    "campaign3:send-step2": "node src/campaign3-workflow.js --step=2",
+    "campaign3:send-step3": "node src/campaign3-workflow.js --step=3",
+    "campaign3:bounce-test": "node src/campaign3-workflow.js --step=1 --limit=5",
+    "campaign3:import": "node scripts/import-campaign3-csv.js data/campaign3-contacts.csv"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
@@ -20,6 +30,7 @@
     "googleapis": "^140.0.0",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.0",
+    "pg": "^8.21.0",
     "resend": "^3.2.0"
   }
 }
