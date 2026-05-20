@@ -2,9 +2,9 @@
  * EMAIL TEMPLATES: Campaign 4 — Fremont Unified Educator Retirement Review.
  * Three-email drip sequence targeting FUSD educators.
  *
- * Email 1: Introduction / awareness
- * Email 2: Common mistakes / urgency
- * Email 3: Final push / scarcity
+ * Email 1: The Local Hook (The "May Revision" Play)
+ * Email 2: The Core Problem (The Financial Reality)
+ * Email 3: The Low-Friction Goodbye (The "Summer Break" Push)
  *
  * Uses the same tracking infrastructure (pixel, click tracker, unsubscribe)
  * as Campaigns 1–3.
@@ -36,6 +36,8 @@ export function unsubscribeUrl(contactId) {
   return `${UNSUBSCRIBE_SERVER}/unsubscribe?cid=${contactId}`;
 }
 
+const DISCLAIMER = `Pension Experts is an independent financial education and planning firm. We are not affiliated with, endorsed by, or associated with Fremont Unified School District, CalSTRS, CalPERS, or any government agency.`;
+
 function wrapHtml(bodyContent, contactId) {
   const unsubUrl = unsubscribeUrl(contactId);
   return `<!DOCTYPE html>
@@ -56,10 +58,10 @@ function wrapHtml(bodyContent, contactId) {
           </tr>
           <tr>
             <td style="padding:16px 36px 24px;border-top:1px solid #e2e8f0;">
-              <div style="color:#94a3b8;font-size:11px;line-height:1.5;">
-                Pension Experts<br>
-                Don't want these emails?
-                <a href="${unsubUrl}" style="color:#64748b;text-decoration:underline;">Unsubscribe</a>.
+              <div style="color:#b0b8c4;font-size:9px;line-height:1.4;">
+                ${DISCLAIMER}<br><br>
+                Don\u2019t want these emails?
+                <a href="${unsubUrl}" style="color:#94a3b8;font-size:9px;text-decoration:underline;">Unsubscribe</a>
               </div>
             </td>
           </tr>
@@ -73,7 +75,7 @@ function wrapHtml(bodyContent, contactId) {
 }
 
 function textFooter(contactId) {
-  return `\n\n—\nPension Experts. To unsubscribe: ${unsubscribeUrl(contactId)}`;
+  return `\n\n\u2014\n${DISCLAIMER}\nTo unsubscribe: ${unsubscribeUrl(contactId)}`;
 }
 
 function signature() {
@@ -82,113 +84,99 @@ function signature() {
 
 const textSig = `Best,\nTerry Garcia\nRetirement Planning Scheduler | Pension Experts`;
 
-// ─── Email 1: Introduction ─────────────────────────────────────────
+// \u2500\u2500\u2500 Email 1: The Local Hook (The \u201cMay Revision\u201d Play) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 export function campaign4Email1(name, contactId) {
   const greeting = name ? `Hi ${name},` : 'Hi,';
-  const subject = 'Fremont educators — is your retirement plan keeping up?';
+  const subject = '\u270f\ufe0f FUSD contract updates & your CalSTRS timeline';
 
   const html = wrapHtml(`
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
-    <p>We\u2019re Pension Experts, and we work with Fremont Unified educators to make sure their retirement plan is on track.</p>
-    <p>A lot of FUSD staff are surprised to find out:</p>
-    <ul style="color:#334155;padding-left:20px;">
-      <li style="margin-bottom:10px;">Their CalSTRS pension may not cover as much as they think</li>
-      <li style="margin-bottom:10px;">Taxes can take a bigger bite out of retirement income than expected</li>
-      <li style="margin-bottom:10px;">The gap between retirement and Medicare eligibility can be expensive</li>
-    </ul>
-    <p>We offer a free 30-minute retirement review to help you see exactly where you stand\u2014no pressure, no sales pitch.</p>
-    ${trackedButton(contactId, 'SCHEDULE YOUR FREE REVIEW')}
+    <p>With the current FUSD collective bargaining negotiations underway and the state\u2019s recent May budget revisions, there are a lot of moving pieces to track this month.</p>
+    <p>When district policies shift, a common oversight we see educators make is waiting too long to check how these external updates impact their personal retirement timeline.</p>
+    <p>Most Fremont teachers we work with want to know two things: exactly when they can realistically retire, and how to bridge the \u201cpension gap\u201d between their state check and their actual lifestyle needs in the Bay Area.</p>
+    <p>We\u2019ve set aside some time this week for quick, 15-minute pension check-ins for FUSD staff. No pressure, just a clear look at your numbers before summer begins.</p>
+    ${trackedButton(contactId, 'See Terry\u2019s Calendar for a 15-Min Chat')}
     ${signature()}
   `, contactId);
 
   const text = `${greeting}
 
-We\u2019re Pension Experts, and we work with Fremont Unified educators to make sure their retirement plan is on track.
+With the current FUSD collective bargaining negotiations underway and the state\u2019s recent May budget revisions, there are a lot of moving pieces to track this month.
 
-A lot of FUSD staff are surprised to find out:
-\u2022 Their CalSTRS pension may not cover as much as they think
-\u2022 Taxes can take a bigger bite out of retirement income than expected
-\u2022 The gap between retirement and Medicare eligibility can be expensive
+When district policies shift, a common oversight we see educators make is waiting too long to check how these external updates impact their personal retirement timeline.
 
-We offer a free 30-minute retirement review to help you see exactly where you stand\u2014no pressure, no sales pitch.
+Most Fremont teachers we work with want to know two things: exactly when they can realistically retire, and how to bridge the \u201cpension gap\u201d between their state check and their actual lifestyle needs in the Bay Area.
 
-Schedule Your Free Review: ${CALENDLY_LINK}
+We\u2019ve set aside some time this week for quick, 15-minute pension check-ins for FUSD staff. No pressure, just a clear look at your numbers before summer begins.
+
+See Terry\u2019s Calendar for a 15-Min Chat: ${CALENDLY_LINK}
 
 ${textSig}${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
 
-// ─── Email 2: Common Mistakes / Urgency ────────────────────────────
+// \u2500\u2500\u2500 Email 2: The Core Problem (The Financial Reality) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 export function campaign4Email2(name, contactId) {
   const greeting = name ? `Hi ${name},` : 'Hi,';
-  const subject = 'The #1 retirement mistake Fremont teachers make';
+  const subject = 'The hidden retirement gap for Bay Area teachers';
 
   const html = wrapHtml(`
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
-    <p>The biggest mistake we see Fremont educators make? Assuming CalSTRS alone will be enough.</p>
-    <p>Here\u2019s what often gets overlooked:</p>
-    <ul style="color:#334155;padding-left:20px;">
-      <li style="margin-bottom:10px;">CalSTRS replaces roughly 50\u201360% of salary for most\u2014not 100%</li>
-      <li style="margin-bottom:10px;">Without a plan, taxes can shrink your monthly check even further</li>
-      <li style="margin-bottom:10px;">Healthcare between retirement and 65 can cost $1,000+/month out of pocket</li>
-      <li style="margin-bottom:10px;">Social Security rules for educators can be tricky (WEP/GPO)</li>
-    </ul>
-    <p>A quick review now can save you years of stress later. We\u2019ll walk through your numbers together.</p>
-    ${trackedButton(contactId, 'BOOK YOUR 30-MINUTE SESSION')}
+    <p>Many educators believe they have plenty of time to prepare for retirement\u2014until they actually look at the math required to stay in the Bay Area comfortably.</p>
+    <p>With California\u2019s cost of living, even a small planning gap today can become a major headache later. Two things usually surprise teachers the most:</p>
+    <p><strong>The Healthcare Bridge:</strong> The actual cost of health insurance if you retire before Medicare kicks in at 65.</p>
+    <p><strong>The 403(b) Lock:</strong> Ensuring your supplemental savings are actually protected from market drops as you near your retirement date.</p>
+    <p>If you have your final pay stub or a recent benefits statement handy, we can map out your exact trajectory in about 20 minutes.</p>
+    ${trackedButton(contactId, 'Check Availability Here')}
     ${signature()}
   `, contactId);
 
   const text = `${greeting}
 
-The biggest mistake we see Fremont educators make? Assuming CalSTRS alone will be enough.
+Many educators believe they have plenty of time to prepare for retirement\u2014until they actually look at the math required to stay in the Bay Area comfortably.
 
-Here\u2019s what often gets overlooked:
-\u2022 CalSTRS replaces roughly 50\u201360% of salary for most\u2014not 100%
-\u2022 Without a plan, taxes can shrink your monthly check even further
-\u2022 Healthcare between retirement and 65 can cost $1,000+/month out of pocket
-\u2022 Social Security rules for educators can be tricky (WEP/GPO)
+With California\u2019s cost of living, even a small planning gap today can become a major headache later. Two things usually surprise teachers the most:
 
-A quick review now can save you years of stress later. We\u2019ll walk through your numbers together.
+The Healthcare Bridge: The actual cost of health insurance if you retire before Medicare kicks in at 65.
 
-Book Your 30-Minute Session: ${CALENDLY_LINK}
+The 403(b) Lock: Ensuring your supplemental savings are actually protected from market drops as you near your retirement date.
+
+If you have your final pay stub or a recent benefits statement handy, we can map out your exact trajectory in about 20 minutes.
+
+Check Availability Here: ${CALENDLY_LINK}
 
 ${textSig}${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
 
-// ─── Email 3: Final Push / Scarcity ────────────────────────────────
+// \u2500\u2500\u2500 Email 3: The Low-Friction Goodbye (The \u201cSummer Break\u201d Push) \u2500\u2500\u2500
 export function campaign4Email3(name, contactId) {
   const greeting = name ? `Hi ${name},` : 'Hi,';
-  const subject = 'Last chance to get your retirement review before summer';
+  const subject = 'Before the final FUSD bell rings...';
 
   const html = wrapHtml(`
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
-    <p>Summer break is almost here, and this is typically when retirement planning gets pushed off until \u201cnext year.\u201d</p>
-    <p>But waiting has real consequences:</p>
-    <ul style="color:#334155;padding-left:20px;">
-      <li style="margin-bottom:10px;">Every year you delay can mean less income in retirement</li>
-      <li style="margin-bottom:10px;">Rising costs make the healthcare gap harder to cover</li>
-      <li style="margin-bottom:10px;">Tax strategies work best when you plan ahead</li>
-    </ul>
-    <p>We\u2019re booking a limited number of complimentary reviews for Fremont Unified educators this month. If you\u2019ve been meaning to look into this, now is the time.</p>
-    ${trackedButton(contactId, 'RESERVE YOUR SPOT')}
+    <p>I\u2019ll keep this brief as I know you are focused on finishing the school year strong.</p>
+    <p>One of the most common things we hear from FUSD teachers nearing retirement is: \u201cI wish I had looked at these numbers sooner.\u201d Getting your pension math organized today simply means walking out of school on the last day of the term with total peace of mind about your timeline.</p>
+    <p>This will be my last note before summer mode takes over. If you\u2019d like a quick, second pair of eyes on your CalSTRS/CalPERS projections before break begins, our door is open this week.</p>
+    ${trackedButton(contactId, 'Grab a Quick Spot on My Schedule Here')}
+    <p style="margin:16px 0 0;">Have an incredible, well-deserved summer break!</p>
     ${signature()}
   `, contactId);
 
   const text = `${greeting}
 
-Summer break is almost here, and this is typically when retirement planning gets pushed off until "next year."
+I\u2019ll keep this brief as I know you are focused on finishing the school year strong.
 
-But waiting has real consequences:
-\u2022 Every year you delay can mean less income in retirement
-\u2022 Rising costs make the healthcare gap harder to cover
-\u2022 Tax strategies work best when you plan ahead
+One of the most common things we hear from FUSD teachers nearing retirement is: \u201cI wish I had looked at these numbers sooner.\u201d Getting your pension math organized today simply means walking out of school on the last day of the term with total peace of mind about your timeline.
 
-We\u2019re booking a limited number of complimentary reviews for Fremont Unified educators this month. If you\u2019ve been meaning to look into this, now is the time.
+This will be my last note before summer mode takes over. If you\u2019d like a quick, second pair of eyes on your CalSTRS/CalPERS projections before break begins, our door is open this week.
 
-Reserve Your Spot: ${CALENDLY_LINK}
+Grab a Quick Spot on My Schedule Here: ${CALENDLY_LINK}
+
+Have an incredible, well-deserved summer break!
 
 ${textSig}${textFooter(contactId)}`;
 
@@ -207,7 +195,7 @@ export function getCampaign4EmailForStep(step, name, contactId) {
 
 /**
  * Minimum days between emails in the sequence.
- * Step 1 → immediate, Step 2 → 3 days after step 1, Step 3 → 3 days after step 2.
+ * Step 1 \u2192 immediate, Step 2 \u2192 3 days after step 1, Step 3 \u2192 3 days after step 2.
  */
 export const CAMPAIGN4_MIN_DAYS = {
   1: 0,
