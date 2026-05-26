@@ -26,7 +26,14 @@
     "campaign4:send-step2": "node src/campaign4-workflow.js --step=2",
     "campaign4:send-step3": "node src/campaign4-workflow.js --step=3",
     "campaign4:bounce-test": "node src/campaign4-workflow.js --step=1 --limit=5",
-    "campaign4:import": "node scripts/import-campaign4-csv.js data/campaign4-contacts.csv"
+    "campaign4:import": "node scripts/import-campaign4-csv.js data/campaign4-contacts.csv",
+    "campaign5:dry-run": "node src/campaign5-workflow.js --dry-run",
+    "campaign5:send": "node src/campaign5-workflow.js",
+    "campaign5:send-step1": "node src/campaign5-workflow.js --step=1",
+    "campaign5:send-step2": "node src/campaign5-workflow.js --step=2",
+    "campaign5:send-step3": "node src/campaign5-workflow.js --step=3",
+    "campaign5:bounce-test": "node src/campaign5-workflow.js --step=1 --limit=5",
+    "campaign5:import": "node scripts/import-campaign5-csv.js data/campaign5-contacts.csv"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
