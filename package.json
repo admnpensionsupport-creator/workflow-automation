@@ -9,7 +9,9 @@
     "run-now": "node src/run-now.js",
     "test-email": "node src/test-email.js",
     "test-sheets": "node src/sources/sheets.js",
-    "test-supabase": "node src/sources/supabase.js"
+    "test-supabase": "node src/sources/supabase.js",
+    "campaign5": "node src/campaign5-workflow.js",
+    "campaign5:cron": "node src/campaign5-cron.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
