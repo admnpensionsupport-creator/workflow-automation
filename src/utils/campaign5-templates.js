@@ -27,7 +27,7 @@ export function unsubscribeUrl(contactId) {
   return `${UNSUBSCRIBE_SERVER}/unsubscribe?cid=${contactId}`;
 }
 
-const DISCLAIMER = `Pension Experts is an independent financial education and planning firm. We are not affiliated with, endorsed by, or associated with Campbell Union School District, San Jose Unified School District, CalSTRS, CalPERS, or any government agency.`;
+const DISCLAIMER = `Pension Experts is an independent financial education and planning firm. We are not affiliated with, endorsed by, or associated with Campbell Union School District, San Jose Unified School District, Franklin-McKinley School District, CalSTRS, CalPERS, or any government agency.`;
 
 function wrapHtml(bodyContent, contactId) {
   const unsubUrl = unsubscribeUrl(contactId);
