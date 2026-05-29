@@ -2,9 +2,9 @@
  * EMAIL TEMPLATES: Campaign 5 — Campbell USD & San Jose USD Educator Retirement Review.
  * Three-email drip sequence targeting Campbell/SJUSD educators.
  *
- * Email 1: Introduction & The Pension Complexity Problem
- * Email 2: Value Drop – The Invisible Retirement Threats (Taxes & Policy Upgrades)
- * Email 3: Call to Action – Take Control of Your Timeline
+ * Email 1: The Pension Math & Simple Reply Question
+ * Email 2: Account Efficiency & Hidden Fees
+ * Email 3: Direct Call to Action & Your Booking Link
  *
  * Uses the same tracking infrastructure (pixel, click tracker, unsubscribe)
  * as Campaigns 1–4.
@@ -12,20 +12,11 @@
 
 const TRACKING_SERVER = 'https://resend-webhook-xjstbyru.fly.dev';
 const UNSUBSCRIBE_SERVER = 'https://uvoahchfsjzthvsszloh.supabase.co/functions/v1';
-const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min';
+const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min?month=2026-05';
 
-function trackedButton(contactId, label) {
+function trackedLink(contactId, label) {
   const trackUrl = `${TRACKING_SERVER}/track/click?cid=${contactId}&url=${encodeURIComponent(CALENDLY_LINK)}`;
-  return `
-<table cellpadding="0" cellspacing="0" style="margin:24px 0;">
-  <tr>
-    <td align="center" style="background:#0ea5e9;border-radius:8px;">
-      <a href="${trackUrl}" target="_blank" style="display:inline-block;padding:14px 32px;color:#ffffff;font-family:Arial,sans-serif;font-size:16px;font-weight:700;text-decoration:none;letter-spacing:0.5px;">
-        ${label}
-      </a>
-    </td>
-  </tr>
-</table>`;
+  return `<a href="${trackUrl}" target="_blank" style="color:#0ea5e9;font-weight:600;text-decoration:underline;">${label}</a>`;
 }
 
 function trackingPixel(contactId) {
@@ -84,7 +75,7 @@ function signature() {
 
 const textSig = `Best,\nTerry Garcia\nRetirement Planning Scheduler | Pension Experts`;
 
-// ─── Email 1: Introduction & The Pension Complexity Problem ─────────
+// ─── Email 1: The Pension Math & Simple Reply Question ──────────────
 export function campaign5Email1(name, contactId) {
   const greeting = name ? `Dear ${name},` : 'Dear Colleague,';
   const subject = name
@@ -95,12 +86,9 @@ export function campaign5Email1(name, contactId) {
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
     <p>If you are like many of the educators and district staff I speak with every week, you\u2019ve probably looked at your state pension projections and found yourself asking: <em>Is this actually going to be enough?</em></p>
     <p>My name is Terry Garcia with Pension Experts. We work alongside the approved vendors in your district to help school employees navigate the unique, often confusing road to retirement.</p>
-    <p>Between trying to calculate your exact CalSTRS/CalPERS age factors, figuring out how the Windfall Elimination Provision (WEP) impacts your Social Security, and wondering how inflation will affect your purchasing power, the math can get overwhelming quickly.</p>
-    <p>Too many educators feel forced to guess about their financial future. Our mission is to change that by providing absolute clarity.</p>
-    <p>Using our specialized Retirement Analyzer software, we take the guesswork out of the equation. We plug in your specific district metrics to show you clear, real-time blueprints of exactly where you stand and how to optimize your timeline.</p>
-    <p>I would like to schedule a brief, introductory consultation to review your numbers together.</p>
-    ${trackedButton(contactId, 'Schedule Your Retirement Review')}
-    <p>There is no cost or obligation for this review\u2014just straightforward answers so you can plan with confidence.</p>
+    <p>Between trying to calculate your exact CalSTRS/CalPERS age factors, figuring out how the Windfall Elimination Provision (WEP) impacts your Social Security, and wondering how inflation will affect your purchasing power, the math can get overwhelming quickly. Too many educators feel forced to guess about their financial future.</p>
+    <p>By integrating your current numbers, we take the guesswork completely out of the equation. We map out clear, real-time blueprints that show you exactly where you stand today and precisely how to optimize your retirement timeline.</p>
+    <p>Do you already know your target retirement age, or are you still trying to figure out the best timeline? (Just hit reply and let me know).</p>
     ${signature()}
   `, contactId);
 
@@ -110,82 +98,75 @@ If you are like many of the educators and district staff I speak with every week
 
 My name is Terry Garcia with Pension Experts. We work alongside the approved vendors in your district to help school employees navigate the unique, often confusing road to retirement.
 
-Between trying to calculate your exact CalSTRS/CalPERS age factors, figuring out how the Windfall Elimination Provision (WEP) impacts your Social Security, and wondering how inflation will affect your purchasing power, the math can get overwhelming quickly.
+Between trying to calculate your exact CalSTRS/CalPERS age factors, figuring out how the Windfall Elimination Provision (WEP) impacts your Social Security, and wondering how inflation will affect your purchasing power, the math can get overwhelming quickly. Too many educators feel forced to guess about their financial future.
 
-Too many educators feel forced to guess about their financial future. Our mission is to change that by providing absolute clarity.
+By integrating your current numbers, we take the guesswork completely out of the equation. We map out clear, real-time blueprints that show you exactly where you stand today and precisely how to optimize your retirement timeline.
 
-Using our specialized Retirement Analyzer software, we take the guesswork out of the equation. We plug in your specific district metrics to show you clear, real-time blueprints of exactly where you stand and how to optimize your timeline.
-
-I would like to schedule a brief, introductory consultation to review your numbers together.
-
-Schedule Your Retirement Review: ${CALENDLY_LINK}
-
-There is no cost or obligation for this review\u2014just straightforward answers so you can plan with confidence.
+Do you already know your target retirement age, or are you still trying to figure out the best timeline? (Just hit reply and let me know).
 
 ${textSig}${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
 
-// ─── Email 2: Value Drop – The Invisible Retirement Threats ─────────
+// ─── Email 2: Account Efficiency & Hidden Fees ──────────────────────
 export function campaign5Email2(name, contactId) {
   const greeting = name ? `Dear ${name},` : 'Dear Colleague,';
-  const subject = 'The 2 biggest gaps in school district retirement plans';
+  const subject = 'The invisible threat to district supplemental accounts';
 
   const html = wrapHtml(`
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
-    <p>Yesterday, I mentioned how complex district pension math can be. Today, I want to talk about two massive factors that many educators accidentally overlook until it\u2019s too late: <strong>Taxes</strong> and <strong>Policy Optimization</strong>.</p>
-    <p>When you retire, your pension income isn\u2019t tax-free. In fact, without a strategic roadmap, future tax hikes can take a painful bite out of your hard-earned distributions.</p>
-    <p>Additionally, many public employees hold older supplemental retirement accounts or life insurance policies that haven\u2019t been reviewed in years. Financial features change rapidly, and you might actually be eligible for a <strong>policy upgrade</strong>, allowing you to get better protection, lower fees, or enhanced growth potential with the same monthly contribution.</p>
-    <p>We work alongside the approved vendors in your district to look at your whole picture:</p>
-    <p><strong>Tax Efficiency Mapping:</strong> We visualize exactly how future taxes will impact your cash flow so you can keep more money in your pocket.</p>
-    <p><strong>Policy &amp; Account Audits:</strong> We check whether your current supplemental plans are fully optimized or whether you qualify for stronger, more modern upgrades.</p>
-    <p>It takes less than 20 minutes to run these scenarios, and it can save you thousands of dollars in retirement.</p>
-    ${trackedButton(contactId, 'Schedule Your Retirement Review')}
-    <p>Looking forward to helping you optimize your roadmap!</p>
+    <p>Following up on my email from a few days ago regarding pension clarity.</p>
+    <p>Today, I want to talk about a massive factor that many educators accidentally overlook until it\u2019s too late: <strong>Account Stagnation</strong> and <strong>Hidden Fees</strong>.</p>
+    <p>Many public employees hold older supplemental retirement accounts (like 403b or 457 plans) that haven\u2019t been reviewed or audited in years. Financial structures change rapidly, and without a strategic roadmap, internal account fees can quietly take a painful bite out of your hard-earned growth potential.</p>
+    <p>We look at your whole picture to provide:</p>
+    <p><strong>*Tax Efficiency Mapping:</strong> Visualizing exactly how future taxes will impact your cash flow so you can keep more money in your pocket.</p>
+    <p><strong>*Account Fee Audits:</strong> Checking whether your current supplemental plans are fully optimized or whether you are losing money unnecessarily.</p>
+    <p>It takes less than 15 minutes to run these scenarios, and it can save you thousands of dollars in retirement.</p>
+    <p>Would you be open to seeing a quick sample blueprint of how we map this out?</p>
+    <p>\uD83D\uDC49 Schedule your time on our calendar here: ${trackedLink(contactId, CALENDLY_LINK)}</p>
     ${signature()}
   `, contactId);
 
   const text = `${greeting}
 
-Yesterday, I mentioned how complex district pension math can be. Today, I want to talk about two massive factors that many educators accidentally overlook until it's too late: Taxes and Policy Optimization.
+Following up on my email from a few days ago regarding pension clarity.
 
-When you retire, your pension income isn't tax-free. In fact, without a strategic roadmap, future tax hikes can take a painful bite out of your hard-earned distributions.
+Today, I want to talk about a massive factor that many educators accidentally overlook until it's too late: Account Stagnation and Hidden Fees.
 
-Additionally, many public employees hold older supplemental retirement accounts or life insurance policies that haven't been reviewed in years. Financial features change rapidly, and you might actually be eligible for a policy upgrade, allowing you to get better protection, lower fees, or enhanced growth potential with the same monthly contribution.
+Many public employees hold older supplemental retirement accounts (like 403b or 457 plans) that haven't been reviewed or audited in years. Financial structures change rapidly, and without a strategic roadmap, internal account fees can quietly take a painful bite out of your hard-earned growth potential.
 
-We work alongside the approved vendors in your district to look at your whole picture:
+We look at your whole picture to provide:
 
-Tax Efficiency Mapping: We visualize exactly how future taxes will impact your cash flow so you can keep more money in your pocket.
+*Tax Efficiency Mapping: Visualizing exactly how future taxes will impact your cash flow so you can keep more money in your pocket.
 
-Policy & Account Audits: We check whether your current supplemental plans are fully optimized or whether you qualify for stronger, more modern upgrades.
+*Account Fee Audits: Checking whether your current supplemental plans are fully optimized or whether you are losing money unnecessarily.
 
-It takes less than 20 minutes to run these scenarios, and it can save you thousands of dollars in retirement.
+It takes less than 15 minutes to run these scenarios, and it can save you thousands of dollars in retirement.
 
-Schedule Your Retirement Review: ${CALENDLY_LINK}
+Would you be open to seeing a quick sample blueprint of how we map this out?
 
-Looking forward to helping you optimize your roadmap!
+Schedule your time on our calendar here: ${CALENDLY_LINK}
 
 ${textSig}${textFooter(contactId)}`;
 
   return { subject, html, text };
 }
 
-// ─── Email 3: Call to Action – Take Control of Your Timeline ────────
+// ─── Email 3: Direct Call to Action & Your Booking Link ─────────────
 export function campaign5Email3(name, contactId) {
   const greeting = name ? `Dear ${name},` : 'Dear Colleague,';
   const subject = name
-    ? `${name}, let\u2019s build your custom retirement blueprint`
-    : 'Let\u2019s build your custom retirement blueprint';
+    ? `Moving this off your radar, ${name}`
+    : 'Moving this off your radar';
 
   const html = wrapHtml(`
     <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
     <p>I know how incredibly busy the school year gets, so I\u2019ll keep this short.</p>
     <p>Retirement planning isn\u2019t about waiting until you are ready to walk out the school doors for the last time. It\u2019s about building a plan today that allows you to live fully right now, while safely securing your future legacy.</p>
-    <p>Whether you want to find out if you can retire a couple of years early, check your eligibility for a policy upgrade, or see a custom scenario of your tax liabilities, our team works with the approved vendors in your district to map it out for you visually.</p>
-    <p>We operate on a framework of absolute responsiveness. We don\u2019t do automated loops or long waiting periods\u2014when you need clarity, we give you direct, immediate answers.</p>
-    <p>Spaces on our calendar for this round of district reviews are filling up quickly. Please take 60 seconds to lock in a time that works around your school schedule:</p>
-    ${trackedButton(contactId, 'Schedule Your Retirement Review')}
+    <p>Whether you want to find out if you can retire a couple of years early, run a hidden-fee audit on an old account, or see a custom scenario of your tax liabilities, we map it out for you visually. We don\u2019t do automated loops or long waiting periods\u2014when you need clarity, we give you direct, immediate answers.</p>
+    <p>Spaces on our calendar for this round of reviews are filling up quickly. Please take 60 seconds to lock in a brief slot that works around your school schedule:</p>
+    <p>\uD83D\uDC49 Schedule your time on our calendar here: ${trackedLink(contactId, CALENDLY_LINK)}</p>
     <p>Thank you for everything you do for our community\u2019s families. I look forward to serving yours.</p>
     ${signature()}
   `, contactId);
@@ -196,13 +177,11 @@ I know how incredibly busy the school year gets, so I'll keep this short.
 
 Retirement planning isn't about waiting until you are ready to walk out the school doors for the last time. It's about building a plan today that allows you to live fully right now, while safely securing your future legacy.
 
-Whether you want to find out if you can retire a couple of years early, check your eligibility for a policy upgrade, or see a custom scenario of your tax liabilities, our team works with the approved vendors in your district to map it out for you visually.
+Whether you want to find out if you can retire a couple of years early, run a hidden-fee audit on an old account, or see a custom scenario of your tax liabilities, we map it out for you visually. We don't do automated loops or long waiting periods\u2014when you need clarity, we give you direct, immediate answers.
 
-We operate on a framework of absolute responsiveness. We don't do automated loops or long waiting periods\u2014when you need clarity, we give you direct, immediate answers.
+Spaces on our calendar for this round of reviews are filling up quickly. Please take 60 seconds to lock in a brief slot that works around your school schedule:
 
-Spaces on our calendar for this round of district reviews are filling up quickly. Please take 60 seconds to lock in a time that works around your school schedule:
-
-Schedule Your Retirement Review: ${CALENDLY_LINK}
+Schedule your time on our calendar here: ${CALENDLY_LINK}
 
 Thank you for everything you do for our community's families. I look forward to serving yours.
 
