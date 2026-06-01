@@ -65,8 +65,8 @@ function buildEmail(contact) {
   const name = contact.name || '';
   const greeting = name ? `Dear ${name},` : 'Dear Colleague,';
   const subjectLine = name
-    ? `Closing out this round of district retirement reviews, ${name}`
-    : 'Closing out this round of district retirement reviews';
+    ? `Final notice: Closing your district review file, ${name}`
+    : 'Final notice: Closing your district review file';
 
   const unsubUrl = `${UNSUBSCRIBE_SERVER}/unsubscribe?cid=${contact.id}`;
 
@@ -84,23 +84,21 @@ function buildEmail(contact) {
           <tr>
             <td style="padding:32px 36px;color:#1e293b;font-size:15px;line-height:1.7;">
               <p style="margin:0 0 16px;font-size:16px;font-weight:600;">${greeting}</p>
-              <p>As the school year winds down and you head into a well-deserved summer break, I wanted to reach out one final time before we close out this round of complimentary district retirement reviews.</p>
-              <p>Over the last few weeks, we\u2019ve helped many of your colleagues map out their CalSTRS/CalPERS pension math, uncover hidden fees in old 403(b) accounts, and build clear blueprints for their future.</p>
-              <p>My goal was simply to ensure you had access to the same clarity before the summer rush begins.</p>
-              <p>If your retirement roadmap is already fully optimized and you are 100% confident in your numbers, you can completely disregard this email.</p>
-              <p>However, if you still have lingering questions about your pension timeline, taxes, or supplemental accounts, let\u2019s take care of it this week so you can enjoy your summer with complete peace of mind.</p>
-              <p><strong>Choose the easiest option for you to lock in your 15-minute review:</strong></p>
-              <p><strong>Option 1:</strong> Pick a time directly on our calendar link here:</p>
-              ${trackedCalendlyButton(contact.id, 'SCHEDULE YOUR 15-MIN REVIEW')}
-              <p><strong>Option 2:</strong> Just reply to this email with \u201cMORNING\u201d or \u201cAFTERNOON\u201d and I will manually book a spot for you on my end.</p>
-              <p>Thank you again for all your hard work this past school year. I hope you have a fantastic, relaxing summer!</p>
-              <p style="margin:16px 0 0;">Best,<br><strong>Pension Service Group</strong></p>
+              <p>I am wrapping up our complimentary retirement and pension reviews for district staff this week. Because summer is here, this is my final attempt to reach you before your review file is marked as closed.</p>
+              <p>If you are already 100% confident that your CalSTRS/CalPERS pension math is maximized and your old 403(b) accounts are free of hidden fees, you can ignore this email.</p>
+              <p>Otherwise, I have a few remaining 15-minute slots open before we close out the calendar. We will map out your exact retirement timeline and look for any areas where you might be losing money.</p>
+              <p><strong>To secure one of the final spots, select the easiest option for you right now:</strong></p>
+              <p><strong>Option 1:</strong> Lock in a time directly on our calendar link here:</p>
+              ${trackedCalendlyButton(contact.id, 'LOCK IN A FINAL SPOT')}
+              <p><strong>Option 2:</strong> Simply reply \u201cYES\u201d to this email, and I will manually book a time for you and send the invite.</p>
+              <p>Enjoy your summer break!</p>
+              <p style="margin:16px 0 0;">Best,<br><strong>Terry Garcia</strong><br>Retirement Planning Scheduler | Pension Experts</p>
             </td>
           </tr>
           <tr>
             <td style="padding:16px 36px 24px;border-top:1px solid #e2e8f0;">
               <div style="color:#94a3b8;font-size:11px;line-height:1.5;">
-                Pension Service Group<br>
+                Pension Experts<br>
                 Don't want these emails?
                 <a href="${unsubUrl}" style="color:#64748b;text-decoration:underline;">Unsubscribe</a>.
               </div>
@@ -116,29 +114,26 @@ function buildEmail(contact) {
 
   const text = `${greeting}
 
-As the school year winds down and you head into a well-deserved summer break, I wanted to reach out one final time before we close out this round of complimentary district retirement reviews.
+I am wrapping up our complimentary retirement and pension reviews for district staff this week. Because summer is here, this is my final attempt to reach you before your review file is marked as closed.
 
-Over the last few weeks, we've helped many of your colleagues map out their CalSTRS/CalPERS pension math, uncover hidden fees in old 403(b) accounts, and build clear blueprints for their future.
+If you are already 100% confident that your CalSTRS/CalPERS pension math is maximized and your old 403(b) accounts are free of hidden fees, you can ignore this email.
 
-My goal was simply to ensure you had access to the same clarity before the summer rush begins.
+Otherwise, I have a few remaining 15-minute slots open before we close out the calendar. We will map out your exact retirement timeline and look for any areas where you might be losing money.
 
-If your retirement roadmap is already fully optimized and you are 100% confident in your numbers, you can completely disregard this email.
+To secure one of the final spots, select the easiest option for you right now:
 
-However, if you still have lingering questions about your pension timeline, taxes, or supplemental accounts, let's take care of it this week so you can enjoy your summer with complete peace of mind.
+Option 1: Lock in a time directly on our calendar: ${CALENDLY_LINK}
 
-Choose the easiest option for you to lock in your 15-minute review:
+Option 2: Simply reply "YES" to this email, and I will manually book a time for you and send the invite.
 
-Option 1: Pick a time directly on our calendar: ${CALENDLY_LINK}
-
-Option 2: Just reply to this email with "MORNING" or "AFTERNOON" and I will manually book a spot for you on my end.
-
-Thank you again for all your hard work this past school year. I hope you have a fantastic, relaxing summer!
+Enjoy your summer break!
 
 Best,
-Pension Service Group
+Terry Garcia
+Retirement Planning Scheduler | Pension Experts
 
 \u2014
-Pension Service Group. To unsubscribe: ${unsubscribeUrl(contact.id)}`;
+Pension Experts. To unsubscribe: ${unsubscribeUrl(contact.id)}`;
 
   return { subject: subjectLine, html, text };
 }
