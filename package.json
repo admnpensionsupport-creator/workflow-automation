@@ -1,7 +1,7 @@
 {
   "name": "daily-workflow-automation",
   "version": "1.0.0",
-  "description": "Daily data pull → Google Drive folder → Resend email",
+  "description": "Daily data pull \u2192 Google Drive folder \u2192 Resend email",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
@@ -9,7 +9,14 @@
     "run-now": "node src/run-now.js",
     "test-email": "node src/test-email.js",
     "test-sheets": "node src/sources/sheets.js",
-    "test-supabase": "node src/sources/supabase.js"
+    "test-supabase": "node src/sources/supabase.js",
+    "campaign6:dry-run": "node src/campaign6-workflow.js --dry-run",
+    "campaign6:send": "node src/campaign6-workflow.js",
+    "campaign6:send-step1": "node src/campaign6-workflow.js --step=1",
+    "campaign6:send-step2": "node src/campaign6-workflow.js --step=2",
+    "campaign6:send-step3": "node src/campaign6-workflow.js --step=3",
+    "campaign6:bounce-test": "node src/campaign6-workflow.js --step=1 --limit=5",
+    "campaign6:import": "node scripts/import-campaign6-csv.js data/campaign6-contacts.csv"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
