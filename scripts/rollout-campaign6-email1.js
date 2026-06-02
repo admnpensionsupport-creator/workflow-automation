@@ -114,8 +114,8 @@ function getSupabase() {
 }
 
 async function sendBatch() {
-  const apiKey = process.env.CAMPAIGN6_RESEND_API_KEY || process.env.RESEND_API_KEY;
-  const fromEmail = process.env.CAMPAIGN6_EMAIL_FROM || process.env.EMAIL_FROM || 'tgarcia@io.pensionexpertshq.com';
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.EMAIL_FROM;
   if (!apiKey || !fromEmail) {
     console.error('Missing RESEND_API_KEY or EMAIL_FROM');
     return;

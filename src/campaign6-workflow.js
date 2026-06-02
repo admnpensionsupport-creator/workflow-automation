@@ -155,9 +155,10 @@ async function main() {
     return;
   }
 
-  const apiKey = process.env.CAMPAIGN6_RESEND_API_KEY || process.env.CAMPAIGN5_RESEND_API_KEY || process.env.RESEND_API_KEY;
-  const fromEmail = process.env.CAMPAIGN6_EMAIL_FROM || process.env.CAMPAIGN5_EMAIL_FROM || 'tgarcia@io.pensionexpertshq.com';
-  if (!apiKey) throw new Error('Missing CAMPAIGN6_RESEND_API_KEY, CAMPAIGN5_RESEND_API_KEY, or RESEND_API_KEY in .env');
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.EMAIL_FROM;
+  if (!apiKey) throw new Error('Missing RESEND_API_KEY in .env');
+  if (!fromEmail) throw new Error('Missing EMAIL_FROM in .env');
   console.log(`   Sending from: ${fromEmail}`);
 
   const resend = new Resend(apiKey);
