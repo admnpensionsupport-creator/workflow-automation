@@ -22,7 +22,7 @@ const TRACKING_SERVER = 'https://resend-webhook-xjstbyru.fly.dev';
 // Unsubscribe endpoint = Supabase Edge Function (see supabase/functions/unsubscribe/).
 // Deployed at https://<project-ref>.supabase.co/functions/v1/unsubscribe
 const UNSUBSCRIBE_SERVER = 'https://uvoahchfsjzthvsszloh.supabase.co/functions/v1';
-const CALENDLY_LINK = 'https://calendly.com/pension-support-info/30-mins';
+const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min';
 
 /**
  * Build a tracked Calendly button for a specific contact.
