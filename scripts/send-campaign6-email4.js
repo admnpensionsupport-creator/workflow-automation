@@ -24,7 +24,7 @@ dotenv.config();
 
 const TABLE = 'Cold Email Campaign 6';
 const BATCH = 'santa-clara';
-const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min?month=2026-07';
+const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min';
 const TRACKING_SERVER = 'https://resend-webhook-xjstbyru.fly.dev';
 const UNSUBSCRIBE_SERVER = 'https://uvoahchfsjzthvsszloh.supabase.co/functions/v1';
 

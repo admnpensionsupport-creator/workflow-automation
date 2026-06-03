@@ -12,7 +12,7 @@
 
 const TRACKING_SERVER = 'https://resend-webhook-xjstbyru.fly.dev';
 const UNSUBSCRIBE_SERVER = 'https://uvoahchfsjzthvsszloh.supabase.co/functions/v1';
-const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min?month=2026-06';
+const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min';
 
 function trackedLink(contactId, label) {
   const trackUrl = `${TRACKING_SERVER}/track/click?cid=${contactId}&url=${encodeURIComponent(CALENDLY_LINK)}`;
