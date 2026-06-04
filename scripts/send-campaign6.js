@@ -25,7 +25,7 @@ dotenv.config();
 
 const TABLE = 'Cold Email Campaign 6';
 const BATCH = 'santa-clara';
-const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min?month=2026-06';
+const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min';
 const TRACKING_SERVER = 'https://resend-webhook-xjstbyru.fly.dev';
 const UNSUBSCRIBE_SERVER = 'https://uvoahchfsjzthvsszloh.supabase.co/functions/v1';
 
@@ -144,7 +144,7 @@ function email2(contact) {
     <p><strong>Account Fee Audits:</strong> Checking whether your current supplemental plans are fully optimized or whether you are losing money unnecessarily.</p>
     <p>It takes less than 15 minutes to run these scenarios, and it can save you thousands of dollars in retirement.</p>
     <p><strong>Would you be open to seeing a quick sample blueprint of how we map this out?</strong></p>
-    ${trackedButton(contact.id, 'SCHEDULE YOUR 15-MIN REVIEW')}
+    <p>👉 Schedule your time on our calendar here: <a href="${CALENDLY_LINK}" target="_blank" style="color:#0ea5e9;font-weight:600;text-decoration:underline;">${CALENDLY_LINK}</a></p>
     ${SIG_HTML}
   `, contact.id);
 
@@ -186,7 +186,7 @@ function email3(contact) {
     <p>Retirement planning isn\u2019t about waiting until you are ready to walk out the school doors for the last time. It\u2019s about building a plan today that allows you to live fully right now, while safely securing your future legacy.</p>
     <p>Whether you want to find out if you can retire a couple of years early, run a hidden-fee audit on an old account, or see a custom scenario of your tax liabilities, we map it out for you visually. We don\u2019t do automated loops or long waiting periods\u2014when you need clarity, we give you direct, immediate answers.</p>
     <p>Spaces on our calendar for this round of reviews are filling up quickly. Please take 60 seconds to lock in a brief slot that works around your school schedule:</p>
-    ${trackedButton(contact.id, 'SCHEDULE YOUR TIME NOW')}
+    <p>👉 Schedule your time on our calendar here: <a href="${CALENDLY_LINK}" target="_blank" style="color:#0ea5e9;font-weight:600;text-decoration:underline;">${CALENDLY_LINK}</a></p>
     <p>Thank you for everything you do for our community\u2019s families. I look forward to serving yours.</p>
     ${SIG_HTML}
   `, contact.id);
