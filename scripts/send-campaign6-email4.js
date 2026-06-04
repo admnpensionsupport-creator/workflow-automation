@@ -24,7 +24,7 @@ dotenv.config();
 
 const TABLE = 'Cold Email Campaign 6';
 const BATCH = 'santa-clara';
-const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min?month=2026-07';
+const CALENDLY_LINK = 'https://calendly.com/tgarcia-pensionexpertshq/30min';
 const TRACKING_SERVER = 'https://resend-webhook-xjstbyru.fly.dev';
 const UNSUBSCRIBE_SERVER = 'https://uvoahchfsjzthvsszloh.supabase.co/functions/v1';
 
@@ -89,7 +89,7 @@ function buildEmail(contact) {
               <p>Otherwise, I have a few remaining 15-minute slots open before we close out the calendar. We will map out your exact retirement timeline and look for any areas where you might be losing money.</p>
               <p><strong>To secure one of the final spots, select the easiest option for you right now:</strong></p>
               <p><strong>Option 1:</strong> Lock in a time directly on our calendar link here:</p>
-              ${trackedCalendlyButton(contact.id, 'LOCK IN A FINAL SPOT')}
+              <p>👉 Lock in a time directly on our calendar here: <a href="${CALENDLY_LINK}" target="_blank" style="color:#0ea5e9;font-weight:600;text-decoration:underline;">${CALENDLY_LINK}</a></p>
               <p><strong>Option 2:</strong> Simply reply \u201cYES\u201d to this email, and I will manually book a time for you and send the invite.</p>
               <p>Enjoy your summer break!</p>
               <p style="margin:16px 0 0;">Best,<br><strong>Terry Garcia</strong><br>Retirement Planning Scheduler | Pension Experts</p>
